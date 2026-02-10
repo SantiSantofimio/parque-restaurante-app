@@ -1,18 +1,17 @@
 const express = require('express')
 const cors = require('cors')
-const authRoutes = require('./routes/auth')
+const mesasRoutes = require('./routes/mesas')
 
 const app = express()
+const PORT = 4000
 
-app.use(cors())
-app.use(express.json())
+// middlewares
+app.use(cors())           // permitir requests desde cualquier frontend
+app.use(express.json())   // parsear JSON en el body
 
-app.use('/api/auth', authRoutes)
+// rutas
+app.use('/api/mesas', mesasRoutes)  // router de mesas
 
-app.get('/', (req, res) => {
-  res.send('API Parque funcionando 🚀')
-})
-
-app.listen(4000, () => {
-  console.log('Servidor corriendo en http://localhost:4000')
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`)
 })

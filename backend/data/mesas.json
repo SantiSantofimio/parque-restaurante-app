@@ -1,0 +1,19 @@
+[
+  {
+    "id": "mesa-1",
+    "capacidad": 4,
+    "ocupada": true,
+    "usuarios": [
+      {
+        "id": 123,
+        "name": "Santiago"
+      }
+    ]
+  },
+  {
+    "id": "mesa-2",
+    "capacidad": 2,
+    "ocupada": false,
+    "usuarios": []
+  }
+]
