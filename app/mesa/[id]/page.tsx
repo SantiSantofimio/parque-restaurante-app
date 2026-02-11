@@ -1,57 +1,76 @@
 'use client'
 
-import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { salirDeMesa } from '@/services/mesas'
+import type { Mesa, Usuario } from '@/types/mesas'
 
-export default function MesaPage() {
-  const params = useParams()
+const API_URL = 'http://localhost:4000/api/mesas'
+
+export default function MesaDetalle({
+  params,
+}: {
+  params: { id: string }
+}) {
   const router = useRouter()
-  const mesaId = params.id
+  const [mesa, setMesa] = useState<Mesa | null>(null)
 
-  const user =
-    typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem('user') || '{}')
-      : null
+  const user: Usuario = { id: 123, name: 'Santiago' }
+
+  // Cargar mesa
+  useEffect(() => {
+    async function fetchMesa() {
+      const res = await fetch(`${API_URL}`)
+      const data: Mesa[] = await res.json()
+      const encontrada = data.find(m => m.id === params.id)
+      setMesa(encontrada || null)
+    }
+
+    fetchMesa()
+  }, [params.id])
+
+  async function handleSalir() {
+    try {
+      await salirDeMesa(params.id, user)
+      router.push('/mesas')
+    } catch (err) {
+      alert('Error al salir')
+    }
+  }
+
+  if (!mesa) return <div>Cargando...</div>
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold mb-4">
-        Mesa #{mesaId} 🍽️
-      </h1>
+    <div style={{ padding: 20 }}>
+      <h1>Mesa {mesa.id}</h1>
 
-      <p className="mb-4">
-        Usuario: <strong>{user?.name}</strong>
-      </p>
+      <h3>Usuarios en la mesa:</h3>
+      <ul>
+        {mesa.usuarios.map(u => (
+          <li key={u.id}>{u.name}</li>
+        ))}
+      </ul>
 
-      <div className="bg-white p-4 rounded shadow mb-4">
-        <h2 className="font-semibold mb-2">Opciones</h2>
+      <hr />
 
-        <button
-          className="w-full mb-3 bg-blue-600 text-white py-3 rounded"
-          onClick={() => alert('Menú próximamente')}
-        >
-          Ver menú 📋
-        </button>
-
-        <button
-          className="w-full mb-3 bg-yellow-500 text-white py-3 rounded"
-          onClick={() => alert('Invitar usuarios próximamente')}
-        >
-          Invitar personas 👥
-        </button>
-
-        <button
-          className="w-full bg-red-600 text-white py-3 rounded"
-          onClick={() => alert('Pago próximamente')}
-        >
-          Finalizar y pagar 💳
-        </button>
-      </div>
+      <h2>Menú del Restaurante</h2>
+      <ul>
+        <li>🍔 Hamburguesa - $20</li>
+        <li>🍕 Pizza - $25</li>
+        <li>🥤 Bebida - $5</li>
+      </ul>
 
       <button
-        className="text-sm text-gray-600 underline"
-        onClick={() => router.push('/mesas')}
+        onClick={handleSalir}
+        style={{
+          marginTop: 20,
+          padding: 10,
+          background: 'red',
+          color: 'white',
+          borderRadius: 6,
+        }}
       >
-        ← Volver a mesas
+        Salir de la mesa
       </button>
     </div>
   )

@@ -19,7 +19,7 @@ export default function Mesas() {
 
   useEffect(() => {
     async function fetchMesas() {
-      const data = await obtenerMesas()
+      const data = await obtenerMesas() as Mesa[]
       setMesas(data)
     }
     fetchMesas()
@@ -27,7 +27,7 @@ export default function Mesas() {
 
   async function handleEntrar(mesaId: string) {
     try {
-      const data = await entrarAMesa(mesaId, user)
+      const data = await entrarAMesa(mesaId, user) as { mesa: Mesa }
       setMesas(prev => prev.map(m => m.id === mesaId ? data.mesa : m))
       alert(`Entraste a la mesa ${mesaId}`)
     } catch (err: any) {

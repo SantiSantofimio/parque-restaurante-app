@@ -1,111 +1,151 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import type { Mesa, Usuario } from '@/types/mesas'
 import { useRouter } from 'next/navigation'
 
-type Mesa = {
-  id: number
-  capacidad: number
-  ocupada?: boolean
-  usuarios?: { id: number; name: string }[]
-  pedidos?: any[]
+
+const API_URL = 'http://localhost:4000/api/mesas'
+
+// ============================
+// API
+// ============================
+export async function obtenerMesas(): Promise<Mesa[]> {
+  const res = await fetch(API_URL)
+  if (!res.ok) throw new Error('Error al obtener mesas')
+  return res.json()
 }
 
+export async function entrarAMesa(
+  mesaId: string,
+  user: Usuario
+): Promise<{ mesa: Mesa }> {
+  const res = await fetch(`${API_URL}/${mesaId}/entrar`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user }),
+  })
+
+  if (!res.ok) throw new Error('Error al entrar a la mesa')
+  return res.json()
+}
+
+// ============================
+// Página
+// ============================
 export default function MesasPage() {
+  const [mesas, setMesas] = useState<Mesa[]>([])
   const router = useRouter()
-  const [personas, setPersonas] = useState<number>(2)
-  const [mesas, setMesas] = useState<Mesa[]>([]) // ✅ importante
-  const [loading, setLoading] = useState<boolean>(false)
 
-  const user =
-    typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem('user') || '{}')
-      : null
 
+  const user: Usuario = { id: 123, name: 'Santiago' }
+
+  // ============================
+  // Cargar mesas
+  // ============================
   useEffect(() => {
-    fetchMesas()
-  }, [personas])
+    obtenerMesas()
+      .then(setMesas)
+      .catch(console.error)
+  }, [])
 
-  const fetchMesas = async () => {
-    setLoading(true)
-    try {
-      const res = await fetch(
-        `http://localhost:4000/api/mesas?personas=${personas}`
-      )
-      const data: Mesa[] = await res.json()
-      setMesas(data)
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
+  // ============================
+  // Mesa actual (ÚNICA)
+  // ============================
+  const mesaActualId = useMemo(() => {
+    const mesa = mesas.find(m =>
+      m.usuarios.some(u => u.id === user.id)
+    )
+    return mesa?.id ?? null
+  }, [mesas, user.id])
+
+  // ============================
+  // Entrar a una mesa
+  // ============================
+  async function handleEntrar(mesaId: string) {
+    const { mesa } = await entrarAMesa(mesaId, user)
+
+    setMesas(prev =>
+      prev.map(m => {
+        // quitar al usuario de TODAS las mesas
+        const usuariosLimpios = m.usuarios.filter(
+          u => u.id !== user.id
+        )
+
+        // si es la mesa destino, usar la del backend
+        if (m.id === mesaId) return mesa
+
+        return { ...m, usuarios: usuariosLimpios }
+      })
+    )
   }
 
-  const entrarMesa = async (mesaId: number) => {
-    try {
-      const res = await fetch(
-        `http://localhost:4000/api/mesas/${mesaId}/entrar`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user }),
-        }
-      )
-      const data: Mesa = await res.json()
-      router.push(`/mesa/${data.id}`)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
+  // ============================
+  // Render
+  // ============================
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">
-        Selecciona una mesa 🍽️
-      </h1>
+    <div style={{ padding: 20 }}>
+      <h1>Mesas</h1>
 
-      <div className="mb-6">
-        <label className="block mb-2 font-semibold">
-          ¿Cuántas personas?
-        </label>
-        <select
-          value={personas}
-          onChange={(e) => setPersonas(Number(e.target.value))}
-          className="w-full p-3 border rounded"
-        >
-          <option value={2}>2 personas</option>
-          <option value={4}>4 personas</option>
-          <option value={6}>6 personas</option>
-          <option value={8}>8 personas</option>
-        </select>
-      </div>
+      {mesaActualId && (
+  <div
+    style={{
+      padding: 10,
+      background: '#e6ffe6',
+      marginBottom: 20,
+      borderRadius: 6,
+    }}
+  >
+    <div>
+      Estás en la mesa <strong>{mesaActualId}</strong>
+    </div>
 
-      {loading ? (
-        <p className="text-center">Cargando mesas...</p>
-      ) : (
-        <div className="grid grid-cols-1 gap-4">
-          {mesas.map((mesa) => (
-            <div
-              key={mesa.id}
-              className="bg-white p-4 rounded shadow flex justify-between items-center"
-            >
-              <div>
-                <p className="font-bold">Mesa #{mesa.id}</p>
-                <p className="text-sm text-gray-600">
-                  Capacidad: {mesa.capacidad}
-                </p>
-              </div>
+    <div style={{ marginTop: 10 }}>
+      <button
+        onClick={() => router.push(`/mesas/${mesaActualId}`)}
+        style={{
+          padding: '6px 12px',
+          cursor: 'pointer',
+        }}
+      >
+        Ir a mi mesa
+      </button>
+    </div>
+  </div>
+    )   }
 
-              <button
-                onClick={() => entrarMesa(mesa.id)}
-                className="bg-green-600 text-white px-4 py-2 rounded"
-              >
-                Elegir
-              </button>
+
+      {mesas.map(m => {
+        const estoyAqui = m.id === mesaActualId
+
+        return (
+          <div
+            key={m.id}
+            style={{
+              marginBottom: 10,
+              padding: 10,
+              border: '1px solid #ccc',
+              borderRadius: 6,
+              opacity: mesaActualId && !estoyAqui ? 0.5 : 1,
+            }}
+          >
+            <div>
+              <strong>{m.id}</strong> — Capacidad: {m.capacidad} —{' '}
+              {m.ocupada ? 'Ocupada' : 'Libre'}{' '}
+              {estoyAqui && '👤 (tú estás aquí)'}
             </div>
-          ))}
-        </div>
-      )}
+
+            {!mesaActualId && !m.ocupada && (
+              <button
+                onClick={() => handleEntrar(m.id)}
+                style={{ marginTop: 5 }}
+              >
+                Entrar
+              </button>
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 }

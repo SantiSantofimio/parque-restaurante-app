@@ -5,7 +5,9 @@ const path = require('path')
 const router = express.Router()
 const MESAS_FILE = path.join(__dirname, '../data/mesas.json')
 
-// helpers
+// ============================
+// Helpers
+// ============================
 function readMesas() {
   if (!fs.existsSync(MESAS_FILE)) return []
   const raw = fs.readFileSync(MESAS_FILE, 'utf-8')
@@ -18,7 +20,7 @@ function writeMesas(mesas) {
 }
 
 // ============================
-// Obtener mesas disponibles
+// Obtener mesas
 // ============================
 router.get('/', (req, res) => {
   const { personas } = req.query
@@ -45,8 +47,11 @@ router.post('/:mesaId/entrar', (req, res) => {
   const mesas = readMesas()
   const mesa = mesas.find((m) => m.id === mesaId)
 
-  if (!mesa) return res.status(404).json({ error: 'Mesa no encontrada' })
-  if (mesa.ocupada) return res.status(409).json({ error: 'Mesa ya está ocupada' })
+  if (!mesa)
+    return res.status(404).json({ error: 'Mesa no encontrada' })
+
+  if (mesa.ocupada)
+    return res.status(409).json({ error: 'Mesa ya está ocupada' })
 
   mesa.ocupada = true
   mesa.usuarios = [user]
@@ -55,6 +60,41 @@ router.post('/:mesaId/entrar', (req, res) => {
 
   res.json({
     message: 'Entraste a la mesa',
+    mesa,
+  })
+})
+
+// ============================
+// Salir de una mesa
+// ============================
+router.post('/:mesaId/salir', (req, res) => {
+  const { mesaId } = req.params
+  const { user } = req.body
+
+  if (!user || !user.id) {
+    return res.status(400).json({ error: 'Usuario requerido' })
+  }
+
+  const mesas = readMesas()
+  const mesa = mesas.find((m) => m.id === mesaId)
+
+  if (!mesa)
+    return res.status(404).json({ error: 'Mesa no encontrada' })
+
+  // quitar usuario
+  mesa.usuarios = mesa.usuarios.filter(
+    (u) => u.id !== user.id
+  )
+
+  // si ya no hay usuarios → mesa libre
+  if (mesa.usuarios.length === 0) {
+    mesa.ocupada = false
+  }
+
+  writeMesas(mesas)
+
+  res.json({
+    message: 'Saliste de la mesa',
     mesa,
   })
 })

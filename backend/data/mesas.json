@@ -2,13 +2,8 @@
   {
     "id": "mesa-1",
     "capacidad": 4,
-    "ocupada": true,
-    "usuarios": [
-      {
-        "id": 123,
-        "name": "Santiago"
-      }
-    ]
+    "ocupada": false,
+    "usuarios": []
   },
   {
     "id": "mesa-2",
