@@ -1,0 +1,81 @@
+.container {
+  padding: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.menuList {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+.menuList li {
+  margin-bottom: 8px;
+}
+
+.buttonGroup {
+  margin-top: 30px;
+  display: flex;
+  gap: 12px;
+}
+
+.buttonPrimary {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.buttonPrimary {
+  background-color: #f3f4f6;
+}
+
+.buttonPrimary:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-2px);
+}
+
+.buttonDanger {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #ef4444;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.buttonDanger:hover {
+  background-color: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* ================= MODAL ================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
