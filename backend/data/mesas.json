@@ -2,8 +2,14 @@
   {
     "id": "mesa-1",
     "capacidad": 4,
-    "ocupada": false,
-    "usuarios": []
+    "ocupada": true,
+    "usuarios": [
+      {
+        "id": 1778496097011,
+        "name": "santiago",
+        "email": "santi@gm.com"
+      }
+    ]
   },
   {
     "id": "mesa-2",

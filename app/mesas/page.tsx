@@ -48,15 +48,32 @@ export async function entrarAMesa(
 // Página
 // ============================
 export default function MesasPage() {
-  const [mesas, setMesas] =
-    useState<Mesa[]>([])
-
   const router = useRouter()
+  const [mesas, setMesas] = useState<Mesa[]>([])
+  const [user, setUser] =
+    useState<Usuario | null>(
+      null
+    )
 
-  const user: Usuario = {
-    id: 123,
-    name: 'Santiago',
-  }
+  // ============================
+  // Obtener usuario logueado
+  // ============================
+  useEffect(() => {
+    const savedUser =
+      localStorage.getItem(
+        'user'
+      )
+
+    if (savedUser) {
+      setUser(
+        JSON.parse(savedUser)
+      )
+    } else {
+      router.push(
+        '/auth/login'
+      )
+    }
+  }, [router])
 
   // ============================
   // Cargar mesas
@@ -71,14 +88,18 @@ export default function MesasPage() {
   // Mesa actual
   // ============================
   const mesaActualId = useMemo(() => {
-    const mesa = mesas.find((m) =>
+    if (!user) return (
+      <h1>Cargando usuario...</h1>
+    )
+
+    const mesa = mesas.find(m =>
       m.usuarios.some(
-        (u) => u.id === user.id
+        u => u.id === user.id
       )
     )
 
     return mesa?.id ?? null
-  }, [mesas, user.id])
+  }, [mesas, user])
 
   // ============================
   // Entrar a una mesa
@@ -87,29 +108,32 @@ export default function MesasPage() {
     mesaId: string
   ) {
     try {
+      if (!user) return
+
       const { mesa } =
         await entrarAMesa(
-          mesaId,
-          user
+        mesaId,
+        user
         )
 
-      setMesas((prev) =>
-        prev.map((m) => {
-          const usuariosLimpios =
-            m.usuarios.filter(
-              (u) =>
-                u.id !== user.id
-            )
+      setMesas(prev =>
+        prev.map(m => {
+        const usuariosLimpios =
+        m.usuarios.filter(
+          u =>
+            u.id !== user.id
+        )
 
-          if (m.id === mesaId)
-            return mesa
+        if (m.id === mesaId) {
+          return mesa
+        }
 
-          return {
-            ...m,
-            usuarios:
-              usuariosLimpios,
-          }
-        })
+        return {
+          ...m,
+          usuarios:
+          usuariosLimpios,
+        }
+      })
       )
     } catch (error) {
       console.error(error)

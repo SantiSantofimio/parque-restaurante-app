@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import {
   useParams,
   useRouter,
@@ -27,10 +27,10 @@ export default function MesaDetallePage() {
   const [loading, setLoading] =
     useState(true)
 
-  const user: Usuario = {
-    id: 123,
-    name: 'Santiago',
-  }
+  const [user, setUser] =
+    useState<Usuario | null>(null)
+
+
 
   // ============================
   // Obtener mesa

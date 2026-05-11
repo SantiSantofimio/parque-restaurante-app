@@ -33,6 +33,16 @@ export default function LoginPage() {
         return
       }
 
+      localStorage.setItem(
+        'token',
+        data.token
+      )
+
+      localStorage.setItem(
+       'user',
+       JSON.stringify(data.user)
+      )
+
       // Guardar sesión
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
