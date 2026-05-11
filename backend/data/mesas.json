@@ -5,16 +5,88 @@
     "ocupada": true,
     "usuarios": [
       {
-        "id": 1778496097011,
-        "name": "santiago",
-        "email": "santi@gm.com"
+        "id": 123,
+        "name": "Santiago"
+      }
+    ],
+    "pedidos": [
+      {
+        "id": 1778499254253,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
       }
     ]
   },
   {
     "id": "mesa-2",
     "capacidad": 2,
-    "ocupada": false,
-    "usuarios": []
+    "ocupada": true,
+    "usuarios": [
+      {
+        "id": 1778496097011,
+        "name": "santiago",
+        "email": "santi@gm.com"
+      }
+    ],
+    "pedidos": [
+      {
+        "id": 1778526057083,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      },
+      {
+        "id": 1778526061412,
+        "producto": "Pizza",
+        "precio": 38000,
+        "cantidad": 1,
+        "total": 38000
+      },
+      {
+        "id": 1778526063349,
+        "producto": "Gaseosa",
+        "precio": 6000,
+        "cantidad": 1,
+        "total": 6000
+      },
+      {
+        "id": 1778526164549,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      },
+      {
+        "id": 1778526165104,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      },
+      {
+        "id": 1778526165451,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      },
+      {
+        "id": 1778526165612,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      },
+      {
+        "id": 1778526165780,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      }
+    ]
   }
 ]

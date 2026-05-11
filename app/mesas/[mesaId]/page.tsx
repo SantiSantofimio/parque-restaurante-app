@@ -1,6 +1,9 @@
 'use client'
 
-import { use, useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
 import {
   useParams,
   useRouter,
@@ -8,11 +11,45 @@ import {
 import type {
   Mesa,
   Usuario,
+  Pedido,
 } from '@/types/mesas'
 import styles from './mesa.module.css'
 
 const API_URL =
   'http://localhost:4000/api/mesas'
+
+// ============================
+// API pedido
+// ============================
+async function agregarPedido(
+  mesaId: string,
+  producto: string,
+  precio: number
+) {
+  const res = await fetch(
+    `${API_URL}/${mesaId}/pedido`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type':
+          'application/json',
+      },
+      body: JSON.stringify({
+        producto,
+        precio,
+        cantidad: 1,
+      }),
+    }
+  )
+
+  if (!res.ok) {
+    throw new Error(
+      'Error agregando pedido'
+    )
+  }
+
+  return res.json()
+}
 
 export default function MesaDetallePage() {
   const params = useParams()
@@ -28,9 +65,25 @@ export default function MesaDetallePage() {
     useState(true)
 
   const [user, setUser] =
-    useState<Usuario | null>(null)
+    useState<Usuario | null>(
+      null
+    )
 
+  // ============================
+  // Obtener usuario logueado
+  // ============================
+  useEffect(() => {
+    const savedUser =
+      localStorage.getItem(
+        'user'
+      )
 
+    if (savedUser) {
+      setUser(
+        JSON.parse(savedUser)
+      )
+    }
+  }, [])
 
   // ============================
   // Obtener mesa
@@ -38,9 +91,10 @@ export default function MesaDetallePage() {
   useEffect(() => {
     async function fetchMesa() {
       try {
-        const res = await fetch(
-          API_URL
-        )
+        const res =
+          await fetch(
+            API_URL
+          )
 
         if (!res.ok) {
           throw new Error(
@@ -54,7 +108,8 @@ export default function MesaDetallePage() {
         const mesaEncontrada =
           mesas.find(
             (m) =>
-              m.id === mesaId
+              m.id ===
+              mesaId
           ) || null
 
         setMesa(
@@ -71,7 +126,57 @@ export default function MesaDetallePage() {
     }
 
     fetchMesa()
+
+    const interval =
+      setInterval(
+      fetchMesa,
+      3000
+      )
+
+    return () =>
+      clearInterval(interval)
   }, [mesaId])
+
+  // ============================
+  // Agregar pedido
+  // ============================
+  async function handleAgregarPedido(
+    producto: string,
+    precio: number
+  ) {
+    try {
+      await agregarPedido(
+        mesaId,
+        producto,
+        precio
+      )
+
+      const res =
+        await fetch(
+          API_URL
+        )
+
+      const mesas: Mesa[] =
+        await res.json()
+
+      const mesaActual =
+        mesas.find(
+          (m) =>
+            m.id ===
+            mesaId
+        ) || null
+
+      setMesa(
+        mesaActual
+      )
+    } catch (error) {
+      console.error(error)
+
+      alert(
+        'Error agregando producto'
+      )
+    }
+  }
 
   // ============================
   // Salir mesa
@@ -86,15 +191,17 @@ export default function MesaDetallePage() {
             'Content-Type':
               'application/json',
           },
-          body: JSON.stringify({
-            user,
-          }),
+          body:
+            JSON.stringify({
+              user,
+            }),
         }
       )
 
       router.push('/mesas')
     } catch (error) {
       console.error(error)
+
       alert(
         'Error al salir'
       )
@@ -114,7 +221,9 @@ export default function MesaDetallePage() {
 
   if (loading) {
     return (
-      <h1>Cargando mesa...</h1>
+      <h1>
+        Cargando mesa...
+      </h1>
     )
   }
 
@@ -169,26 +278,144 @@ export default function MesaDetallePage() {
           Menú del restaurante
         </h2>
 
-        <ul
+        <div
           className={
             styles.menuList
           }
         >
-          <li>
-            🍔 Hamburguesa —
-            $25.000
-          </li>
+          <div
+            className={
+              styles.menuItem
+            }
+          >
+            <div>
+              <h3>
+                🍔 Hamburguesa
+              </h3>
+              <p>$25.000</p>
+            </div>
 
-          <li>
-            🍕 Pizza —
-            $38.000
-          </li>
+            <button
+              className={
+                styles.buttonPrimary
+              }
+              onClick={() =>
+                handleAgregarPedido(
+                  'Hamburguesa',
+                  25000
+                )
+              }
+            >
+              Agregar
+            </button>
+          </div>
 
-          <li>
-            🥤 Gaseosa —
-            $6.000
-          </li>
-        </ul>
+          <div
+            className={
+              styles.menuItem
+            }
+          >
+            <div>
+              <h3>
+                🍕 Pizza
+              </h3>
+              <p>$38.000</p>
+            </div>
+
+            <button
+              className={
+                styles.buttonPrimary
+              }
+              onClick={() =>
+                handleAgregarPedido(
+                  'Pizza',
+                  38000
+                )
+              }
+            >
+              Agregar
+            </button>
+          </div>
+
+          <div
+            className={
+              styles.menuItem
+            }
+          >
+            <div>
+              <h3>
+                🥤 Gaseosa
+              </h3>
+              <p>$6.000</p>
+            </div>
+
+            <button
+              className={
+                styles.buttonPrimary
+              }
+              onClick={() =>
+                handleAgregarPedido(
+                  'Gaseosa',
+                  6000
+                )
+              }
+            >
+              Agregar
+            </button>
+          </div>
+        </div>
+
+        <h2>
+          🧾 Pedido actual
+        </h2>
+
+        {mesa.pedidos
+          ?.length ? (
+          <>
+            {mesa.pedidos.map(
+              (
+                pedido: Pedido
+              ) => (
+                <div
+                  key={
+                    pedido.id
+                  }
+                >
+                  {
+                    pedido.producto
+                  }{' '}
+                  x
+                  {
+                    pedido.cantidad
+                  }{' '}
+                  — $
+                  {
+                    pedido.total
+                  }
+                </div>
+              )
+            )}
+
+            <h3>
+              Total: $
+              {mesa.pedidos.reduce(
+                (
+                  total: number,
+                  pedido: Pedido
+                ) =>
+                  total +
+                  pedido.total,
+                0
+              )}
+            </h3>
+          </>
+        ) : (
+          <p>
+            No hay
+            productos
+            agregados
+          </p>
+        )}
 
         <div
           className={

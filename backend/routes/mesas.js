@@ -99,4 +99,61 @@ router.post('/:mesaId/salir', (req, res) => {
   })
 })
 
+// ============================
+// Agregar pedido a mesa
+// ============================
+router.post(
+  '/:mesaId/pedido',
+  (req, res) => {
+    const { mesaId } =
+      req.params
+
+    const {
+      producto,
+      precio,
+      cantidad = 1,
+    } = req.body
+
+    const mesas =
+      readMesas()
+
+    const mesa =
+      mesas.find(
+        (m) =>
+          m.id === mesaId
+      )
+
+    if (!mesa) {
+      return res
+        .status(404)
+        .json({
+          error:
+            'Mesa no encontrada',
+        })
+    }
+
+    if (!mesa.pedidos) {
+      mesa.pedidos = []
+    }
+
+    mesa.pedidos.push({
+      id: Date.now(),
+      producto,
+      precio,
+      cantidad,
+      total:
+        precio * cantidad,
+    })
+
+    writeMesas(mesas)
+
+    res.json({
+      message:
+        'Pedido agregado',
+      pedidos:
+        mesa.pedidos,
+    })
+  }
+)
+
 module.exports = router
