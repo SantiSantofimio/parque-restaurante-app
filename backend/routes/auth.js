@@ -11,7 +11,19 @@ const JWT_SECRET = 'super_secret_key'
 
 // helper para leer usuarios
 function readUsers() {
-  const data = fs.readFileSync(USERS_FILE, 'utf-8')
+  if (!fs.existsSync(USERS_FILE)) {
+    return []
+  }
+
+  const data = fs.readFileSync(
+    USERS_FILE,
+    'utf-8'
+  )
+
+  if (!data.trim()) {
+    return []
+  }
+
   return JSON.parse(data)
 }
 
