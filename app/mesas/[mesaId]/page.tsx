@@ -51,6 +51,35 @@ async function agregarPedido(
   return res.json()
 }
 
+async function actualizarPedido(
+  mesaId: string,
+  producto: string,
+  action: 'add' | 'remove'
+) {
+  const res = await fetch(
+    `${API_URL}/${mesaId}/pedido`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type':
+          'application/json',
+      },
+      body: JSON.stringify({
+        producto,
+        action,
+      }),
+    }
+  )
+
+  if (!res.ok) {
+    throw new Error(
+      'Error actualizando pedido'
+    )
+  }
+
+  return res.json()
+}
+
 export default function MesaDetallePage() {
   const params = useParams()
   const router = useRouter()
@@ -177,6 +206,43 @@ export default function MesaDetallePage() {
       )
     }
   }
+
+  // ============================
+// Actualizar pedido
+// ============================
+async function handleActualizarPedido(
+  producto: string,
+  action: 'add' | 'remove'
+) {
+  try {
+    await actualizarPedido(
+      mesaId,
+      producto,
+      action
+    )
+
+    // refrescar mesa
+    const res =
+      await fetch(API_URL)
+
+    const mesas: Mesa[] =
+      await res.json()
+
+    const mesaActual =
+      mesas.find(
+        (m) =>
+          m.id === mesaId
+      ) || null
+
+    setMesa(mesaActual)
+  } catch (error) {
+    console.error(error)
+
+    alert(
+      'Error actualizando pedido'
+    )
+  }
+}
 
   // ============================
   // Salir mesa
@@ -366,56 +432,103 @@ export default function MesaDetallePage() {
         </div>
 
         <h2>
-          🧾 Pedido actual
-        </h2>
+  🧾 Pedido actual
+</h2>
 
-        {mesa.pedidos
-          ?.length ? (
-          <>
-            {mesa.pedidos.map(
-              (
-                pedido: Pedido
-              ) => (
-                <div
-                  key={
-                    pedido.id
-                  }
-                >
-                  {
-                    pedido.producto
-                  }{' '}
-                  x
-                  {
-                    pedido.cantidad
-                  }{' '}
-                  — $
-                  {
-                    pedido.total
-                  }
-                </div>
-              )
-            )}
+{mesa.pedidos?.length ? (
+  <>
+    <div
+      className={
+        styles.pedidoList
+      }
+    >
+      {mesa.pedidos.map(
+        (
+          pedido: Pedido
+        ) => (
+          <div
+            key={pedido.id}
+            className={
+              styles.pedidoItem
+            }
+          >
+            <div>
+              <strong>
+                {
+                  pedido.producto
+                }
+              </strong>
 
-            <h3>
-              Total: $
-              {mesa.pedidos.reduce(
-                (
-                  total: number,
-                  pedido: Pedido
-                ) =>
-                  total +
-                  pedido.total,
-                0
-              )}
-            </h3>
-          </>
-        ) : (
-          <p>
-            No hay
-            productos
-            agregados
-          </p>
-        )}
+              <p>
+                $
+                {pedido.precio.toLocaleString()}
+              </p>
+            </div>
+
+            <div
+              className={
+                styles.quantityControls
+              }
+            >
+              <button
+                onClick={() =>
+                handleActualizarPedido(
+                pedido.producto,
+                'remove'
+                )
+              }
+              >
+                ➖
+              </button>
+
+              <span>
+                {
+                  pedido.cantidad
+                }
+              </span>
+
+              <button
+                onClick={() =>
+                  handleActualizarPedido(
+                    pedido.producto,
+                    'add'
+                  )
+                }
+              >
+                ➕
+              </button>
+            </div>
+
+            <div>
+              $
+              {pedido.total.toLocaleString()}
+            </div>
+          </div>
+        )
+      )}
+    </div>
+
+    <h3>
+      Total: $
+      {mesa.pedidos
+        .reduce(
+          (
+            total,
+            pedido
+          ) =>
+            total +
+            pedido.total,
+          0
+        )
+        .toLocaleString()}
+    </h3>
+  </>
+) : (
+  <p>
+    No hay productos
+    agregados
+  </p>
+)}
 
         <div
           className={

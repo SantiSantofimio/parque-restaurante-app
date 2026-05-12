@@ -79,3 +79,37 @@
   max-width: 90%;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
+
+.pedidoList {
+  margin-top: 20px;
+}
+
+.pedidoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9fafb;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quantityControls button {
+  border: none;
+  background: #e5e7eb;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.quantityControls button:hover {
+  transform: scale(1.05);
+}
