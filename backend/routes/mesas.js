@@ -136,20 +136,127 @@ router.post(
       mesa.pedidos = []
     }
 
-    mesa.pedidos.push({
-      id: Date.now(),
-      producto,
-      precio,
-      cantidad,
-      total:
-        precio * cantidad,
-    })
+    const pedidoExistente =
+  mesa.pedidos.find(
+    (p) =>
+      p.producto === producto
+  )
+
+if (pedidoExistente) {
+  pedidoExistente.cantidad +=
+    cantidad
+
+  pedidoExistente.total =
+    pedidoExistente.precio *
+    pedidoExistente.cantidad
+} else {
+  mesa.pedidos.push({
+    id: Date.now(),
+    producto,
+    precio,
+    cantidad,
+    total:
+      precio * cantidad,
+  })
+}
 
     writeMesas(mesas)
 
     res.json({
       message:
         'Pedido agregado',
+      pedidos:
+        mesa.pedidos,
+    })
+  }
+)
+
+// ============================
+// Actualizar cantidad pedido
+// ============================
+router.put(
+  '/:mesaId/pedido',
+  (req, res) => {
+    const { mesaId } =
+      req.params
+
+    const {
+      producto,
+      action,
+    } = req.body
+
+    const mesas =
+      readMesas()
+
+    const mesa =
+      mesas.find(
+        (m) =>
+          m.id === mesaId
+      )
+
+    if (!mesa) {
+      return res
+        .status(404)
+        .json({
+          error:
+            'Mesa no encontrada',
+        })
+    }
+
+    if (!mesa.pedidos) {
+      return res
+        .status(404)
+        .json({
+          error:
+            'No hay pedidos',
+        })
+    }
+
+    const pedido =
+      mesa.pedidos.find(
+        (p) =>
+          p.producto ===
+          producto
+      )
+
+    if (!pedido) {
+      return res
+        .status(404)
+        .json({
+          error:
+            'Pedido no encontrado',
+        })
+    }
+
+    // sumar
+    if (action === 'add') {
+      pedido.cantidad += 1
+    }
+
+    // restar
+    if (
+      action === 'remove'
+    ) {
+      pedido.cantidad -= 1
+    }
+
+    // recalcular total
+    pedido.total =
+      pedido.precio *
+      pedido.cantidad
+
+    // eliminar si llega a 0
+    mesa.pedidos =
+      mesa.pedidos.filter(
+        (p) =>
+          p.cantidad > 0
+      )
+
+    writeMesas(mesas)
+
+    res.json({
+      message:
+        'Pedido actualizado',
       pedidos:
         mesa.pedidos,
     })
