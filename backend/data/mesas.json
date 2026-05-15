@@ -11,11 +11,11 @@
     ],
     "pedidos": [
       {
-        "id": 1778499254253,
-        "producto": "Hamburguesa",
-        "precio": 25000,
+        "id": 1778613505167,
+        "producto": "Pizza",
+        "precio": 38000,
         "cantidad": 1,
-        "total": 25000
+        "total": 38000
       }
     ]
   },
@@ -31,20 +31,6 @@
       }
     ],
     "pedidos": [
-      {
-        "id": 1778526057083,
-        "producto": "Hamburguesa",
-        "precio": 25000,
-        "cantidad": 1,
-        "total": 25000
-      },
-      {
-        "id": 1778526061412,
-        "producto": "Pizza",
-        "precio": 38000,
-        "cantidad": 1,
-        "total": 38000
-      },
       {
         "id": 1778526063349,
         "producto": "Gaseosa",
