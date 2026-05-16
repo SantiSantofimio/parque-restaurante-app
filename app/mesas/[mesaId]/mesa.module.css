@@ -113,3 +113,15 @@
 .quantityControls button:hover {
   transform: scale(1.05);
 }
+
+.modal h2 {
+  margin-bottom: 20px;
+}
+
+.modal h3 {
+  margin-top: 20px;
+}
+
+.modal div {
+  margin-bottom: 10px;
+}

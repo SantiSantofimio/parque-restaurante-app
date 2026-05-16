@@ -98,6 +98,9 @@ export default function MesaDetallePage() {
       null
     )
 
+  const [showPagoModal, setShowPagoModal] =
+    useState(false)
+
   // ============================
   // Obtener usuario logueado
   // ============================
@@ -275,15 +278,35 @@ async function handleActualizarPedido(
   }
 
   // ============================
+// Confirmar pago
+// ============================
+async function confirmarPago() {
+  try {
+    alert(
+      'Pago realizado ✅'
+    )
+
+    setShowPagoModal(false)
+
+    await handleSalir()
+  } catch (error) {
+    console.error(error)
+
+    alert(
+      'Error procesando pago'
+    )
+  }
+}
+
+  // ============================
   // Salir y pagar
   // ============================
   async function handleSalirYPagar() {
-    alert(
-      'Aquí luego conectaremos el pago 💳'
+    setShowPagoModal(
+      true
     )
-
-    await handleSalir()
   }
+  
 
   if (loading) {
     return (
@@ -558,6 +581,89 @@ async function handleActualizarPedido(
           </button>
         </div>
       </div>
+      {showPagoModal && (
+  <div
+    className={
+      styles.overlay
+    }
+  >
+    <div
+      className={
+        styles.modal
+      }
+    >
+      <h2>
+        💳 Resumen de pago
+      </h2>
+
+      {mesa.pedidos?.map(
+        (
+          pedido: Pedido
+        ) => (
+          <div
+            key={pedido.id}
+          >
+            {
+              pedido.producto
+            }{' '}
+            x
+            {
+              pedido.cantidad
+            }
+            {' — '}
+            $
+            {pedido.total.toLocaleString()}
+          </div>
+        )
+      )}
+
+      <h3>
+        Total: $
+        {mesa.pedidos
+          ?.reduce(
+            (
+              total,
+              pedido
+            ) =>
+              total +
+              pedido.total,
+            0
+          )
+          .toLocaleString()}
+      </h3>
+
+      <div
+        className={
+          styles.buttonGroup
+        }
+      >
+        <button
+          className={
+            styles.buttonPrimary
+          }
+          onClick={() =>
+            setShowPagoModal(
+              false
+            )
+          }
+        >
+          Cancelar
+        </button>
+
+        <button
+          className={
+            styles.buttonDanger
+          }
+          onClick={
+            confirmarPago
+          }
+        >
+          Pagar y salir
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   )
 }
