@@ -50,7 +50,7 @@ export async function entrarAMesa(
 export default function MesasPage() {
   const router = useRouter()
   const [mesas, setMesas] = useState<Mesa[]>([])
-  const [user, setUser] =
+  const [user,] =
     useState<Usuario | null>(() => {
       const savedUser = localStorage.getItem("user")
       return savedUser ? JSON.parse(savedUser) : null
@@ -60,11 +60,6 @@ export default function MesasPage() {
   // Obtener usuario logueado
   // ============================
   useEffect(() => {
-    const savedUser =
-      localStorage.getItem(
-        'user'
-      )
-
     if (!user) {
       router.push("/auth/login")
     } 
