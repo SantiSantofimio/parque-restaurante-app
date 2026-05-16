@@ -282,11 +282,44 @@ async function handleActualizarPedido(
 // ============================
 async function confirmarPago() {
   try {
+    const total =
+      mesa?.pedidos?.reduce(
+        (
+          acc,
+          pedido
+        ) =>
+          acc +
+          pedido.total,
+        0
+      ) || 0
+
+    await fetch(
+      'http://localhost:4000/api/facturas',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type':
+            'application/json',
+        },
+        body:
+          JSON.stringify({
+            user,
+            mesaId,
+            pedidos:
+              mesa?.pedidos ||
+              [],
+            total,
+          }),
+      }
+    )
+
     alert(
       'Pago realizado ✅'
     )
 
-    setShowPagoModal(false)
+    setShowPagoModal(
+      false
+    )
 
     await handleSalir()
   } catch (error) {
