@@ -1,9 +1,9 @@
-const express = require('express')
-const cors = require('cors')
+import express from 'express'
+import cors from 'cors'
 
-const authRoutes = require('./routes/auth')
-const mesasRoutes = require('./routes/mesas')
-const facturasRoutes = require('./routes/facturas')
+import authRoutes from './routes/auth.js'
+import mesasRoutes from './routes/mesas.js'
+import facturasRoutes from './routes/facturas.js'
 
 const app = express()
 const PORT = 4000
@@ -32,3 +32,5 @@ app.listen(PORT, () => {
     `Servidor corriendo en http://localhost:${PORT}`
   )
 })
+
+export default app

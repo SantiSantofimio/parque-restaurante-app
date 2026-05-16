@@ -51,9 +51,10 @@ export default function MesasPage() {
   const router = useRouter()
   const [mesas, setMesas] = useState<Mesa[]>([])
   const [user, setUser] =
-    useState<Usuario | null>(
-      null
-    )
+    useState<Usuario | null>(() => {
+      const savedUser = localStorage.getItem("user")
+      return savedUser ? JSON.parse(savedUser) : null
+})
 
   // ============================
   // Obtener usuario logueado
@@ -64,16 +65,10 @@ export default function MesasPage() {
         'user'
       )
 
-    if (savedUser) {
-      setUser(
-        JSON.parse(savedUser)
-      )
-    } else {
-      router.push(
-        '/auth/login'
-      )
-    }
-  }, [router])
+    if (!user) {
+      router.push("/auth/login")
+    } 
+  }, [user, router])
 
   // ============================
   // Cargar mesas
