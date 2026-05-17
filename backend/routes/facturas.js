@@ -2,10 +2,12 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import authMiddleware from '../middleware/authMiddleware'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const router = express.Router()
+router.use(authMiddleware)
 
 const FACTURAS_FILE =
   path.join(

@@ -1,8 +1,10 @@
-const express = require('express')
-const fs = require('fs')
-const path = require('path')
+import express from 'express'
+import fs from 'fs'
+import path from 'path'
+import authMiddleware from '../middleware/authMiddleware'
 
 const router = express.Router()
+router.use(authMiddleware)
 const MESAS_FILE = path.join(__dirname, '../data/mesas.json')
 
 // ============================
@@ -263,4 +265,4 @@ router.put(
   }
 )
 
-module.exports = router
+export default router

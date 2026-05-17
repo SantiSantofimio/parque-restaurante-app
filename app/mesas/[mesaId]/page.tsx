@@ -10,6 +10,7 @@ import {
 } from 'next/navigation'
 import type {
   Mesa,
+  Usuario,
   Pedido,
 } from '@/types/mesas'
 import styles from './mesa.module.css'
@@ -24,16 +25,15 @@ const API_URL =
 async function agregarPedido(
   mesaId: string,
   producto: string,
-  precio: number
+  precio: number,
+  user: Usuario | null
 ) {
   const res = await fetch(
     `${API_URL}/${mesaId}/pedido`,
     {
       method: 'POST',
-      headers: {
-        'Content-Type':
-          'application/json',
-      },
+      headers:
+        getAuthHeaders(user),
       body: JSON.stringify({
         producto,
         precio,
@@ -80,6 +80,21 @@ async function actualizarPedido(
   return res.json()
 }
 
+function getAuthHeaders(
+  user: Usuario | null
+) {
+  return {
+    'Content-Type':
+      'application/json',
+    ...(user && {
+      'x-user-id':
+        String(user.id),
+      'x-user-name':
+        user.name,
+    }),
+  }
+}
+
 export default function MesaDetallePage() {
   const params = useParams()
   const router = useRouter()
@@ -100,11 +115,6 @@ export default function MesaDetallePage() {
     useState(false)
 
   // ============================
-  // Obtener usuario logueado
-  // ============================
-  
-
-  // ============================
   // Obtener mesa
   // ============================
   useEffect(() => {
@@ -112,7 +122,12 @@ export default function MesaDetallePage() {
       try {
         const res =
           await fetch(
-            API_URL
+            API_URL,
+            {
+              headers: getAuthHeaders(
+                user
+              ),
+            }
           )
 
         if (!res.ok) {
@@ -154,7 +169,7 @@ export default function MesaDetallePage() {
 
     return () =>
       clearInterval(interval)
-  }, [mesaId])
+  }, [mesaId, user])
 
   // ============================
   // Agregar pedido
@@ -167,7 +182,8 @@ export default function MesaDetallePage() {
       await agregarPedido(
         mesaId,
         producto,
-        precio
+        precio,
+        user
       )
 
       const res =
@@ -243,10 +259,7 @@ async function handleActualizarPedido(
         `${API_URL}/${mesaId}/salir`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type':
-              'application/json',
-          },
+          headers: getAuthHeaders(user),
           body:
             JSON.stringify({
               user,
@@ -284,10 +297,7 @@ async function confirmarPago() {
       'http://localhost:4000/api/facturas',
       {
         method: 'POST',
-        headers: {
-          'Content-Type':
-            'application/json',
-        },
+        headers: getAuthHeaders(user),
         body:
           JSON.stringify({
             user,
