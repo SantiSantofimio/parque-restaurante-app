@@ -10,10 +10,10 @@ import {
 } from 'next/navigation'
 import type {
   Mesa,
-  Usuario,
   Pedido,
 } from '@/types/mesas'
 import styles from './mesa.module.css'
+import { useAuth } from '@/app/hooks/useAuth'
 
 const API_URL =
   'http://localhost:4000/api/mesas'
@@ -93,10 +93,8 @@ export default function MesaDetallePage() {
   const [loading, setLoading] =
     useState(true)
 
-  const [user, setUser] =
-    useState<Usuario | null>(
-      null
-    )
+  const { user, loading: authLoading, } =
+    useAuth()
 
   const [showPagoModal, setShowPagoModal] =
     useState(false)
@@ -104,18 +102,7 @@ export default function MesaDetallePage() {
   // ============================
   // Obtener usuario logueado
   // ============================
-  useEffect(() => {
-    const savedUser =
-      localStorage.getItem(
-        'user'
-      )
-
-    if (savedUser) {
-      setUser(
-        JSON.parse(savedUser)
-      )
-    }
-  }, [])
+  
 
   // ============================
   // Obtener mesa
@@ -339,7 +326,12 @@ async function confirmarPago() {
       true
     )
   }
-  
+
+  if (authLoading) {
+    return (
+      <h1> Cargando usuario... </h1>
+    )
+  }
 
   if (loading) {
     return (
