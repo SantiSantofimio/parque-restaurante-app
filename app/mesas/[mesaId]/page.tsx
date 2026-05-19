@@ -114,6 +114,21 @@ export default function MesaDetallePage() {
   const [showPagoModal, setShowPagoModal] =
     useState(false)
 
+    useEffect(() => {
+  if (
+    !authLoading &&
+    !user
+  ) {
+    router.push(
+      '/login'
+    )
+  }
+}, [
+  user,
+  authLoading,
+  router,
+])
+
   // ============================
   // Obtener mesa
   // ============================
@@ -343,7 +358,7 @@ async function confirmarPago() {
     )
   }
 
-  if (loading) {
+  if (loading || authLoading) {
     return (
       <h1>
         Cargando mesa...
