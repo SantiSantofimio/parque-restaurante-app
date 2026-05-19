@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Mesa, Usuario } from '@/types/mesas'
 import { useRouter } from 'next/navigation'
 import styles from './mesas.module.css'
+import { useAuth } from '@/app/hooks/useAuth'
 
 const API_URL = 'http://localhost:4000/api/mesas'
 
@@ -50,11 +51,7 @@ export async function entrarAMesa(
 export default function MesasPage() {
   const router = useRouter()
   const [mesas, setMesas] = useState<Mesa[]>([])
-  const [user,] =
-    useState<Usuario | null>(() => {
-      const savedUser = localStorage.getItem("user")
-      return savedUser ? JSON.parse(savedUser) : null
-})
+  const { user, loading: authLoading } = useAuth()
 
   // ============================
   // Obtener usuario logueado
