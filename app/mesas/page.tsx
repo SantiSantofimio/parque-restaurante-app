@@ -57,10 +57,10 @@ export default function MesasPage() {
   // Obtener usuario logueado
   // ============================
   useEffect(() => {
-    if (!user) {
+    if (!user && !authLoading) {
       router.push("/auth/login")
     } 
-  }, [user, router])
+  }, [user, router, authLoading])
 
   // ============================
   // Cargar mesas
@@ -75,9 +75,7 @@ export default function MesasPage() {
   // Mesa actual
   // ============================
   const mesaActualId = useMemo(() => {
-    if (!user) return (
-      <h1>Cargando usuario...</h1>
-    )
+    if (!user) return null
 
     const mesa = mesas.find(m =>
       m.usuarios.some(
@@ -87,6 +85,17 @@ export default function MesasPage() {
 
     return mesa?.id ?? null
   }, [mesas, user])
+
+  // ============================
+  // Esperar autenticación
+  // ============================
+  if (authLoading) {
+    return (
+      <h1>
+        Cargando usuario...
+      </h1>
+    )
+  }
 
   // ============================
   // Entrar a una mesa
