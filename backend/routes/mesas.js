@@ -1,10 +1,13 @@
 import express from 'express'
 import fs from 'fs'
 import path from 'path'
-import authMiddleware from '../middleware/authMiddleware'
+import { fileURLToPath } from 'url'
+import authMiddleware from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 router.use(authMiddleware)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const MESAS_FILE = path.join(__dirname, '../data/mesas.json')
 
 // ============================

@@ -2,7 +2,7 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import authMiddleware from '../middleware/authMiddleware'
+import authMiddleware from '../middleware/authMiddleware.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
