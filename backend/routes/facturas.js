@@ -35,6 +35,9 @@ function readFacturas() {
   return JSON.parse(raw)
 }
 
+/**
+ * @param {Array} facturas
+ */
 function saveFacturas(
   facturas
 ) {
@@ -60,6 +63,19 @@ router.post(
       pedidos,
       total,
     } = req.body
+
+    if (
+        !user ||
+        !mesaId ||
+        !pedidos
+    ) {
+      return res
+        .status(400)
+        .json({
+            error:
+                'Datos incompletos',
+        })
+    }
 
     const facturas =
       readFacturas()
@@ -89,6 +105,16 @@ router.post(
       factura:
         nuevaFactura,
     })
+  }
+)
+
+router.get(
+  '/',
+  (req, res) => {
+    const facturas =
+      readFacturas()
+
+    res.json(facturas)
   }
 )
 
