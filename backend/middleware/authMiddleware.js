@@ -3,15 +3,20 @@ function authMiddleware(
   res,
   next
 ) {
-  const userId =
-    req.headers[
-      'x-user-id'
-    ]
+  const res =
+  await fetch(
+    API_URL,
+    {
+      headers: {
+        'x-user-id':
+          String(user?.id),
+        'x-user-name':
+          user?.name ?? '',
+      },
+    }
+  )
 
-  const userName =
-    req.headers[
-      'x-user-name'
-    ]
+  const { userId, userName } = await res.json()
 
   if (
     !userId ||
