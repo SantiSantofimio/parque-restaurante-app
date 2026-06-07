@@ -3,13 +3,26 @@ import { getAuthHeaders } from "./api";
 
 const API_URL = 'http://localhost:4000/api/mesas'
 
-export async function obtenerMesas(personas?: number): Promise<Mesa[]> {
-    const url = personas ? `${API_URL}?personas=${personas}` : API_URL
-    const res = await fetch(url)
-    if (!res.ok) {
-        throw new Error('Error al obtener mesas')
-    }
-    return res.json() as Promise<Mesa[]>
+export async function obtenerMesas(
+  personas?: number
+): Promise<Mesa[]> {
+  const url = personas
+    ? `${API_URL}?personas=${personas}`
+    : API_URL
+
+  const res = await fetch(url, {
+    headers: getAuthHeaders(),
+  })
+
+  if (!res.ok) {
+    throw new Error(
+      'Error al obtener mesas'
+    )
+  }
+
+  return res.json() as Promise<
+    Mesa[]
+  >
 }
 
 export async function entrarAMesa(mesaId: string, user: Usuario): Promise<{ mesa: Mesa }> {
