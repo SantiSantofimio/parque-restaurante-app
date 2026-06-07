@@ -27,3 +27,8 @@ export async function register(name: string, email: string, password: string) {
 
   return res.json()
 }
+
+export function getAuthHeaders(token?: string) {
+  const authToken = token ?? localStorage.getItem('token')
+  return { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` }
+}

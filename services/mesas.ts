@@ -1,4 +1,5 @@
 import { Mesa, Usuario } from "@/types/mesas";
+import { getAuthHeaders } from "./api";
 
 const API_URL = 'http://localhost:4000/api/mesas'
 
@@ -14,7 +15,7 @@ export async function obtenerMesas(personas?: number): Promise<Mesa[]> {
 export async function entrarAMesa(mesaId: string, user: Usuario): Promise<{ mesa: Mesa }> {
     const res = await fetch(`${API_URL}/${mesaId}/entrar`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ user })
     })
     if (!res.ok) {
@@ -29,7 +30,7 @@ export async function salirDeMesa(
 ): Promise<{ mesa: Mesa }> {
   const res = await fetch(`${API_URL}/${mesaId}/salir`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ user }),
   })
 

@@ -58,11 +58,12 @@ router.post(
   '/',
   (req, res) => {
     const {
-      user,
       mesaId,
       pedidos,
       total,
     } = req.body
+
+    const user = req.user
 
     if (
         !user ||

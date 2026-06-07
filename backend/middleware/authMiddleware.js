@@ -1,26 +1,21 @@
+import jwt from 'jsonwebtoken'
+
+const JWT_SECRET = 'super_secret_key'
+
 function authMiddleware(
   req,
   res,
   next
 ) {
-  const res =
-  await fetch(
-    API_URL,
-    {
-      headers: {
-        'x-user-id':
-          String(user?.id),
-        'x-user-name':
-          user?.name ?? '',
-      },
-    }
-  )
 
-  const { userId, userName } = await res.json()
+  const authHeader =
+    req.headers.authorization
 
   if (
-    !userId ||
-    !userName
+    !authHeader ||
+    !authHeader.startsWith(
+      'Bearer '
+    )
   ) {
     return res
       .status(401)
@@ -30,15 +25,26 @@ function authMiddleware(
       })
   }
 
-  req.user = {
-    id: Number(
-      userId
-    ),
-    name:
-      userName,
-  }
+  const token = authHeader.split(
+    'Bearer '
+  )[1]
 
-  next()
+  try {
+    const decode = jwt.verify(
+      token,
+      JWT_SECRET
+    )
+    req.user = decode
+
+    next()
+  } catch {
+    return res
+      .status(401)
+      .json({
+        error:
+          'Token inválido',
+      })
+  }
 }
 
 export default

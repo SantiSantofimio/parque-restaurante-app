@@ -1,4 +1,5 @@
 import type { Factura } from '@/types/facturas.ts'
+import { getAuthHeaders } from './api'
 
 const API_URL =
   'http://localhost:4000/api/facturas'
@@ -12,12 +13,8 @@ export async function obtenerFacturas(
     await fetch(
       API_URL,
       {
-        headers: {
-          'x-user-id':
-            String(userId),
-          'x-user-name':
-            userName,
-        },
+        headers: 
+          getAuthHeaders()
       }
     )
 
