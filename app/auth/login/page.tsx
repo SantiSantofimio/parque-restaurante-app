@@ -43,13 +43,9 @@ export default function LoginPage() {
        JSON.stringify(data.user)
       )
 
-      // Guardar sesión
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data.user))
-
       // Ir a mesas
       router.push('/mesas')
-    } catch (err) {
+    } catch {
       setError('No se pudo conectar con el servidor')
     } finally {
       setLoading(false)
