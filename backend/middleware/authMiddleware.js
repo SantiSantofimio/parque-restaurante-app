@@ -8,8 +8,18 @@ function authMiddleware(
   next
 ) {
 
+  console.log(
+    'HEADERS:',
+    req.headers
+  )
+
   const authHeader =
     req.headers.authorization
+
+  console.log( 
+    'AUTH HEADER:',
+    authHeader
+  )
 
   if (
     !authHeader ||
@@ -29,15 +39,21 @@ function authMiddleware(
     'Bearer '
   )[1]
 
+  console.log('TOKEN:', token)
+
   try {
     const decode = jwt.verify(
       token,
       JWT_SECRET
     )
+
+    console.log('DECODED TOKEN:', decode)
+
     req.user = decode
 
     next()
-  } catch {
+  } catch (error) {
+    console.log('ERROR JWT:', error.message)
     return res
       .status(401)
       .json({

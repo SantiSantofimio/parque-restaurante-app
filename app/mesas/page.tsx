@@ -1,49 +1,11 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import type { Mesa, Usuario } from '@/types/mesas'
+import type { Mesa } from '@/types/mesas'
 import { useRouter } from 'next/navigation'
 import styles from './mesas.module.css'
 import { useAuth } from '@/app/hooks/useAuth'
-
-const API_URL = 'http://localhost:4000/api/mesas'
-
-// ============================
-// API
-// ============================
-export async function obtenerMesas(): Promise<Mesa[]> {
-  const res = await fetch(API_URL)
-
-  if (!res.ok) {
-    throw new Error('Error al obtener mesas')
-  }
-
-  return res.json()
-}
-
-export async function entrarAMesa(
-  mesaId: string,
-  user: Usuario
-): Promise<{ mesa: Mesa }> {
-  const res = await fetch(
-    `${API_URL}/${mesaId}/entrar`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user }),
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error(
-      'Error al entrar a la mesa'
-    )
-  }
-
-  return res.json()
-}
+import { obtenerMesas, entrarAMesa } from '@/services/mesas'
 
 // ============================
 // Página

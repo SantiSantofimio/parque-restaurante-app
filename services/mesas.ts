@@ -20,9 +20,7 @@ export async function obtenerMesas(
     )
   }
 
-  return res.json() as Promise<
-    Mesa[]
-  >
+  return res.json() as Promise<Mesa[]>
 }
 
 export async function entrarAMesa(mesaId: string, user: Usuario): Promise<{ mesa: Mesa }> {
@@ -51,5 +49,5 @@ export async function salirDeMesa(
     throw new Error('Error al salir de la mesa')
   }
 
-  return res.json()
+  return res.json() as Promise<{ mesa: Mesa }>
 }
