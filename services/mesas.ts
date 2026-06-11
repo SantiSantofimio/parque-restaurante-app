@@ -11,7 +11,10 @@ export async function obtenerMesas(
     : API_URL
 
   const res = await fetch(url, {
-    headers: getAuthHeaders(),
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    },
   })
 
   if (!res.ok) {
@@ -26,7 +29,10 @@ export async function obtenerMesas(
 export async function entrarAMesa(mesaId: string, user: Usuario): Promise<{ mesa: Mesa }> {
     const res = await fetch(`${API_URL}/${mesaId}/entrar`, {
         method: 'POST',
-        headers: getAuthHeaders(),
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ user })
     })
     if (!res.ok) {
@@ -41,7 +47,10 @@ export async function salirDeMesa(
 ): Promise<{ mesa: Mesa }> {
   const res = await fetch(`${API_URL}/${mesaId}/salir`, {
     method: 'POST',
-    headers: getAuthHeaders(),
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({ user }),
   })
 

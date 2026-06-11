@@ -139,9 +139,10 @@ export default function MesaDetallePage() {
           await fetch(
             API_URL,
             {
-              headers: getAuthHeaders(
-                user
-              ),
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
+              },
             }
           )
 
@@ -274,7 +275,11 @@ async function handleActualizarPedido(
         `${API_URL}/${mesaId}/salir`,
         {
           method: 'POST',
-          headers: getAuthHeaders(user),
+          headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type':
+            'application/json',
+          },
           body:
             JSON.stringify({
               user,
@@ -312,7 +317,10 @@ async function confirmarPago() {
       'http://localhost:4000/api/facturas',
       {
         method: 'POST',
-        headers: getAuthHeaders(user),
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
         body:
           JSON.stringify({
             user,

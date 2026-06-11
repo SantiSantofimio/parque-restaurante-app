@@ -28,10 +28,12 @@ export default function MesasPage() {
   // Cargar mesas
   // ============================
   useEffect(() => {
-    obtenerMesas()
-      .then(setMesas)
-      .catch(console.error)
-  }, [])
+  if (!user) return
+
+  obtenerMesas()
+    .then(setMesas)
+    .catch(console.error)
+}, [user])
 
   // ============================
   // Mesa actual
