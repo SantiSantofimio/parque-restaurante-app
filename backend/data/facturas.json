@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": 1781203853842,
+    "user": {
+      "id": 1781202961866,
+      "name": "Santiago",
+      "email": "Santi@hotmail.com",
+      "iat": 1781202979,
+      "exp": 1781289379
+    },
+    "mesaId": "mesa-2",
+    "pedidos": [
+      {
+        "id": 1778526063349,
+        "producto": "Gaseosa",
+        "precio": 6000,
+        "cantidad": 1,
+        "total": 6000
+      },
+      {
+        "id": 1778526165612,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 4,
+        "total": 100000
+      },
+      {
+        "id": 1778526165780,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      }
+    ],
+    "total": 131000,
+    "createdAt": "2026-06-11T18:50:53.842Z"
+  }
+]

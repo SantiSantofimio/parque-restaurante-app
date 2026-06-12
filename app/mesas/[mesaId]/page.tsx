@@ -61,8 +61,8 @@ async function actualizarPedido(
     {
       method: 'PUT',
       headers: {
-        'Content-Type':
-          'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         producto,
@@ -83,6 +83,8 @@ async function actualizarPedido(
 function getAuthHeaders(
   user: Usuario | null
 ) {
+  const token =
+    localStorage.getItem('token')
   return {
     'Content-Type':
       'application/json',
@@ -92,6 +94,9 @@ function getAuthHeaders(
       'x-user-name':
         user.name,
     }),
+    ...(token && {
+      Authorization: `Bearer ${token}`
+    })
   }
 }
 

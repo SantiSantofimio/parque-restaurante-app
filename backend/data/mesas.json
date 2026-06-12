@@ -22,14 +22,8 @@
   {
     "id": "mesa-2",
     "capacidad": 2,
-    "ocupada": true,
-    "usuarios": [
-      {
-        "id": 1781202961866,
-        "name": "Santiago",
-        "email": "Santi@hotmail.com"
-      }
-    ],
+    "ocupada": false,
+    "usuarios": [],
     "pedidos": [
       {
         "id": 1778526063349,
