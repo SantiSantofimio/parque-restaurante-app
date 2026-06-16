@@ -34,5 +34,113 @@
     ],
     "total": 131000,
     "createdAt": "2026-06-11T18:50:53.842Z"
+  },
+  {
+    "id": 1781520190537,
+    "user": {
+      "id": 1781520168803,
+      "name": "santi",
+      "email": "santi@hotmail.com",
+      "iat": 1781520175,
+      "exp": 1781606575
+    },
+    "mesaId": "mesa-2",
+    "pedidos": [
+      {
+        "id": 1778526063349,
+        "producto": "Gaseosa",
+        "precio": 6000,
+        "cantidad": 1,
+        "total": 6000
+      },
+      {
+        "id": 1778526165612,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 4,
+        "total": 100000
+      },
+      {
+        "id": 1778526165780,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      }
+    ],
+    "total": 131000,
+    "createdAt": "2026-06-15T10:43:10.537Z"
+  },
+  {
+    "id": 1781520399175,
+    "user": {
+      "id": 1781520348307,
+      "name": "carlos",
+      "email": "carlos@hotmail.com",
+      "iat": 1781520352,
+      "exp": 1781606752
+    },
+    "mesaId": "mesa-2",
+    "pedidos": [
+      {
+        "id": 1778526063349,
+        "producto": "Gaseosa",
+        "precio": 6000,
+        "cantidad": 1,
+        "total": 6000
+      },
+      {
+        "id": 1778526165612,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 4,
+        "total": 100000
+      },
+      {
+        "id": 1778526165780,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      }
+    ],
+    "total": 131000,
+    "createdAt": "2026-06-15T10:46:39.175Z"
+  },
+  {
+    "id": 1781520409319,
+    "user": {
+      "id": 1781520348307,
+      "name": "carlos",
+      "email": "carlos@hotmail.com",
+      "iat": 1781520352,
+      "exp": 1781606752
+    },
+    "mesaId": "mesa-2",
+    "pedidos": [
+      {
+        "id": 1778526063349,
+        "producto": "Gaseosa",
+        "precio": 6000,
+        "cantidad": 1,
+        "total": 6000
+      },
+      {
+        "id": 1778526165612,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 4,
+        "total": 100000
+      },
+      {
+        "id": 1778526165780,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      }
+    ],
+    "total": 131000,
+    "createdAt": "2026-06-15T10:46:49.319Z"
   }
 ]

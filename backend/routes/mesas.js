@@ -55,11 +55,18 @@ router.post('/:mesaId/entrar', (req, res) => {
   if (!mesa)
     return res.status(404).json({ error: 'Mesa no encontrada' })
 
-  if (mesa.ocupada)
-    return res.status(409).json({ error: 'Mesa ya está ocupada' })
+  const usuarioYaEnMesa = mesa.usuarios.some((u) => u.id === user.id)
 
-  mesa.ocupada = true
-  mesa.usuarios = [user]
+  if (usuarioYaEnMesa) {
+    return res.status(400).json({ error: 'Usuario ya está en la mesa' })
+  }
+
+  if (mesa.usuarios.length >= mesa.capacidad) {
+    return res.status(400).json({ error: 'Mesa llena' })
+  }
+
+  mesa.usuarios.push(user)
+  mesa.ocupada = mesa.usuarios.length > 0
 
   writeMesas(mesas)
 

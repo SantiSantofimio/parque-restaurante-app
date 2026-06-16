@@ -10,5 +10,17 @@
     "name": "Santiago",
     "email": "Santi@hotmail.com",
     "password": "$2b$10$xd0Ep5x.yI8ozX5a47LDSujkVyvZWZucIRNOOeyC4JGmt66fy1ZKO"
+  },
+  {
+    "id": 1781520168803,
+    "name": "santi",
+    "email": "santi@hotmail.com",
+    "password": "$2b$10$9BqH.Vtao0zfyAWI87nR/e/jHkKY04SDN1gA2jfT128ZbbjYmW.lC"
+  },
+  {
+    "id": 1781520348307,
+    "name": "carlos",
+    "email": "carlos@hotmail.com",
+    "password": "$2b$10$031UIxxZm.dBnjdvEhMPI.dt5NJ.eAje7fYno0f1SRGlbGKaLhCSm"
   }
 ]

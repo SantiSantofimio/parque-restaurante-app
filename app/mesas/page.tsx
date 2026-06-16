@@ -161,10 +161,15 @@ export default function MesasPage() {
               </p>
 
               <p>
+                Personas:{' '}
+                {m.usuarios.length}/{m.capacidad}
+              </p>
+
+              <p>
                 Estado:{' '}
-                {m.ocupada
-                  ? 'Ocupada'
-                  : 'Libre'}
+                {m.usuarios.length >= m.capacidad
+                ? 'Llena'
+                : 'Disponible'}
               </p>
 
               {estoyAqui && (
@@ -174,15 +179,11 @@ export default function MesasPage() {
               )}
 
               {!mesaActualId &&
-                !m.ocupada && (
+                m.usuarios.length < m.capacidad && (
                   <button
-                    className={
-                      styles.buttonPrimary
-                    }
+                    className={styles.buttonPrimary}
                     onClick={() =>
-                      handleEntrar(
-                        m.id
-                      )
+                      handleEntrar(m.id)
                     }
                   >
                     Entrar
