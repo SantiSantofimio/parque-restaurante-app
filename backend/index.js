@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import ticketsRoutes from './routes/tickets.js'
 
 import authRoutes from './routes/auth.js'
 import mesasRoutes from './routes/mesas.js'
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/mesas', mesasRoutes)
 app.use('/api/facturas', facturasRoutes)
+app.use('/api/tickets', ticketsRoutes)
 app.listen(PORT, () => {
   console.log(
     `Servidor corriendo en http://localhost:${PORT}`

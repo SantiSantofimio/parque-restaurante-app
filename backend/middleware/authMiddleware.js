@@ -21,6 +21,14 @@ function authMiddleware(
     authHeader
   )
 
+  // Permitir solicitudes sin token para paginas o recursos estaticos
+  if (!authHeader) {
+    return res.status(401).json({
+      error:
+        'No autorizado',
+    })
+  }
+
   if (
     !authHeader ||
     !authHeader.startsWith(

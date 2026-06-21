@@ -19,3 +19,9 @@ export function getUser() {
 export function isAuthenticated() {
   return !!getUser()
 }
+
+export function redirectToLogin() {
+  localStorage.removeItem('token')
+
+  window.location.href = '/auth/login'
+}
