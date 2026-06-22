@@ -16,6 +16,7 @@ const TICKETS_FILE = path.join(
   __dirname,
   '../data/tickets.json'
 )
+const USER_FILE = path.join(__dirname, '../data/users.json')
 
 function readTickets() {
   if (!fs.existsSync(TICKETS_FILE)) return []
@@ -47,21 +48,40 @@ router.get('/', (req, res) => {
   res.json(userTickets)
 })
 
-router.post('/', (req, res) => {
-  const { tipo, cantidad } = req.body
+router.post('/comprar', (req, res) => {
+  const { tipo, cantidad, precio } = req.body
 
-  const precioUnitario =
-    tipo === 'adulto'
-      ? 25000
-      : 15000
+  if (!tipo || !cantidad || !precio) {
+    return res.status(400).json({
+      error: 'Datos incompletos',
+    })
+  }
+
+  const total = cantidad * precio
+  const puntosGanados = Math.floor(total / 1000)
+  // Ejemplo: 10 puntos por cada $1000 gastados
+
+  // Verificar si el usuario tiene suficientes puntos
+  const users = JSON.parse(fs.readFileSync(USER_FILE, 'utf-8'))
+  const user = users.find(u => u.id === req.user.id)
+
+  if (!user || user.puntos < total) {
+    return res.status(400).json({
+      error: 'Puntos insuficientes',
+    })
+  }
+    // Restar los puntos al usuario
+    user.puntos -= total
+    fs.writeFileSync(USER_FILE, JSON.stringify(users, null, 2)) 
 
   const ticket = {
     id: `ticket-${Date.now()}`,
     userId: req.user.id,
     tipo,
     cantidad,
-    precioUnitario,
-    total: precioUnitario * cantidad,
+    precioUnitario: precio,
+    total,
+    puntosGanados,
     estado: 'activo',
     fechaCompra: new Date().toISOString(),
     codigoQR: crypto.randomUUID(),
@@ -73,7 +93,18 @@ router.post('/', (req, res) => {
 
   writeTickets(tickets)
 
-  res.status(201).json(ticket)
+  // Actualizar puntos del usuario
+  const users = JSON.parse(fs.readFileSync(USER_FILE, 'utf-8'))
+  const user = users.find(u => u.id === req.user.id)
+  user.puntos += puntosGanados
+  fs.writeFileSync(USER_FILE, JSON.stringify(users, null, 2))
+
+  if (user) {
+    user.puntos = (user.puntos || 0) + puntosGanados
+    fs.writeFileSync(USER_FILE, JSON.stringify(users, null, 2))
+  }
+
+  res.status(201).json({ticket, PuntosTotales: user?.puntos || 0,})
 })
 
 export default router
