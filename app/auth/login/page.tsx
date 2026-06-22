@@ -44,7 +44,7 @@ export default function LoginPage() {
       )
 
       // Ir a mesas
-      router.push('/mesas')
+      router.push('/dashboard')
     } catch {
       setError('No se pudo conectar con el servidor')
     } finally {
