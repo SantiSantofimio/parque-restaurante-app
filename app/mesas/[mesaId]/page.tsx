@@ -292,29 +292,35 @@ async function handleActualizarPedido(
   // ============================
   async function handleSalir() {
     try {
-      await fetch(
+      const res = await fetch(
         `${API_URL}/${mesaId}/salir`,
         {
           method: 'POST',
           headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
             'Content-Type':
-            'application/json',
+              'application/json',
           },
-          body:
-            JSON.stringify({
-              user,
-            }),
+          body: JSON.stringify({
+            user,
+          }),
         }
       )
 
-      router.push('/mesas')
-    } catch (error) {
-      console.error(error)
+      if (!res.ok) {
+        const data = await res.json().catch(() => null)
+        const message = data?.error || 'Error al salir'
+        throw new Error(message)
+      }
 
-      alert(
-        'Error al salir'
-      )
+      router.push('/mesas')
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Error al salir'
+      console.error(message)
+      alert(message)
     }
   }
 
@@ -380,6 +386,9 @@ async function confirmarPago() {
       true
     )
   }
+
+  const hasPedidos =
+    (mesa?.pedidos?.length ?? 0) > 0
 
   if (authLoading) {
     return (
@@ -644,6 +653,7 @@ async function confirmarPago() {
             onClick={
               handleSalir
             }
+            disabled={hasPedidos}
           >
             Salir de la mesa
           </button>
@@ -659,6 +669,14 @@ async function confirmarPago() {
             Salir y pagar
           </button>
         </div>
+
+        {hasPedidos && (
+          <p className={styles.warning}>
+            No puedes salir sin pagar.
+            Primero confirma el pago o
+            elimina los pedidos.
+          </p>
+        )}
       </div>
       {showPagoModal && (
   <div

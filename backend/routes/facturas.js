@@ -14,6 +14,22 @@ const FACTURAS_FILE =
     __dirname,
     '../data/facturas.json'
   )
+const MESAS_FILE =
+  path.join(
+    __dirname,
+    '../data/mesas.json'
+  )
+
+function readMesas() {
+  if (!fs.existsSync(MESAS_FILE)) return []
+  const raw = fs.readFileSync(MESAS_FILE, 'utf-8')
+  if (!raw.trim()) return []
+  return JSON.parse(raw)
+}
+
+function writeMesas(mesas) {
+  fs.writeFileSync(MESAS_FILE, JSON.stringify(mesas, null, 2))
+}
 
 function readFacturas() {
   if (
@@ -81,6 +97,18 @@ router.post(
     const facturas =
       readFacturas()
 
+    const mesas =
+      readMesas()
+    const mesa = mesas.find(
+      (m) => m.id === mesaId
+    )
+
+    if (!mesa) {
+      return res.status(404).json({
+        error: 'Mesa no encontrada',
+      })
+    }
+
     const nuevaFactura =
       {
         id: Date.now(),
@@ -96,9 +124,13 @@ router.post(
       nuevaFactura
     )
 
+    // Al pagar, se consumen los pedidos de la mesa
+    mesa.pedidos = []
+
     saveFacturas(
       facturas
     )
+    writeMesas(mesas)
 
     res.json({
       message:

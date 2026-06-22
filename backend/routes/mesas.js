@@ -93,6 +93,13 @@ router.post('/:mesaId/salir', (req, res) => {
   if (!mesa)
     return res.status(404).json({ error: 'Mesa no encontrada' })
 
+  if (mesa.pedidos && mesa.pedidos.length > 0) {
+    return res.status(400).json({
+      error:
+        'No puedes salir con pedidos pendientes. Primero paga o elimina los pedidos.',
+    })
+  }
+
   // quitar usuario
   mesa.usuarios = mesa.usuarios.filter(
     (u) => u.id !== user.id

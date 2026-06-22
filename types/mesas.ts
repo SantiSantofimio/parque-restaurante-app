@@ -16,5 +16,5 @@ export interface Mesa {
   capacidad: number
   ocupada: boolean
   usuarios: Usuario[]
-  pedidos?: Pedido[]
+  pedidos: Pedido[]
 }

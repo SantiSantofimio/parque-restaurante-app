@@ -7,18 +7,23 @@
       {
         "id": 123,
         "name": "Santiago"
+      },
+      {
+        "id": 1781520348307,
+        "name": "carlos",
+        "email": "carlos@hotmail.com"
       }
     ],
     "pedidos": [
       {
-        "id": 1782147138502,
-        "producto": "Hamburguesa",
-        "precio": 25000,
+        "id": 1782149118967,
+        "producto": "Pizza",
+        "precio": 38000,
         "cantidad": 1,
-        "total": 25000
+        "total": 38000
       },
       {
-        "id": 1782147147285,
+        "id": 1782149119831,
         "producto": "Gaseosa",
         "precio": 6000,
         "cantidad": 1,
