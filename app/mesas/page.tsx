@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import styles from './mesas.module.css'
 import { useAuth } from '@/app/hooks/useAuth'
 import { obtenerMesas, entrarAMesa } from '@/services/mesas'
+import BackToHome from '@/components/BackToHome'
 
 // ============================
 // Página
@@ -108,6 +109,7 @@ export default function MesasPage() {
   // ============================
   return (
     <div className={styles.container}>
+      <BackToHome />
       <h1 className={styles.title}>
         Mesas
       </h1>

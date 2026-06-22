@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import { comprarTicket } from '@/services/tickets'
 import styles from './tickets.module.css'
+import BackToHome from '@/components/BackToHome'
 
 export default function TicketsPage() {
   const [tipo, setTipo] = useState<'adulto' | 'infantil'>('adulto')
@@ -38,6 +39,7 @@ export default function TicketsPage() {
 
   return (
     <div className={styles.container}>
+      <BackToHome />
       <div className={styles.card}>
         <h1 className={styles.title}>
           🏊 Comprar entradas

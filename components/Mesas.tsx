@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { entrarAMesa, obtenerMesas } from '@/services/mesas'
+import './Mesas.css'
 
 interface Usuario {
   id: number
@@ -30,8 +31,12 @@ export default function Mesas() {
       const data = await entrarAMesa(mesaId, user) as { mesa: Mesa }
       setMesas(prev => prev.map(m => m.id === mesaId ? data.mesa : m))
       alert(`Entraste a la mesa ${mesaId}`)
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Error desconocido')
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : 'Error desconocido'
+      alert(message)
     }
   }
 

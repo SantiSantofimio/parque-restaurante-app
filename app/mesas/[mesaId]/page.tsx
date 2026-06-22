@@ -15,6 +15,7 @@ import type {
 } from '@/types/mesas'
 import styles from './mesa.module.css'
 import { useAuth } from '@/app/hooks/useAuth'
+import BackToHome from '@/components/BackToHome'
 
 const API_URL =
   'http://localhost:4000/api/mesas'
@@ -416,13 +417,12 @@ async function confirmarPago() {
     <div
       className={
         styles.container
-      }
-    >
+      }>
+      <BackToHome />
       <div
         className={
           styles.card
-        }
-      >
+        }>
         <h1>
           🍽 {mesa.id}
         </h1>
