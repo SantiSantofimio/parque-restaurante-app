@@ -52,28 +52,29 @@ router.post('/comprar', (req, res) => {
   const { tipo, cantidad, precio } = req.body
 
   if (!tipo || !cantidad || !precio) {
-    return res.status(400).json({
-      error: 'Datos incompletos',
-    })
+    return res.status(400).json({ error: 'Datos incompletos' })
   }
 
   const total = cantidad * precio
   const puntosGanados = Math.floor(total / 1000)
-  // Ejemplo: 10 puntos por cada $1000 gastados
 
-  // Verificar si el usuario tiene suficientes puntos
+  // Leer usuarios una sola vez
   const users = JSON.parse(fs.readFileSync(USER_FILE, 'utf-8'))
   const user = users.find(u => u.id === req.user.id)
 
-  if (!user || user.puntos < total) {
-    return res.status(400).json({
-      error: 'Puntos insuficientes',
-    })
+  if (!user) {
+    return res.status(400).json({ error: 'Usuario no encontrado' })
   }
-    // Restar los puntos al usuario
-    user.puntos -= total
-    fs.writeFileSync(USER_FILE, JSON.stringify(users, null, 2)) 
 
+  // Verificar puntos suficientes
+  if (user.puntos < total) {
+    return res.status(400).json({ error: 'Puntos insuficientes' })
+  }
+
+  // Restar puntos por la compra
+  user.puntos -= total
+
+  // Crear ticket
   const ticket = {
     id: `ticket-${Date.now()}`,
     userId: req.user.id,
@@ -88,23 +89,19 @@ router.post('/comprar', (req, res) => {
   }
 
   const tickets = readTickets()
-
   tickets.push(ticket)
-
   writeTickets(tickets)
 
-  // Actualizar puntos del usuario
-  const users = JSON.parse(fs.readFileSync(USER_FILE, 'utf-8'))
-  const user = users.find(u => u.id === req.user.id)
+  // Sumar puntos ganados
   user.puntos += puntosGanados
+
+  // Guardar usuarios actualizados
   fs.writeFileSync(USER_FILE, JSON.stringify(users, null, 2))
 
-  if (user) {
-    user.puntos = (user.puntos || 0) + puntosGanados
-    fs.writeFileSync(USER_FILE, JSON.stringify(users, null, 2))
-  }
-
-  res.status(201).json({ticket, PuntosTotales: user?.puntos || 0,})
+  res.status(201).json({
+    ticket,
+    PuntosTotales: user.puntos
+  })
 })
 
 export default router
