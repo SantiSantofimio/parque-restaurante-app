@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 10%);
+}
+
+.points {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #f59e0b;
+  margin: 1rem 0;
+}
+
+.rewards {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.rewards ul {
+  padding-left: 1.5rem;
+}
+
+.rewards li {
+  margin-bottom: 1rem;
+}
