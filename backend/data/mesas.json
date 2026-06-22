@@ -11,11 +11,18 @@
     ],
     "pedidos": [
       {
-        "id": 1778613505167,
-        "producto": "Pizza",
-        "precio": 38000,
+        "id": 1782147138502,
+        "producto": "Hamburguesa",
+        "precio": 25000,
         "cantidad": 1,
-        "total": 38000
+        "total": 25000
+      },
+      {
+        "id": 1782147147285,
+        "producto": "Gaseosa",
+        "precio": 6000,
+        "cantidad": 1,
+        "total": 6000
       }
     ]
   },
@@ -26,25 +33,25 @@
     "usuarios": [],
     "pedidos": [
       {
-        "id": 1778526063349,
-        "producto": "Gaseosa",
-        "precio": 6000,
+        "id": 1782147117590,
+        "producto": "Pizza",
+        "precio": 38000,
         "cantidad": 1,
-        "total": 6000
+        "total": 38000
       },
       {
-        "id": 1778526165612,
-        "producto": "Hamburguesa",
-        "precio": 25000,
-        "cantidad": 4,
-        "total": 100000
-      },
-      {
-        "id": 1778526165780,
+        "id": 1782147118366,
         "producto": "Hamburguesa",
         "precio": 25000,
         "cantidad": 1,
         "total": 25000
+      },
+      {
+        "id": 1782147119586,
+        "producto": "Gaseosa",
+        "precio": 6000,
+        "cantidad": 1,
+        "total": 6000
       }
     ]
   }

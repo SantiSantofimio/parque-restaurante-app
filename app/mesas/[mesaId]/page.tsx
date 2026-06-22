@@ -209,8 +209,15 @@ export default function MesaDetallePage() {
 
       const res =
         await fetch(
-          API_URL
+          API_URL,
+          {
+            headers: getAuthHeaders(user),
+          }
         )
+
+      if (!res.ok) {
+        throw new Error('Error al refrescar las mesas')
+      }
 
       const mesas: Mesa[] =
         await res.json()
@@ -250,7 +257,16 @@ async function handleActualizarPedido(
 
     // refrescar mesa
     const res =
-      await fetch(API_URL)
+      await fetch(
+        API_URL,
+        {
+          headers: getAuthHeaders(user),
+        }
+      )
+
+    if (!res.ok) {
+      throw new Error('Error al refrescar las mesas')
+    }
 
     const mesas: Mesa[] =
       await res.json()

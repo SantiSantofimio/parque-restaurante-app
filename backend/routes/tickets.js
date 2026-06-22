@@ -66,14 +66,6 @@ router.post('/comprar', (req, res) => {
     return res.status(400).json({ error: 'Usuario no encontrado' })
   }
 
-  // Verificar puntos suficientes
-  if (user.puntos < total) {
-    return res.status(400).json({ error: 'Puntos insuficientes' })
-  }
-
-  // Restar puntos por la compra
-  user.puntos -= total
-
   // Crear ticket
   const ticket = {
     id: `ticket-${Date.now()}`,

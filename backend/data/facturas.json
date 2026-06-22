@@ -142,5 +142,63 @@
     ],
     "total": 131000,
     "createdAt": "2026-06-15T10:46:49.319Z"
+  },
+  {
+    "id": 1782145817586,
+    "user": {
+      "id": 1781520348307,
+      "name": "carlos",
+      "email": "carlos@hotmail.com",
+      "iat": 1782145675,
+      "exp": 1782232075
+    },
+    "mesaId": "mesa-1",
+    "pedidos": [
+      {
+        "id": 1778613505167,
+        "producto": "Pizza",
+        "precio": 38000,
+        "cantidad": 2,
+        "total": 76000
+      },
+      {
+        "id": 1782145803226,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      }
+    ],
+    "total": 101000,
+    "createdAt": "2026-06-22T16:30:17.586Z"
+  },
+  {
+    "id": 1782147151433,
+    "user": {
+      "id": 1781520348307,
+      "name": "carlos",
+      "email": "carlos@hotmail.com",
+      "iat": 1782146970,
+      "exp": 1782233370
+    },
+    "mesaId": "mesa-1",
+    "pedidos": [
+      {
+        "id": 1782147138502,
+        "producto": "Hamburguesa",
+        "precio": 25000,
+        "cantidad": 1,
+        "total": 25000
+      },
+      {
+        "id": 1782147147285,
+        "producto": "Gaseosa",
+        "precio": 6000,
+        "cantidad": 1,
+        "total": 6000
+      }
+    ],
+    "total": 31000,
+    "createdAt": "2026-06-22T16:52:31.433Z"
   }
 ]

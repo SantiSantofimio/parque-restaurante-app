@@ -27,7 +27,12 @@ export async function obtenerTickets(): Promise<Ticket[]> {
   }
 
   if (!res.ok) {
-    throw new Error('Error al obtener tickets')
+    const data = await res.json().catch(() => null)
+    const message =
+      data?.error ||
+      data?.message ||
+      'Error al comprar ticket'
+    throw new Error(message)
   }
 
   return res.json()
