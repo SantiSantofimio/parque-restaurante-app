@@ -39,31 +39,54 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>
-        🌴 Parque Turístico Yuma
-      </h1>
-
-      <p className={styles.subtitle}>
-        Bienvenido, {user?.name}
-      </p>
-
-      <div className={styles.stats}>
-      <div className={styles.card}>
-        <h3>⭐ Puntos</h3>
-        <p>{dashboard?.puntos ?? 0}</p>
+      <div className={styles.header}>
+        <h1 className={styles.title}>
+          🌴 Parque Turístico Yuma
+        </h1>
+        <p className={styles.subtitle}>
+          Bienvenido de nuevo
+        </p>
+        <h2 className={styles.userName}>
+          {user?.name ?? 'Usuario'}
+        </h2>
       </div>
 
-      <div className={styles.card}>
-        <h3>🎟 Tickets</h3>
-        <p>{dashboard?.ticketsActivos ?? 0}</p>
+      <div className={styles.statCard}>
+          <span className={styles.icon}>⭐</span>
+
+          <div>
+            <h3>Puntos</h3>
+          
+            <strong>
+              {dashboard?.puntos ?? 0}
+            </strong>
+          </div>
       </div>
 
-      <div className={styles.card}>
-        <h3>🍽 Mesa</h3>
-        <p>{dashboard?.mesaActual ?? 'Ninguna'}</p>
-      </div>
-    </div>
+      <div className={styles.statCard}>
+          <span className={styles.icon}>🎟</span>
 
+          <div>
+            <h3>Tickets</h3>
+          
+            <strong>
+              {dashboard?.ticketsActivos ?? 0}
+            </strong>
+          </div>
+      </div>
+
+      <div className={styles.statCard}>
+          <span className={styles.icon}>🍽</span>
+
+          <div>
+            <h3>Mesa</h3>
+          
+            <strong>
+              {dashboard?.mesaActual ?? 'Ninguna'}
+            </strong>
+          </div>
+      </div>
+      
       <div className={styles.grid}>
         <button
           onClick={() => router.push('/tickets')}
@@ -98,6 +121,12 @@ export default function DashboardPage() {
           className={styles.card}
         >
           ⭐ Mis puntos
+        </button>
+        <button
+          onClick={() => router.push('/perfil')}
+          className={styles.card}
+        >
+          👤 Mi perfil
         </button>
       </div>
     </div>
