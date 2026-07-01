@@ -1,0 +1,48 @@
+.banner{
+
+    margin:25px 0;
+
+    border-radius:25px;
+
+    padding:35px;
+
+    color:white;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.35)
+    ),
+    url('/images/banner-piscina.jpg');
+
+    background-size:cover;
+
+    background-position:center;
+}
+
+.banner h2{
+
+    font-size:32px;
+}
+
+.banner p{
+
+    margin:15px 0 25px;
+}
+
+.banner button{
+
+    border:none;
+
+    background:white;
+
+    color:#16924c;
+
+    padding:14px 30px;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+}

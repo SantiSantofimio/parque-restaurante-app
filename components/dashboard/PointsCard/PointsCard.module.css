@@ -1,0 +1,61 @@
+.card{
+    background:linear-gradient(
+        135deg,
+        #1bb55c,
+        #15944a
+    );
+
+    color:white;
+
+    border-radius:25px;
+
+    padding:25px;
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+    margin-bottom:25px;
+}
+
+.icon{
+
+    width:70px;
+    height:70px;
+
+    background:white;
+
+    color:#1bb55c;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    font-size:34px;
+}
+
+.label{
+
+    opacity:.8;
+
+    font-size:14px;
+}
+
+.card h2{
+
+    font-size:38px;
+
+    margin:5px 0;
+}
+
+.card p{
+
+    opacity:.8;
+}
