@@ -1,0 +1,40 @@
+.title{
+    margin:35px 0 20px;
+}
+
+.container{
+
+    display:flex;
+
+    gap:20px;
+
+    overflow-x:auto;
+
+    padding-bottom:10px;
+
+    scrollbar-width:none;
+}
+
+.container::-webkit-scrollbar{
+    display:none;
+}
+
+.card{
+
+    min-width:260px;
+
+    color:white;
+
+    border-radius:25px;
+
+    padding:25px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.card h3{
+
+    font-size:24px;
+
+    margin-bottom:10px;
+}

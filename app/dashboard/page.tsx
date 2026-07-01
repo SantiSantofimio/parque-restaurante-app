@@ -17,6 +17,10 @@ import PointsCard from '@/components/dashboard/PointsCard/PointsCard'
 import Banner from '@/components/dashboard/Banner/Banner'
 import Services from '@/components/dashboard/Services/Services'
 
+import Promotions from '@/components/dashboard/Promotions/Promotions'
+import RecentActivity from '@/components/dashboard/RecentActivity/RecentActivity'
+import BottomNavigation from '@/components/dashboard/BottomNavigation/BottomNavigation'
+
 export default function DashboardPage() {
   const router = useRouter()
   const { user, loading } = useAuth()
@@ -49,7 +53,12 @@ export default function DashboardPage() {
       <Banner />
 
       <Services />
+
+      <Promotions />
+
+      <RecentActivity />
       
+      <BottomNavigation />
     </div>
   )
 }

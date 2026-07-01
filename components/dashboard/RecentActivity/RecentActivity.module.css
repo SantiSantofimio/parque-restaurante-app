@@ -1,0 +1,33 @@
+.title{
+
+    margin:40px 0 20px;
+}
+
+.item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    margin-bottom:15px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.item span{
+
+    font-size:34px;
+}
+
+.item h4{
+
+    margin-bottom:5px;
+}
