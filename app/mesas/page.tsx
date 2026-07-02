@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import styles from './mesas.module.css'
 import { useAuth } from '@/app/hooks/useAuth'
 import { obtenerMesas, entrarAMesa } from '@/services/mesas'
-import BackToHome from '@/components/BackToHome'
+import BackToHome from '@/app/components/BackToHome'
 
 // ============================
 // Página

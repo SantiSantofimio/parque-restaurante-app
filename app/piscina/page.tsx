@@ -1,4 +1,4 @@
-import BackToHome from "@/components/BackToHome";
+import BackToHome from "@/app/components/BackToHome";
 
 export default function Page() {
   return (

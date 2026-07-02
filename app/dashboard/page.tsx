@@ -13,13 +13,13 @@ import { useRouter } from 'next/navigation'
 import styles from './dashboard.module.css'
 import { useAuth } from '@/app/hooks/useAuth'
 
-import PointsCard from '@/components/dashboard/PointsCard/PointsCard'
-import Banner from '@/components/dashboard/Banner/Banner'
-import Services from '@/components/dashboard/Services/Services'
+import PointsCard from '@/app/components/dashboard/PointsCard/PointsCard'
+import Banner from '@/app/components/dashboard/Banner/Banner'
+import Services from '@/app/components/dashboard/Services/Services'
 
-import Promotions from '@/components/dashboard/Promotions/Promotions'
-import RecentActivity from '@/components/dashboard/RecentActivity/RecentActivity'
-import BottomNavigation from '@/components/dashboard/BottomNavigation/BottomNavigation'
+import Promotions from '@/app/components/dashboard/Promotions/Promotions'
+import RecentActivity from '@/app/components/dashboard/RecentActivity/RecentActivity'
+import BottomNavigation from '@/app/components/dashboard/BottomNavigation/BottomNavigation'
 
 export default function DashboardPage() {
   const router = useRouter()

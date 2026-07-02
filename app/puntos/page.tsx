@@ -1,6 +1,6 @@
 'use client'
 
-import BackToHome from '@/components/BackToHome'
+import BackToHome from '@/app/components/BackToHome'
 import styles from './puntos.module.css'
 
 interface Props{
