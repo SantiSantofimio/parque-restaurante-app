@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import styles from './dashboard.module.css'
 import { useAuth } from '@/app/hooks/useAuth'
 
+import Header from '@/app/components/dashboard/Header/Header'
 import PointsCard from '@/app/components/dashboard/PointsCard/PointsCard'
 import Banner from '@/app/components/dashboard/Banner/Banner'
 import Services from '@/app/components/dashboard/Services/Services'
@@ -20,6 +21,7 @@ import Services from '@/app/components/dashboard/Services/Services'
 import Promotions from '@/app/components/dashboard/Promotions/Promotions'
 import RecentActivity from '@/app/components/dashboard/RecentActivity/RecentActivity'
 import BottomNavigation from '@/app/components/dashboard/BottomNavigation/BottomNavigation'
+import SearchBar from '../components/dashboard/SearchBar/SearchBar'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -47,8 +49,16 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.container}>
+
+      <Header 
+        name={dashboard?.name ?? user?.name ?? ''}
+      />
+
       <PointsCard
-        puntos={dashboard?.puntos ?? 0}/>
+        puntos={dashboard?.puntos ?? 0}
+      />
+
+      <SearchBar />
 
       <Banner />
 
