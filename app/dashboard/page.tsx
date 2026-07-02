@@ -50,6 +50,9 @@ export default function DashboardPage() {
   return (
     <div className={styles.container}>
 
+      <SearchBar />
+
+
       <Header 
         name={dashboard?.name ?? user?.name ?? ''}
       />
@@ -57,8 +60,6 @@ export default function DashboardPage() {
       <PointsCard
         puntos={dashboard?.puntos ?? 0}
       />
-
-      <SearchBar />
 
       <Banner />
 
