@@ -1,44 +1,99 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import BackToHome from '@/components/BackToHome'
 import styles from './puntos.module.css'
 
-export default function PuntosPage() {
-  const [puntos] = useState<number>(() => {
-    if (typeof window === 'undefined') return 0
+interface Props{
+    nombre:string
+    puntos:number
+    tickets:number
+}
 
-    const user = window.localStorage.getItem('user')
-    if (!user) return 0
+export default function Puntos({
+    nombre,
+    puntos,
+    tickets
+}:Props){
 
-    try {
-      const parsedUser = JSON.parse(user)
-      return parsedUser.puntos ?? 0
-    } catch {
-      return 0
+    function nivel(){
+
+        if(puntos>=5000) return 'Diamante'
+
+        if(puntos>=2500) return 'Oro'
+
+        if(puntos>=1000) return 'Plata'
+
+        return 'Bronce'
     }
-  })
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <h1>⭐ Mis puntos</h1>
+    function siguienteNivel(){
 
-        <div className={styles.points}>
-          {puntos}
+        if(puntos<1000) return 1000
+
+        if(puntos<2500) return 2500
+
+        if(puntos<5000) return 5000
+
+        return 5000
+    }
+
+    const progreso=Math.min(puntos/siguienteNivel()*100, 100
+    )
+
+    return(
+      <>
+        <BackToHome />
+
+        <div className={styles.card}>
+          <h2>
+            👋 Hola {nombre}
+          </h2>
+
+          <h1>
+            ⭐ {puntos}
+          </h1>
+
+          <p>
+            Nivel {nivel()}
+          </p>
+
+          <div className={styles.progress}>
+            <div className={styles.fill} />
+          </div>
+
+          <style jsx>{`
+            :global(.${styles.fill}) {
+              width: ${progreso}%;
+            }
+          `}</style>
+
+          <small>
+            {Math.max(0,siguienteNivel()-puntos)}
+            puntos para el siguiente nivel
+          </small>
+
+          <div className={styles.footer}>
+            <div>
+              🎟
+              <h3>
+                {tickets}
+              </h3>
+              <p>Tickets</p>
+            </div>
+
+            <div>
+              🎁
+              <h3>
+                Beneficios
+              </h3>
+              <p>Disponibles</p>
+
+            </div>
+
+          </div>
+
         </div>
+      </>
+    )
 
-        <p>Puntos acumulados</p>
-
-        <div className={styles.rewards}>
-          <h2>Beneficios</h2>
-
-          <ul>
-            <li>100 puntos → Entrada infantil gratis</li>
-            <li>200 puntos → 10% de descuento</li>
-            <li>500 puntos → Entrada adulto gratis</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  )
 }

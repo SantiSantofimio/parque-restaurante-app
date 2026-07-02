@@ -3,9 +3,9 @@ import { getAuthHeaders } from './api'
 const API_URL = 'http://localhost:4000/api/dashboard'
 
 export interface DashboardData {
+  name: string
   puntos: number
-  ticketsActivos: number
-  mesaActual: string | null
+  tickets: number
 }
 
 export async function obtenerDashboard(): Promise<DashboardData> {
