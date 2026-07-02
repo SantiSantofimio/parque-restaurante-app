@@ -1,48 +1,35 @@
-.banner{
+.dots{
 
-    margin:25px 0;
+display:flex;
 
-    border-radius:25px;
+justify-content:center;
 
-    padding:35px;
+gap:10px;
 
-    color:white;
+margin-top:15px;
 
-    background:
-    linear-gradient(
-        rgba(0,0,0,.35),
-        rgba(0,0,0,.35)
-    ),
-    url('/images/banner-piscina.jpg');
-
-    background-size:cover;
-
-    background-position:center;
 }
 
-.banner h2{
+.dots span{
 
-    font-size:32px;
+width:10px;
+
+height:10px;
+
+border-radius:50%;
+
+background:#d5d5d5;
+
+transition:.3s;
+
 }
 
-.banner p{
+.active{
 
-    margin:15px 0 25px;
-}
+background:#0b8d56 !important;
 
-.banner button{
+width:30px !important;
 
-    border:none;
+border-radius:20px !important;
 
-    background:white;
-
-    color:#16924c;
-
-    padding:14px 30px;
-
-    border-radius:30px;
-
-    cursor:pointer;
-
-    font-weight:bold;
 }

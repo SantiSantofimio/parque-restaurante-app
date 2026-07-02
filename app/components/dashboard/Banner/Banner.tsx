@@ -1,24 +1,69 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
+import HeroSlide from './HeroSlide'
+
+import { banners } from './bannerData'
+
 import styles from './Banner.module.css'
 
 export default function Banner() {
+
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+
+    const timer = setInterval(() => {
+
+      setIndex(prev =>
+
+        prev === banners.length - 1
+
+          ? 0
+
+          : prev + 1
+
+      )
+
+    }, 5000)
+
+    return () => clearInterval(timer)
+
+  }, [])
+
   return (
-    <div className={styles.banner}>
-      <div>
-        <h2>
-          ¡Compra tus entradas!
-        </h2>
 
-        <p>
-          Obtén puntos extra esta
-          semana.
-        </p>
+    <div>
 
-        <button>
-          Comprar ahora
-        </button>
+      <HeroSlide banner={banners[index]} />
+
+      <div className={styles.dots}>
+
+        {banners.map((_, i) => (
+
+          <span
+
+            key={i}
+
+            className={
+
+              i === index
+
+                ? styles.active
+
+                : ''
+
+            }
+
+          />
+
+        ))}
+
       </div>
+
     </div>
+
   )
+
 }
