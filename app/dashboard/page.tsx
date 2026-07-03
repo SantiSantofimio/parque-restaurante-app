@@ -50,12 +50,11 @@ export default function DashboardPage() {
   return (
     <div className={styles.container}>
 
-      <SearchBar />
-
-
       <Header 
         name={dashboard?.name ?? user?.name ?? ''}
       />
+
+      <SearchBar />
 
       <PointsCard
         puntos={dashboard?.puntos ?? 0}
