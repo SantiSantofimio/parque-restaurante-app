@@ -38,10 +38,26 @@ router.get('/', (req, res) => {
       )
     )
 
+  function obtenerRecomendaciones(user) {
+    return {
+      id: 1,
+      titulo: '20% en restaurante',
+      descripcion: 'Disfruta de un 20% de descuento en nuestro restaurante al comprar dos entradas.',
+      tipo: 'restaurante',
+    }, 
+    {
+      id: 2,
+      titulo: 'recorrido ecológico',
+      descripcion: 'Explora la naturaleza con un recorrido guiado por nuestro parque ecológico.',
+      tipo: 'tour',
+    }
+  }
+
   res.json({
     puntos: user?.puntos ?? 0,
     ticketsActivos,
     mesaActual: mesa?.id ?? null,
+    recomendaciones: obtenerRecomendaciones(req.user)
   })
 })
 

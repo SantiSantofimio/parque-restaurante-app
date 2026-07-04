@@ -22,6 +22,7 @@ import Promotions from '@/app/components/dashboard/Promotions/Promotions'
 import RecentActivity from '@/app/components/dashboard/RecentActivity/RecentActivity'
 import BottomNavigation from '@/app/components/dashboard/BottomNavigation/BottomNavigation'
 import SearchBar from '../components/dashboard/SearchBar/SearchBar'
+import Recommendations from '../components/dashboard/Recommendations/Recommendations'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -58,6 +59,10 @@ export default function DashboardPage() {
 
       <PointsCard
         puntos={dashboard?.puntos ?? 0}
+      />
+
+      <Recommendations
+        recomendaciones={dashboard?.recomendaciones ?? []}
       />
 
       <Banner />

@@ -6,6 +6,14 @@ export interface DashboardData {
   name: string
   puntos: number
   tickets: number
+  recomendaciones: Recommendation[]
+}
+
+interface Recommendation {
+  id: number
+  titulo: string
+  descripcion: string
+  tipo: string
 }
 
 export async function obtenerDashboard(): Promise<DashboardData> {
