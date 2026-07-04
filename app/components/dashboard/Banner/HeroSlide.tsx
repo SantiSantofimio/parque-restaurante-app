@@ -13,23 +13,19 @@ export default function HeroSlide({ banner }: Props) {
 
   return (
     <div className={styles.slide}>
-      <div className={styles.content}>
+      <span className={styles.emoji}>{banner.emoji}</span>
 
-        <span className={styles.emoji}>
-          {banner.emoji}
-        </span>
-
+      <div className={styles.text}>
         <h2>{banner.title}</h2>
-
         <p>{banner.subtitle}</p>
-
-        <button
-          onClick={() => router.push(banner.route)}
-        >
-          {banner.button}
-        </button>
-
       </div>
+
+      <button
+        className={styles.more}
+        onClick={() => router.push(banner.route)}
+      >
+        {banner.button || 'Más'}
+      </button>
     </div>
   )
 }

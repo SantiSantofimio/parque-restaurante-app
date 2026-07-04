@@ -1,46 +1,35 @@
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: clamp(16px, 5vw, 24px);
 }
 
-.welcome{
-color:#777;
-font-size:14px;
+.welcome {
+  color: #777;
+  font-size: clamp(12px, 3vw, 14px);
 }
 
-.actions{
-display:flex;
-gap:12px;
+.actions {
+  display: flex;
+  gap: clamp(10px, 3vw, 14px);
 }
 
 .iconButton,
-.avatar{
-
-width:48px;
-height:48px;
-
-border:none;
-
-border-radius:50%;
-
-background:white;
-
-cursor:pointer;
-
-font-size:20px;
-
-box-shadow:0 4px 15px rgba(0,0,0,.08);
-
-transition:.2s;
+.avatar {
+  width: clamp(40px, 12vw, 48px);
+  height: clamp(40px, 12vw, 48px);
+  border: none;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  font-size: clamp(18px, 5vw, 22px);
+  box-shadow: 0 4px 15px rgba(0,0,0,.08);
+  transition: .2s;
 }
 
 .iconButton:hover,
-.avatar:hover{
-
-transform:translateY(-2px);
-
-box-shadow:0 8px 20px rgba(0,0,0,.12);
-
+.avatar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
 }

@@ -1,61 +1,45 @@
-.card{
-    background:linear-gradient(
-        135deg,
-        #1bb55c,
-        #15944a
-    );
+.card {
+  background: white;
+  border-radius: 22px;
 
-    color:white;
+  padding: 26px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
 
-    border-radius:25px;
-
-    padding:25px;
-
-    display:flex;
-
-    gap:20px;
-
-    align-items:center;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
-
-    margin-bottom:25px;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+  margin-bottom: 25px;
 }
 
-.icon{
+.icon {
+  width: 58px;
+  height: 58px;
 
-    width:70px;
-    height:70px;
+  background: #f7f7f7;
+  border-radius: 14px;
 
-    background:white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    color:#1bb55c;
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    font-size:34px;
+  font-size: 32px;
+  color: #f7c948; /* Amarillo Yuma */
 }
 
-.label{
-
-    opacity:.8;
-
-    font-size:14px;
+.label {
+  font-size: 13px;
+  opacity: .7;
 }
 
-.card h2{
-
-    font-size:38px;
-
-    margin:5px 0;
+.card h2 {
+  font-size: 26px;
+  margin: 2px 0;
+  font-weight: 700;
+  color: #0b8d56; /* Verde Yuma */
 }
 
-.card p{
-
-    opacity:.8;
+.card p {
+  font-size: 13px;
+  opacity: .6;
+  margin-top: 4px;
 }

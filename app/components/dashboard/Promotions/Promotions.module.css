@@ -1,40 +1,38 @@
-.title{
-    margin:35px 0 20px;
+.title {
+  margin: 35px 0 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
 }
 
-.container{
-
-    display:flex;
-
-    gap:20px;
-
-    overflow-x:auto;
-
-    padding-bottom:10px;
-
-    scrollbar-width:none;
+.container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  scrollbar-width: none;
 }
 
-.container::-webkit-scrollbar{
-    display:none;
+.container::-webkit-scrollbar {
+  display: none;
 }
 
-.card{
+.card {
+  min-width: 240px;
+  color: white;
 
-    min-width:260px;
+  border-radius: 22px;
+  padding: 22px;
 
-    color:white;
-
-    border-radius:25px;
-
-    padding:25px;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
 }
 
-.card h3{
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
 
-    font-size:24px;
-
-    margin-bottom:10px;
+.card p {
+  font-size: 14px;
+  opacity: .9;
 }

@@ -8,31 +8,11 @@ export default function BottomNavigation() {
   const pathname = usePathname()
 
   const menu = [
-    {
-      icon: '🏠',
-      text: 'Inicio',
-      url: '/dashboard',
-    },
-    {
-      icon: '🎟',
-      text: 'Tickets',
-      url: '/tickets',
-    },
-    {
-      icon: '🍽',
-      text: 'Restaurante',
-      url: '/mesas',
-    },
-    {
-      icon: '⭐',
-      text: 'Puntos',
-      url: '/puntos',
-    },
-    {
-      icon: '👤',
-      text: 'Perfil',
-      url: '/perfil',
-    },
+    { icon: '🏠', text: 'Inicio', url: '/dashboard' },
+    { icon: '🎟', text: 'Tickets', url: '/tickets' },
+    { icon: '📱', text: 'QR', url: '/qr', qr: true },
+    { icon: '🍽', text: 'Restaurante', url: '/mesas' },
+    { icon: '👤', text: 'Perfil', url: '/perfil' },
   ]
 
   return (
@@ -40,18 +20,13 @@ export default function BottomNavigation() {
       {menu.map(item => (
         <button
           key={item.url}
-          onClick={() =>
-            router.push(item.url)
-          }
-          className={
-            pathname === item.url
-              ? styles.active
-              : ''
-          }
+          onClick={() => router.push(item.url)}
+          className={`${styles.item} ${
+            pathname === item.url ? styles.active : ''
+          } ${item.qr ? styles.qr : ''}`}
         >
-          <span>{item.icon}</span>
-
-          <small>{item.text}</small>
+          <span className={item.qr ? styles.qrIcon : ''}>{item.icon}</span>
+          {!item.qr && <small>{item.text}</small>}
         </button>
       ))}
     </nav>
