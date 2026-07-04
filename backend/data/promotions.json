@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "2x1 Piscina",
+    "description": "Todos los domingos.",
+    "image": "/promo/piscina.png"
+  },
+  {
+    "id": 2,
+    "title": "Hamburguesa + Gaseosa",
+    "description": "$28.000",
+    "image": "/promo/restaurante.png"
+  }
+]

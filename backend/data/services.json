@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Piscina",
+    "icon": "🏊",
+    "route": "/tickets"
+  },
+  {
+    "id": 2,
+    "title": "Restaurante",
+    "icon": "🍽",
+    "route": "/mesas"
+  },
+  {
+    "id": 3,
+    "title": "Bar",
+    "icon": "🍹",
+    "route": "/bar"
+  },
+  {
+    "id": 4,
+    "title": "Recorridos",
+    "icon": "🌳",
+    "route": "/recorridos"
+  },
+  {
+    "id": 5,
+    "title": "Mis puntos",
+    "icon": "⭐",
+    "route": "/puntos"
+  }
+]
