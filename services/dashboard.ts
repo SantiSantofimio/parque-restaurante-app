@@ -6,11 +6,17 @@ export interface DashboardData {
   name: string
   puntos: number
   tickets: number
+  mesaActual: string | null
+  promociones: {
+    id: string
+    titulo: string
+    descripcion: string
+  }[]
   recomendaciones: Recommendation[]
 }
 
-interface Recommendation {
-  id: number
+export interface Recommendation {
+  id: string
   titulo: string
   descripcion: string
   tipo: string

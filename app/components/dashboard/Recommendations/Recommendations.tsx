@@ -1,13 +1,7 @@
 'use client'
 
 import styles from './Recommendations.module.css'
-
-interface Recommendation {
-  id: number
-  titulo: string
-  descripcion: string
-  tipo: string
-}
+import { Recommendation } from '@/services/dashboard'
 
 interface Props {
   recomendaciones: Recommendation[]

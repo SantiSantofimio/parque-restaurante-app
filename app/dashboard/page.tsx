@@ -57,12 +57,10 @@ export default function DashboardPage() {
 
       <SearchBar />
 
+      <Recommendations recomendaciones = {dashboard?.recomendaciones ?? []} />
+
       <PointsCard
         puntos={dashboard?.puntos ?? 0}
-      />
-
-      <Recommendations
-        recomendaciones={dashboard?.recomendaciones ?? []}
       />
 
       <Banner />
