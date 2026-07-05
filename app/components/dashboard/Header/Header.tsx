@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import styles from './Header.module.css'
 
@@ -11,12 +11,25 @@ interface Props {
 export default function Header({ name }: Props) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     router.push('/auth/login')
   }
+
+  // Cerrar menú al hacer click fuera
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   return (
     <header className={styles.header}>
@@ -26,13 +39,11 @@ export default function Header({ name }: Props) {
       </div>
 
       <div className={styles.actions}>
-        <button className={styles.iconButton} aria-label="Notificaciones">🔔</button>
+        <button className={styles.iconButton}>🔔</button>
 
-        {/* Avatar con menú */}
-        <div className={styles.avatarWrapper}>
+        <div className={styles.avatarWrapper} ref={menuRef}>
           <button
             className={styles.avatar}
-            aria-label="Perfil"
             onClick={() => setOpen(!open)}
           >
             👤
