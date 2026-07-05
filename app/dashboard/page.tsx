@@ -8,6 +8,10 @@ import {
   obtenerDashboard,
   DashboardData,
 } from '@/services/dashboard'
+import { 
+  obtenerContenido,
+  ContentData,
+} from '@/services/content'
 
 import { useRouter } from 'next/navigation'
 import styles from './dashboard.module.css'
@@ -29,8 +33,18 @@ export default function DashboardPage() {
   const { user, loading } = useAuth()
   const [dashboard, setDashboard] =
   useState<DashboardData | null>(null)
+  const [content, setContent] =
+  useState<ContentData | null>(null)
+
+  useEffect(() => {
+    if (!user) return
+
+    obtenerContenido()
+      .then(setContent)
+      .catch(console.error)
+  }, [user])
   
-   useEffect(() => {
+  useEffect(() => {
     if (!loading && !user) {
       router.push('/auth/login')
     }
@@ -56,18 +70,24 @@ export default function DashboardPage() {
       />
 
       <SearchBar />
-      
+
       <PointsCard
         puntos={dashboard?.puntos ?? 0}
       />
 
       <Recommendations recomendaciones = {dashboard?.recomendaciones ?? []} />
 
-      <Banner />
+      <Banner 
+        banners={content?.banners ?? []}
+      />
 
-      <Services />
+      <Services 
+        services={content?.services ?? []}
+      />
 
-      <Promotions />
+      <Promotions 
+        promotions={content?.promotions ?? []}
+      />
 
       <RecentActivity />
       
