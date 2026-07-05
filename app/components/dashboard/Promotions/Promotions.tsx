@@ -1,40 +1,36 @@
 'use client'
 
+import Image from 'next/image'
 import styles from './Promotions.module.css'
-
 import type { Promotion } from '@/services/content'
 
 interface Props {
   promotions: Promotion[]
 }
 
-export default function Promotions({
-  promotions,
-}: Props) {
+export default function Promotions({ promotions }: Props) {
   if (!promotions.length) return null
 
   return (
-    <>
-      <h2 className={styles.title}>
-        Promociones
-      </h2>
+    <div className={styles.wrapper}>
+      <h2 className={styles.title}>Promociones</h2>
 
-      <div className={styles.container}>
-        {promotions.map(promotion => (
-          <div
-            key={promotion.id}
-            className={styles.card}
-          >
-            <h3>
-              {promotion.title}
-            </h3>
+      <div className={styles.list}>
+        {promotions.map(promo => (
+          <div key={promo.id} className={styles.card}>
+            <Image
+              src={promo.image}
+              alt={promo.title}
+              width={260}
+              height={140}
+              className={styles.image}
+            />
 
-            <p>
-              {promotion.description}
-            </p>
+            <h3>{promo.title}</h3>
+            <p>{promo.description}</p>
           </div>
         ))}
       </div>
-    </>
+    </div>
   )
 }
