@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import styles from './RegisterPage.module.css'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -20,14 +21,8 @@ export default function RegisterPage() {
     try {
       const res = await fetch('http://localhost:4000/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
       })
 
       const data = await res.json()
@@ -38,9 +33,8 @@ export default function RegisterPage() {
         return
       }
 
-      // Registro exitoso → ir a login
       router.push('/auth/login')
-    } catch (err) {
+    } catch {
       setError('No se pudo conectar con el servidor')
     } finally {
       setLoading(false)
@@ -48,27 +42,18 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <form
-        onSubmit={handleRegister}
-        className="w-full max-w-sm bg-white p-6 rounded-lg shadow"
-      >
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Crear cuenta
-        </h1>
+    <div className={styles.container}>
+      <form onSubmit={handleRegister} className={styles.form}>
+        <h1 className={styles.title}>Crear cuenta</h1>
 
-        {error && (
-          <p className="mb-4 text-red-600 text-sm text-center">
-            {error}
-          </p>
-        )}
+        {error && <p className={styles.error}>{error}</p>}
 
         <input
           type="text"
           placeholder="Nombre"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full mb-3 p-3 border rounded"
+          className={styles.input}
           required
         />
 
@@ -77,7 +62,7 @@ export default function RegisterPage() {
           placeholder="Correo"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-3 p-3 border rounded"
+          className={styles.input}
           required
         />
 
@@ -86,24 +71,17 @@ export default function RegisterPage() {
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 p-3 border rounded"
+          className={styles.input}
           required
         />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-green-600 text-white py-3 rounded font-semibold disabled:opacity-50"
-        >
+        <button type="submit" disabled={loading} className={styles.button}>
           {loading ? 'Registrando...' : 'Registrarse'}
         </button>
 
-        <p className="mt-4 text-center text-sm">
+        <p className={styles.text}>
           ¿Ya tienes cuenta?{' '}
-          <span
-            className="text-green-600 font-semibold cursor-pointer"
-            onClick={() => router.push('/auth/login')}
-          >
+          <span className={styles.link} onClick={() => router.push('/auth/login')}>
             Inicia sesión
           </span>
         </p>

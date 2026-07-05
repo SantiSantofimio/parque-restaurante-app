@@ -10,7 +10,8 @@
   gap: 20px;
   overflow-x: auto;
   padding-bottom: 10px;
-  scrollbar-width: none;
+  -ms-overflow-style: none; /* hide scrollbar for IE/Edge */
+  /* Use WebKit scrollbar rule below for WebKit browsers; other browsers will show native scrollbar */
 }
 
 .container::-webkit-scrollbar {

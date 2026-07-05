@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import styles from './LoginPage.module.css'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -19,9 +20,7 @@ export default function LoginPage() {
     try {
       const res = await fetch('http://localhost:4000/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
 
@@ -33,17 +32,9 @@ export default function LoginPage() {
         return
       }
 
-      localStorage.setItem(
-        'token',
-        data.token
-      )
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(data.user))
 
-      localStorage.setItem(
-       'user',
-       JSON.stringify(data.user)
-      )
-
-      // Ir a mesas
       router.push('/dashboard')
     } catch {
       setError('No se pudo conectar con el servidor')
@@ -53,27 +44,18 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <form
-        onSubmit={handleLogin}
-        className="w-full max-w-sm bg-white p-6 rounded-lg shadow"
-      >
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Iniciar sesión
-        </h1>
+    <div className={styles.container}>
+      <form onSubmit={handleLogin} className={styles.form}>
+        <h1 className={styles.title}>Iniciar sesión</h1>
 
-        {error && (
-          <p className="mb-4 text-red-600 text-sm text-center">
-            {error}
-          </p>
-        )}
+        {error && <p className={styles.error}>{error}</p>}
 
         <input
           type="email"
           placeholder="Correo"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-3 p-3 border rounded"
+          className={styles.input}
           required
         />
 
@@ -82,24 +64,17 @@ export default function LoginPage() {
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-4 p-3 border rounded"
+          className={styles.input}
           required
         />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-green-600 text-white py-3 rounded font-semibold disabled:opacity-50"
-        >
+        <button type="submit" disabled={loading} className={styles.button}>
           {loading ? 'Entrando...' : 'Entrar'}
         </button>
 
-        <p className="mt-4 text-center text-sm">
+        <p className={styles.text}>
           ¿No tienes cuenta?{' '}
-          <span
-            className="text-green-600 font-semibold cursor-pointer"
-            onClick={() => router.push('/auth/register')}
-          >
+          <span className={styles.link} onClick={() => router.push('/auth/register')}>
             Regístrate
           </span>
         </p>
