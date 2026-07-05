@@ -2,10 +2,10 @@
 
 import { useRouter } from 'next/navigation'
 import styles from './HeroSlide.module.css'
-import type { BannerItem } from './bannerData'
+import type { Banner } from '@/services/content'
 
 interface Props {
-  banner: BannerItem
+  banner: Banner
 }
 
 export default function HeroSlide({ banner }: Props) {

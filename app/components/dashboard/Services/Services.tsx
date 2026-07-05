@@ -3,55 +3,34 @@
 import { useRouter } from 'next/navigation'
 import styles from './Services.module.css'
 
-const servicios = [
-  {
-    icono: '🏊',
-    titulo: 'Piscina',
-    ruta: '/tickets',
-  },
-  {
-    icono: '🍽',
-    titulo: 'Restaurante',
-    ruta: '/mesas',
-  },
-  {
-    icono: '🍹',
-    titulo: 'Bar',
-    ruta: '/bar',
-  },
-  {
-    icono: '🥾',
-    titulo: 'Tours',
-    ruta: '/recorridos',
-  },
-  {
-    icono: '🎉',
-    titulo: 'Eventos',
-    ruta: '/eventos',
-  },
-  {
-    icono: '🎁',
-    titulo: 'Premios',
-    ruta: '/puntos',
-  },
-]
+import type { Service } from '@/services/content'
 
-export default function Services() {
+interface Props {
+  services: Service[]
+}
+
+export default function Services({
+  services,
+}: Props) {
   const router = useRouter()
 
   return (
     <div className={styles.grid}>
-      {servicios.map(s => (
+      {services.map(service => (
         <div
-          key={s.titulo}
+          key={service.id}
           className={styles.card}
           onClick={() =>
-            router.push(s.ruta)
+            router.push(service.route)
           }
         >
-          <span>{s.icono}</span>
+          <span>
+            {service.icon}
+          </span>
 
-          <h3>{s.titulo}</h3>
+          <h3>
+            {service.title}
+          </h3>
         </div>
       ))}
     </div>

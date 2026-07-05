@@ -6,9 +6,9 @@ export interface Banner {
   id: string
   title: string
   subtitle: string
-  image: string
-  actionText: string
-  actionRoute: string
+  button: string
+  route: string
+  emoji: string
 }
 
 export interface Service {

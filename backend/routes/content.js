@@ -10,12 +10,36 @@ router.get('/', (req, res) => {
     banners: [
       {
         id: '1',
-        title: 'Bienvenido a Yuma',
-        subtitle: 'Naturaleza, diversión y descanso.',
-        image: '/images/banner1.jpg',
-        actionText: 'Comprar entradas',
-        actionRoute: '/tickets',
+        title: 'Piscina Yuma',
+        subtitle: 'Compra tus entradas sin hacer filas.',
+        button: 'Comprar',
+        route: '/tickets',
+        emoji: '🏊',
       },
+      {
+        id: '2',
+        title: 'Restaurante',
+        subtitle: 'Reserva tu mesa desde la aplicación.',
+        button: 'Reservar',
+        route: '/mesas',
+        emoji: '🍽',
+      },
+      {
+        id: '3',
+        title: 'Recorridos ecológicos',
+        subtitle: 'Conoce nuestros senderos.',
+        button: 'Ver más',
+        route: '/recorridos',
+        emoji: '🚶',
+      },
+      {
+        id: '4',
+        title: 'Bar Yuma',
+        subtitle: 'Disfruta bebidas y promociones.',
+        button: 'Explorar',
+        route: '/bar',
+        emoji: '🍹',
+      }
     ],
 
     services: [

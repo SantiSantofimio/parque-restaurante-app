@@ -2,32 +2,50 @@
 
 import { useEffect, useState } from 'react'
 import HeroSlide from './HeroSlide'
-import { banners } from './bannerData'
 import styles from './Banner.module.css'
 
-export default function Banner() {
+import type { Banner as BannerType } from '@/services/content'
+
+interface Props {
+  banners: BannerType[]
+}
+
+export default function Banner({
+  banners,
+}: Props) {
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
+    if (banners.length <= 1) return
+
     const timer = setInterval(() => {
       setIndex(prev =>
-        prev === banners.length - 1 ? 0 : prev + 1
+        prev === banners.length - 1
+          ? 0
+          : prev + 1
       )
     }, 5000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [banners])
+
+  if (!banners.length) return null
 
   return (
     <div className={styles.bannerContainer}>
-      {/* HeroSlide conserva sus botones, flechas, guías, etc */}
-      <HeroSlide banner={banners[index]} />
+      <HeroSlide
+        banner={banners[index]}
+      />
 
       <div className={styles.dots}>
         {banners.map((_, i) => (
           <span
             key={i}
-            className={i === index ? styles.active : ''}
+            className={
+              i === index
+                ? styles.active
+                : ''
+            }
           />
         ))}
       </div>

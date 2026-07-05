@@ -2,25 +2,17 @@
 
 import styles from './Promotions.module.css'
 
-const promociones = [
-  {
-    titulo: '2x1 Piscina',
-    descripcion: 'Solo este fin de semana',
-    color: '#00b894',
-  },
-  {
-    titulo: '20% Restaurante',
-    descripcion: 'Comprando desde la App',
-    color: '#fdcb6e',
-  },
-  {
-    titulo: 'Recorrido Nocturno',
-    descripcion: 'Nueva experiencia',
-    color: '#6c5ce7',
-  },
-]
+import type { Promotion } from '@/services/content'
 
-export default function Promotions() {
+interface Props {
+  promotions: Promotion[]
+}
+
+export default function Promotions({
+  promotions,
+}: Props) {
+  if (!promotions.length) return null
+
   return (
     <>
       <h2 className={styles.title}>
@@ -28,17 +20,18 @@ export default function Promotions() {
       </h2>
 
       <div className={styles.container}>
-        {promociones.map(p => (
+        {promotions.map(promotion => (
           <div
-            key={p.titulo}
+            key={promotion.id}
             className={styles.card}
-            style={{
-              background: p.color,
-            }}
           >
-            <h3>{p.titulo}</h3>
+            <h3>
+              {promotion.title}
+            </h3>
 
-            <p>{p.descripcion}</p>
+            <p>
+              {promotion.description}
+            </p>
           </div>
         ))}
       </div>
