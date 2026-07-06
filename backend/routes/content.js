@@ -47,7 +47,7 @@ router.get('/', (req, res) => {
         id: '1',
         title: 'Piscina',
         icon: '🏊',
-        route: '/tickets',
+        route: '/piscina',
       },
       {
         id: '2',

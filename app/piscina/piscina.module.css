@@ -1,0 +1,44 @@
+.container {
+  padding: 1rem;
+}
+
+.banner {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.bannerImage {
+  object-fit: cover;
+}
+
+.bannerText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  color: white;
+}
+
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  margin-bottom: 0.5rem;
+}
+
+.button {
+  width: 100%;
+  padding: 1rem;
+  background: #0d9488;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
