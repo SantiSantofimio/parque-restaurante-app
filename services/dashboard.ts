@@ -20,6 +20,7 @@ export interface Recommendation {
   titulo: string
   descripcion: string
   tipo: string
+  image: string
 }
 
 export async function obtenerDashboard(): Promise<DashboardData> {

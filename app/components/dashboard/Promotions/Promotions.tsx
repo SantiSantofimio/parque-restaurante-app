@@ -16,7 +16,9 @@ export default function Promotions({ promotions }: Props) {
       <h2 className={styles.title}>Promociones</h2>
 
       <div className={styles.list}>
-        {promotions.map(promo => (
+        {promotions.map(promo => {
+
+        return (
           <div key={promo.id} className={styles.card}>
             <Image
               src={promo.image}
@@ -25,11 +27,11 @@ export default function Promotions({ promotions }: Props) {
               height={140}
               className={styles.image}
             />
-
             <h3>{promo.title}</h3>
             <p>{promo.description}</p>
           </div>
-        ))}
+        )
+      })}
       </div>
     </div>
   )

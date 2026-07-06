@@ -20,46 +20,46 @@ router.get('/', (req, res) => {
   const tickets = JSON.parse(fs.readFileSync(TICKETS_FILE))
   const mesas = JSON.parse(fs.readFileSync(MESAS_FILE))
 
-  const user = users.find(
-    u => u.id === req.user.id
-  )
+  const user = users.find(u => u.id === req.user.id)
 
   const ticketsActivos =
     tickets.filter(
-      t =>
-        t.userId === req.user.id &&
-        t.estado === 'activo'
+      t => t.userId === req.user.id && t.estado === 'activo'
     ).length
 
   const mesa =
     mesas.find(m =>
-      m.usuarios.some(
-        u => u.id === req.user.id
-      )
+      m.usuarios.some(u => u.id === req.user.id)
     )
 
   function obtenerRecomendaciones() {
-    return [{
-      id: 1,
-      titulo: '20% en restaurante',
-      descripcion: 'Disfruta de un 20% de descuento en nuestro restaurante al comprar dos entradas.',
-      tipo: 'restaurante',
-    }, 
-    {
-      id: 2,
-      titulo: 'recorrido ecológico',
-      descripcion: 'Explora la naturaleza con un recorrido guiado por nuestro parque ecológico.',
-      tipo: 'tour',
-    }
+    return [
+      {
+        id: 1,
+        titulo: '20% en restaurante',
+        descripcion: 'Disfruta de un 20% de descuento en nuestro restaurante al comprar dos entradas.',
+        tipo: 'restaurante',
+        image: '/promos/piscina.jpg',
+      },
+      {
+        id: 2,
+        titulo: 'Recorrido ecológico',
+        descripcion: 'Explora la naturaleza con un recorrido guiado por nuestro parque ecológico.',
+        tipo: 'tour',
+        image: '/promos/promocion2.jpg',
+      }
     ]
   }
 
   res.json({
+    name: user?.name ?? 'Usuario',
     puntos: user?.puntos ?? 0,
-    ticketsActivos,
+    tickets: ticketsActivos,
     mesaActual: mesa?.id ?? null,
+    promociones: [], // si no tienes promociones aquí, envía un array vacío
     recomendaciones: obtenerRecomendaciones()
   })
 })
+
 
 export default router

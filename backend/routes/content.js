@@ -74,13 +74,25 @@ router.get('/', (req, res) => {
         id: '1',
         title: '2x1 Piscina',
         description: 'Solo este fin de semana',
-        image: '/promo1.jpg',
+        image: '/promos/piscina.jpg',
       },
       {
         id: '2',
         title: '20% Restaurante',
         description: 'Comprando entradas',
-        image: '/promo2.jpg',
+        image: '/promos/promocion2.jpg',
+      },
+      {
+        id: '3',
+        title: 'Recorrido ecológico',
+        description: 'Explora la naturaleza',
+        image: '/promos/promocion4.jpg',
+      },
+      {
+        id: '4',
+        title: 'Bar Yuma',
+        description: 'Promociones en bebidas',
+        image: '/promos/promocion3.jpg',
       },
     ],
   })
