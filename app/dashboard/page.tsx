@@ -27,6 +27,8 @@ import RecentActivity from '@/app/components/dashboard/RecentActivity/RecentActi
 import BottomNavigation from '@/app/components/dashboard/BottomNavigation/BottomNavigation'
 import SearchBar from '../components/dashboard/SearchBar/SearchBar'
 import Recommendations from '../components/dashboard/Recommendations/Recommendations'
+import NewsCarousel from '../components/dashboard/NewsCarousel/NewsCarousel'
+import EventsCarousel from '../components/dashboard/EventsCarousel/EventsCarousel'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -91,6 +93,10 @@ export default function DashboardPage() {
 
       <NewsCarousel
         news={content?.news ?? []}
+      />
+
+      <EventsCarousel
+        events={content?.events ?? []}
       />
 
       <RecentActivity />
