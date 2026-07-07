@@ -1,0 +1,58 @@
+:root{
+
+/* ==========================
+   Colores
+========================== */
+
+--primary:#0d9488;
+--primary-dark:#0b7c72;
+--primary-light:#dff8f5;
+
+--background:#ffffff;
+--background-secondary:#f5f5f5;
+
+--text:#333333;
+--text-secondary:#555555;
+--text-light:#777777;
+
+--border:#dcdcdc;
+
+--shadow:
+0 10px 25px rgba(0,0,0,.10);
+
+--shadow-hover:
+0 16px 35px rgba(0,0,0,.15);
+
+
+/* ==========================
+   Radios
+========================== */
+
+--radius-sm:10px;
+--radius:16px;
+--radius-lg:24px;
+
+
+/* ==========================
+   Espaciados
+========================== */
+
+--space-xs:6px;
+--space-sm:12px;
+--space-md:18px;
+--space-lg:28px;
+--space-xl:40px;
+
+
+/* ==========================
+   Tipografía
+========================== */
+
+--font-title:2rem;
+--font-h2:1.4rem;
+--font-h3:1.15rem;
+
+--font-body:1rem;
+--font-small:.9rem;
+
+}
