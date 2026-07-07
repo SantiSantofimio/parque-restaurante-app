@@ -89,6 +89,10 @@ export default function DashboardPage() {
         promotions={content?.promotions ?? []}
       />
 
+      <NewsCarousel
+        news={content?.news ?? []}
+      />
+
       <RecentActivity />
       
       <BottomNavigation />

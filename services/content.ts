@@ -25,10 +25,26 @@ export interface Promotion {
   image: string
 }
 
+export interface News {
+  id: string
+  title: string
+  description: string
+  image: string
+}
+
+export interface Event {
+  id: string
+  title: string
+  date: string
+  image: string
+}
+
 export interface ContentData {
   banners: Banner[]
   services: Service[]
   promotions: Promotion[]
+  news: News[]
+  events: Event[]
 }
 
 export async function obtenerContenido(): Promise<ContentData> {

@@ -1,13 +1,42 @@
 import express from 'express'
 import authMiddleware from '../middleware/authMiddleware.js'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import { toUSVString } from 'util'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const CONTENT_PATH = path.join(__dirname, '../content')
 const router = express.Router()
 
 router.use(authMiddleware)
 
+function readContent(file) {
+  const filePath = path.join(CONTENT_PATH, file)
+  if (!fs.existsSync(filePath)) {
+    return []
+  }
+  const raw = fs.readFileSync(filePath, 'utf8')
+  if (!raw.trim()) {
+    return []
+  }
+  return JSON.parse(raw)
+}
+
 router.get('/', (req, res) => {
   res.json({
-    banners: [
+    banners: readContent('banners.json'),
+    services: readContent('services.json'),
+    promotions: readContent('promotions.json'),
+    news: readContent('news.json'),
+    events: readContent('events.json'),
+    tours: readContent('tours.json'),
+    restaurant: readContent('restaurant.json'),
+  })
+})
+    /* banners: [
       {
         id: '1',
         title: 'Piscina Yuma',
@@ -94,8 +123,6 @@ router.get('/', (req, res) => {
         description: 'Promociones en bebidas',
         image: '/promos/promocion3.jpg',
       },
-    ],
-  })
-})
+    ], */
 
 export default router
