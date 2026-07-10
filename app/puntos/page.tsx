@@ -1,99 +1,168 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import BackToHome from '@/app/components/BackToHome'
+
+import {
+  obtenerPuntos,
+  MovimientoPuntos,
+} from '@/services/puntos'
+
 import styles from './puntos.module.css'
 
-interface Props{
-    nombre:string
-    puntos:number
-    tickets:number
+interface Data {
+  puntos: number
+  historial: MovimientoPuntos[]
 }
 
-export default function Puntos({
-    nombre,
-    puntos,
-    tickets
-}:Props){
+export default function PuntosPage() {
 
-    function nivel(){
+  const [data, setData] =
+    useState<Data | null>(null)
 
-        if(puntos>=5000) return 'Diamante'
+  useEffect(() => {
+    obtenerPuntos()
+      .then(setData)
+      .catch(console.error)
+  }, [])
 
-        if(puntos>=2500) return 'Oro'
+  if (!data) {
+    return <h2>Cargando...</h2>
+  }
 
-        if(puntos>=1000) return 'Plata'
+  const puntos = data.puntos
 
-        return 'Bronce'
-    }
+  function nivel() {
 
-    function siguienteNivel(){
+    if (puntos >= 5000)
+      return 'Diamante'
 
-        if(puntos<1000) return 1000
+    if (puntos >= 2500)
+      return 'Oro'
 
-        if(puntos<2500) return 2500
+    if (puntos >= 1000)
+      return 'Plata'
 
-        if(puntos<5000) return 5000
+    return 'Bronce'
+  }
 
-        return 5000
-    }
+  function siguienteNivel() {
 
-    const progreso=Math.min(puntos/siguienteNivel()*100, 100
-    )
+    if (puntos < 1000)
+      return 1000
 
-    return(
-      <>
-        <BackToHome />
+    if (puntos < 2500)
+      return 2500
 
-        <div className={styles.card}>
-          <h2>
-            👋 Hola {nombre}
-          </h2>
+    if (puntos < 5000)
+      return 5000
 
-          <h1>
-            ⭐ {puntos}
-          </h1>
+    return 5000
+  }
+
+  const progreso = Math.min(
+    (puntos / siguienteNivel()) * 100,
+    100
+  )
+
+  return (
+    <div className={styles.container}>
+
+      <BackToHome />
+
+      <div className={styles.card}>
+
+        <h1>
+          ⭐ Mis puntos
+        </h1>
+
+        <h2>
+          {puntos}
+        </h2>
+
+        <p>
+          Nivel {nivel()}
+        </p>
+
+        <div className={styles.progress}>
+          <div
+            className={styles.fill}
+            style={{
+              width: `${progreso}%`,
+            }}
+          />
+        </div>
+
+        <small>
+
+          {Math.max(
+            0,
+            siguienteNivel() - puntos
+          )}
+
+          {' '}
+          puntos para subir de nivel
+
+        </small>
+
+      </div>
+
+      <div className={styles.history}>
+
+        <h2>
+
+          Historial
+
+        </h2>
+
+        {data.historial.length === 0 && (
 
           <p>
-            Nivel {nivel()}
+
+            Aún no tienes movimientos.
+
           </p>
 
-          <div className={styles.progress}>
-            <div className={styles.fill} />
-          </div>
+        )}
 
-          <style jsx>{`
-            :global(.${styles.fill}) {
-              width: ${progreso}%;
-            }
-          `}</style>
+        {data.historial.map(item => (
 
-          <small>
-            {Math.max(0,siguienteNivel()-puntos)}
-            puntos para el siguiente nivel
-          </small>
-
-          <div className={styles.footer}>
-            <div>
-              🎟
-              <h3>
-                {tickets}
-              </h3>
-              <p>Tickets</p>
-            </div>
+          <div
+            key={item.id}
+            className={styles.item}
+          >
 
             <div>
-              🎁
-              <h3>
-                Beneficios
-              </h3>
-              <p>Disponibles</p>
+
+              <strong>
+
+                +{item.puntos} ⭐
+
+              </strong>
+
+              <p>
+
+                {item.descripcion}
+
+              </p>
 
             </div>
 
+            <small>
+
+              {new Date(
+                item.fecha
+              ).toLocaleDateString()}
+
+            </small>
+
           </div>
 
-        </div>
-      </>
-    )
+        ))}
 
+      </div>
+
+    </div>
+  )
 }

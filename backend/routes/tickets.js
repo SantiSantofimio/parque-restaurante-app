@@ -9,6 +9,8 @@ const router = express.Router()
 
 router.use(authMiddleware)
 
+const POINTS_FILE = path.join(__dirname, '../data/puntos.json')
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -35,6 +37,23 @@ function writeTickets(tickets) {
   fs.writeFileSync(
     TICKETS_FILE,
     JSON.stringify(tickets, null, 2)
+  )
+}
+
+function readPoints() {
+  if (!fs.existsSync(POINTS_FILE)) return []
+
+  const raw = fs.readFileSync(POINTS_FILE, 'utf8')
+
+  if (!raw.trim()) return []
+
+  return JSON.parse(raw)
+}
+
+function writePoints(points) {
+  fs.writeFileSync(
+    POINTS_FILE,
+    JSON.stringify(points, null, 2)
   )
 }
 
@@ -86,6 +105,16 @@ router.post('/comprar', (req, res) => {
 
   // Sumar puntos ganados
   user.puntos += puntosGanados
+
+  const history = readPoints()
+  history.unshift({
+    id: crypto.randomUUID(),
+    userId: req.user.id,
+    puntos: puntosGanados,
+    descripcion: `Compra de ${cantidad} ${tipo}(s)`,
+    fecha: new Date().toISOString(),
+  })
+  writePoints(history)
 
   // Guardar usuarios actualizados
   fs.writeFileSync(USER_FILE, JSON.stringify(users, null, 2))

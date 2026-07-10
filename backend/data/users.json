@@ -12,5 +12,11 @@
     "email": "carlos@hotmail.com",
     "password": "$2b$10$031UIxxZm.dBnjdvEhMPI.dt5NJ.eAje7fYno0f1SRGlbGKaLhCSm",
     "puntos": 20
+  },
+  {
+    "id": 1783514943597,
+    "name": "Santiago Santofimio",
+    "email": "santi@admin.yuma.com",
+    "password": "$2b$10$kWUx7vVOE/HxGnPAKuQCieitYXsr4c1F5Ou8zTG5gYLj73xrX6tjO"
   }
 ]
