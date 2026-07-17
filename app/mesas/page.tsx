@@ -144,10 +144,7 @@ export default function MesasPage() {
       {mesas.map(mesa => (
         <MesaCard
           key={mesa.id}
-          id={mesa.id}
-          capacidad={mesa.capacidad}
-          ocupada={mesa.ocupada}
-          onEntrar={() => handleEntrar(mesa.id)}
+          mesa={mesa}
         />
       ))}
     </div>

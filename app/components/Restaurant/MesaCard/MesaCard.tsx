@@ -1,54 +1,54 @@
 'use client'
 
+import type { Mesa } from '@/types/mesas'
 import styles from './MesaCard.module.css'
 
 interface Props {
-  id: string
-  capacidad: number
-  ocupada: boolean
-  onEntrar: () => void
+  mesa: Mesa
 }
 
 export default function MesaCard({
-  id,
-  capacidad,
-  ocupada,
-  onEntrar,
+  mesa,
 }: Props) {
   return (
     <div className={styles.card}>
+      <div className={styles.header}>
+        <h2>{mesa.id}</h2>
 
-      <div className={styles.icon}>
-        🍽
+        <span
+          className={
+            mesa.ocupada
+              ? styles.ocupada
+              : styles.libre
+          }
+        >
+          {mesa.ocupada
+            ? 'Ocupada'
+            : 'Libre'}
+        </span>
       </div>
 
-      <h2>{id}</h2>
+      <div className={styles.info}>
+        <p>
+          👥 {mesa.usuarios.length}/
+          {mesa.capacidad} personas
+        </p>
 
-      <p>
+        <p>
+          🍽 {mesa.pedidos?.length ?? 0} pedidos
+        </p>
+      </div>
 
-        👥 {capacidad} personas
-
-      </p>
-
-      <span
-        className={
-          ocupada
-            ? styles.busy
-            : styles.free
-        }
-      >
-        {ocupada
-          ? 'Ocupada'
-          : 'Disponible'}
-      </span>
-
-      <button
-        disabled={ocupada}
-        onClick={onEntrar}
-      >
-        Entrar
-      </button>
-
+      <div className={styles.users}>
+        {mesa.usuarios.map(usuario => (
+          <div
+            key={usuario.id}
+            className={styles.user}
+          >
+            👤 {usuario.name}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

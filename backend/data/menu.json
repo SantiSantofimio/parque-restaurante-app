@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "categoria": "Entradas",
+    "nombre": "Papas francesas",
+    "descripcion": "Papas crujientes",
+    "precio": 12000,
+    "imagen": "/menu/papas.jpg"
+  },
+  {
+    "id": "2",
+    "categoria": "Hamburguesas",
+    "nombre": "Hamburguesa Yuma",
+    "descripcion": "Carne artesanal",
+    "precio": 28000,
+    "imagen": "/menu/hamburguesa.jpg"
+  }
+]

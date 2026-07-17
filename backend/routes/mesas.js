@@ -38,6 +38,24 @@ router.get('/', (req, res) => {
   res.json(disponibles)
 })
 
+router.get('/:mesaId', (req, res) => {
+  const { mesaId } = req.params
+
+  const mesas = readMesas()
+
+  const mesa = mesas.find(
+    m => m.id === mesaId
+  )
+
+  if (!mesa) {
+    return res.status(404).json({
+      error: 'Mesa no encontrada',
+    })
+  }
+
+  res.json(mesa)
+})
+
 // ============================
 // Entrar a una mesa
 // ============================

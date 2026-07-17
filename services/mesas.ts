@@ -3,14 +3,29 @@ import { getAuthHeaders } from "./api";
 
 const API_URL = 'http://localhost:4000/api/mesas'
 
-export async function obtenerMesas(
-  personas?: number
-): Promise<Mesa[]> {
-  const url = personas
-    ? `${API_URL}?personas=${personas}`
-    : API_URL
+export async function obtenerMesa(
+  mesaId: string): Promise<Mesa> {
+    const res = await fetch(
+    `${API_URL}/${mesaId}`,
+    {
+      headers: getAuthHeaders(),
+    }
+  )
 
-  const res = await fetch(url, {
+  if (res.status === 401) {
+    redirectToLogin()
+    throw new Error('Sesión expirada')
+  }
+
+  if (!res.ok) {
+    throw new Error('Mesa no encontrada')
+  }
+
+  return res.json()
+}
+
+export async function obtenerMesas(): Promise<Mesa[]> {
+  const res = await fetch(API_URL, {
     headers: getAuthHeaders(),
   })
 
@@ -20,13 +35,12 @@ export async function obtenerMesas(
   }
 
   if (!res.ok) {
-    throw new Error(
-      'Error al obtener mesas'
-    )
+    throw new Error('Error al obtener las mesas')
   }
 
-  return res.json() as Promise<Mesa[]>
+  return res.json()
 }
+
 
 export async function entrarAMesa(mesaId: string, user: Usuario): Promise<{ mesa: Mesa }> {
     const res = await fetch(`${API_URL}/${mesaId}/entrar`, {
