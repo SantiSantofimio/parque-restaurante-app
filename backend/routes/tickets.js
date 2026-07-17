@@ -9,8 +9,6 @@ const router = express.Router()
 
 router.use(authMiddleware)
 
-const POINTS_FILE = path.join(__dirname, '../data/puntos.json')
-
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -19,6 +17,7 @@ const TICKETS_FILE = path.join(
   '../data/tickets.json'
 )
 const USER_FILE = path.join(__dirname, '../data/users.json')
+const POINTS_FILE = path.join(__dirname, '../data/puntos.json')
 
 function readTickets() {
   if (!fs.existsSync(TICKETS_FILE)) return []

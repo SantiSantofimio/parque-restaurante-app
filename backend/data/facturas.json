@@ -229,5 +229,19 @@
     ],
     "total": 44000,
     "createdAt": "2026-06-29T19:18:20.337Z"
+  },
+  {
+    "id": 1784214946390,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com",
+      "iat": 1784214755,
+      "exp": 1784301155
+    },
+    "mesaId": "mesa-1",
+    "pedidos": [],
+    "total": 0,
+    "createdAt": "2026-07-16T15:15:46.390Z"
   }
 ]

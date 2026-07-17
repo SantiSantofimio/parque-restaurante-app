@@ -7,6 +7,7 @@ import styles from './mesas.module.css'
 import { useAuth } from '@/app/hooks/useAuth'
 import { obtenerMesas, entrarAMesa } from '@/services/mesas'
 import BackToHome from '@/app/components/BackToHome'
+import MesaCard from '../components/Restaurant/MesaCard/MesaCard'
 
 // ============================
 // Página
@@ -140,61 +141,15 @@ export default function MesasPage() {
       )}
 
       {/* Listado mesas */}
-      <div className={styles.grid}>
-        {mesas.map((m) => {
-          const estoyAqui =
-            m.id === mesaActualId
-
-          return (
-            <div
-              key={m.id}
-              className={`${styles.card} ${
-                mesaActualId &&
-                !estoyAqui
-                  ? styles.disabled
-                  : ''
-              }`}
-            >
-              <h3>{m.id}</h3>
-
-              <p>
-                Capacidad:{' '}
-                {m.capacidad}
-              </p>
-
-              <p>
-                Personas:{' '}
-                {m.usuarios.length}/{m.capacidad}
-              </p>
-
-              <p>
-                Estado:{' '}
-                {m.usuarios.length >= m.capacidad
-                ? 'Llena'
-                : 'Disponible'}
-              </p>
-
-              {estoyAqui && (
-                <p>
-                  👤 Tú estás aquí
-                </p>
-              )}
-
-              {!mesaActualId &&
-                m.usuarios.length < m.capacidad && (
-                  <button
-                    className={styles.buttonPrimary}
-                    onClick={() =>
-                      handleEntrar(m.id)
-                    }
-                  >
-                    Entrar
-                  </button>
-                )}
-            </div>
-          )
-        })}
-      </div>
+      {mesas.map(mesa => (
+        <MesaCard
+          key={mesa.id}
+          id={mesa.id}
+          capacidad={mesa.capacidad}
+          ocupada={mesa.ocupada}
+          onEntrar={() => handleEntrar(mesa.id)}
+        />
+      ))}
     </div>
   )
 }

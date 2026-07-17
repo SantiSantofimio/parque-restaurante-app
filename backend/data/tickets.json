@@ -10,5 +10,29 @@
     "estado": "activo",
     "fechaCompra": "2026-06-23T13:51:08.131Z",
     "codigoQR": "e6b4e2a3-cfdd-4cfb-b83b-01c2cdc7a3e8"
+  },
+  {
+    "id": "ticket-1783695237697",
+    "userId": 1783514943597,
+    "tipo": "adulto",
+    "cantidad": 1,
+    "precioUnitario": 20000,
+    "total": 20000,
+    "puntosGanados": 20,
+    "estado": "activo",
+    "fechaCompra": "2026-07-10T14:53:57.697Z",
+    "codigoQR": "527700d5-10a3-4fb1-b88d-bdba8935c7c6"
+  },
+  {
+    "id": "ticket-1784214887874",
+    "userId": 1783514943597,
+    "tipo": "infantil",
+    "cantidad": 3,
+    "precioUnitario": 12000,
+    "total": 36000,
+    "puntosGanados": 36,
+    "estado": "activo",
+    "fechaCompra": "2026-07-16T15:14:47.874Z",
+    "codigoQR": "90fc1a19-e21f-457c-a80c-5798e05758c8"
   }
 ]
