@@ -8,6 +8,7 @@ import authRoutes from './routes/auth.js'
 import mesasRoutes from './routes/mesas.js'
 import facturasRoutes from './routes/facturas.js'
 import contentRoutes from './routes/content.js'
+import menuRoutes from './routes/menu.js'
 
 const app = express()
 const PORT = 4000
@@ -34,6 +35,7 @@ app.use('/api/facturas', facturasRoutes)
 app.use('/api/tickets', ticketsRoutes)
 app.use('/api/dashboard', dashboardRoutes)
 app.use('/api/content', contentRoutes)
+app.use('/api/menu', menuRoutes)
 app.listen(PORT, () => {
   console.log(
     `Servidor corriendo en http://localhost:${PORT}`

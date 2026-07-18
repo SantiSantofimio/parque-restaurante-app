@@ -1,0 +1,65 @@
+[
+  {
+    "id": "1",
+    "categoria": "Entradas",
+    "nombre": "Patacón con Hogao",
+    "descripcion": "Patacón artesanal con hogao tradicional.",
+    "precio": 12000,
+    "imagen": "/menu/patacon.jpg",
+    "disponible": true
+  },
+  {
+    "id": "2",
+    "categoria": "Entradas",
+    "nombre": "Arepas Mixtas",
+    "descripcion": "Arepas con queso y carne desmechada.",
+    "precio": 18000,
+    "imagen": "/menu/arepas.jpg",
+    "disponible": true
+  },
+  {
+    "id": "3",
+    "categoria": "Platos fuertes",
+    "nombre": "Bandeja Paisa",
+    "descripcion": "Plato típico colombiano.",
+    "precio": 38000,
+    "imagen": "/menu/bandeja.jpg",
+    "disponible": true
+  },
+  {
+    "id": "4",
+    "categoria": "Platos fuertes",
+    "nombre": "Trucha al Ajillo",
+    "descripcion": "Trucha fresca con papas.",
+    "precio": 42000,
+    "imagen": "/menu/trucha.jpg",
+    "disponible": true
+  },
+  {
+    "id": "5",
+    "categoria": "Bebidas",
+    "nombre": "Limonada Natural",
+    "descripcion": "Limonada recién preparada.",
+    "precio": 8000,
+    "imagen": "/menu/limonada.jpg",
+    "disponible": true
+  },
+  {
+    "id": "6",
+    "categoria": "Bebidas",
+    "nombre": "Jugo de Mango",
+    "descripcion": "Mango natural.",
+    "precio": 9000,
+    "imagen": "/menu/mango.jpg",
+    "disponible": true
+  },
+  {
+    "id": "7",
+    "categoria": "Postres",
+    "nombre": "Brownie",
+    "descripcion": "Con helado de vainilla.",
+    "precio": 14000,
+    "imagen": "/menu/brownie.jpg",
+    "disponible": true
+  }
+]

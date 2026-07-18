@@ -1,0 +1,49 @@
+.container{
+
+display:flex;
+
+gap:12px;
+
+overflow-x:auto;
+
+padding-bottom:10px;
+
+margin-bottom:20px;
+
+}
+
+.container button{
+
+border:none;
+
+background:#e8f5f3;
+
+padding:10px 18px;
+
+border-radius:30px;
+
+cursor:pointer;
+
+white-space:nowrap;
+
+transition:.25s;
+
+font-weight:600;
+
+color:#555;
+
+}
+
+.container button:hover{
+
+background:#c7ebe6;
+
+}
+
+.active{
+
+background:#0d9488 !important;
+
+color:white !important;
+
+}
