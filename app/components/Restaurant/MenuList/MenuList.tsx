@@ -2,6 +2,7 @@
 
 import MenuCard from '../MenuCard/MenuCard'
 import type { MenuItem } from '@/services/menu'
+
 import styles from './MenuList.module.css'
 
 interface Props {
@@ -29,7 +30,9 @@ export default function MenuList({
           producto={producto.nombre}
           precio={producto.precio}
           imagen={producto.imagen}
-          onAgregar={() => onAgregar(producto)}
+          onAgregar={() =>
+            onAgregar(producto)
+          }
         />
       ))}
     </div>
