@@ -12,12 +12,14 @@ import styles from './CartDrawer.module.css'
 
 interface Props {
   abierto: boolean
+  confirmando?: boolean
   onCerrar: () => void
   onConfirmar: () => void
 }
 
 export default function CartDrawer({
   abierto,
+  confirmando = false,
   onCerrar,
   onConfirmar,
 }: Props) {
@@ -262,14 +264,21 @@ export default function CartDrawer({
               </strong>
             </div>
 
-            <button
-              type="button"
-              className={
-                styles.confirmButton
-              }
-              onClick={onConfirmar}
-            >
-              Confirmar pedido
+           <button
+                type="button"
+                className={
+                    styles.confirmButton
+                }
+                onClick={
+                    onConfirmar
+                }
+                disabled={
+                    confirmando
+                }
+                >
+                {confirmando
+                    ? 'Confirmando...'
+                    : 'Confirmar pedido'}
             </button>
           </div>
         )}

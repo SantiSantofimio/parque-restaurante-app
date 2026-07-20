@@ -11,10 +11,12 @@ import {
 
 import {
   obtenerMesa,
+  confirmarPedido,
 } from '@/services/mesas'
 
 import type {
   Mesa,
+  PedidoInput,
 } from '@/types/mesas'
 
 import {
@@ -25,10 +27,6 @@ import {
 import {
   useCart,
 } from '@/app/components/Restaurant/CartContext/CartContext'
-
-import CartButton from '@/app/components/Restaurant/CartButton/CartButton'
-
-import CartDrawer from '@/app/components/Restaurant/CartDrawer/CartDrawer'
 
 import BackToHome from '@/app/components/BackToHome'
 
@@ -44,9 +42,15 @@ import ProductModal, {
   type ProductSelection,
 } from '@/app/components/Restaurant/ProductModal/ProductModal'
 
+import CartButton from '@/app/components/Restaurant/CartButton/CartButton'
+
+import CartDrawer from '@/app/components/Restaurant/CartDrawer/CartDrawer'
+
 import styles from './mesa.module.css'
 
+
 export default function MesaDetallePage() {
+
   // ============================
   // Parámetros
   // ============================
@@ -56,15 +60,19 @@ export default function MesaDetallePage() {
   const mesaId =
     params.mesaId as string
 
+
   // ============================
-  // Carrito
+  // Cart Context
   // ============================
 
   const {
+    items,
     agregarProducto,
+    vaciarCarrito,
     totalProductos,
     totalPrecio,
   } = useCart()
+
 
   // ============================
   // Estados
@@ -91,43 +99,220 @@ export default function MesaDetallePage() {
   ] = useState<MenuItem | null>(null)
 
   const [
-    cartAbierto,
-    setCartAbierto,
+    carritoAbierto,
+    setCarritoAbierto,
   ] = useState(false)
+
+  const [
+    confirmandoPedido,
+    setConfirmandoPedido,
+  ] = useState(false)
+
 
   // ============================
   // Cargar mesa
   // ============================
 
   useEffect(() => {
-    if (!mesaId) return
+
+    if (!mesaId) {
+      return
+    }
 
     obtenerMesa(mesaId)
       .then(setMesa)
-      .catch(console.error)
+      .catch(error => {
+        console.error(
+          'Error cargando mesa:',
+          error
+        )
+      })
+
   }, [mesaId])
+
 
   // ============================
   // Cargar menú
   // ============================
 
   useEffect(() => {
+
     obtenerMenu()
       .then(setMenu)
-      .catch(console.error)
+      .catch(error => {
+        console.error(
+          'Error cargando menú:',
+          error
+        )
+      })
+
   }, [])
+
+
+  // ============================
+  // Agregar producto
+  // al carrito
+  // ============================
+
+  function handleAgregarProducto(
+    seleccion: ProductSelection
+  ) {
+
+    agregarProducto(
+      seleccion
+    )
+  }
+
+
+  // ============================
+  // Confirmar pedido
+  // ============================
+
+  async function handleConfirmarPedido() {
+
+    // Evitar doble click
+    if (confirmandoPedido) {
+      return
+    }
+
+    // Validar carrito
+    if (!items.length) {
+      alert(
+        'Tu carrito está vacío'
+      )
+
+      return
+    }
+
+    try {
+
+      setConfirmandoPedido(
+        true
+      )
+
+      // ==========================
+      // Convertir CartItems
+      // al formato del backend
+      // ==========================
+
+      const productos:
+        PedidoInput[] =
+        items.map(item => ({
+
+          productoId:
+            item.producto.id,
+
+          cantidad:
+            item.cantidad,
+
+          observaciones:
+            item.observaciones,
+
+        }))
+
+
+      // ==========================
+      // Enviar pedido
+      // ==========================
+
+      const response =
+        await confirmarPedido(
+          mesaId,
+          productos
+        )
+
+
+      // ==========================
+      // Actualizar mesa
+      // ==========================
+
+      setMesa(
+        response.mesa
+      )
+
+
+      // ==========================
+      // Vaciar carrito
+      // ==========================
+
+      vaciarCarrito()
+
+
+      // ==========================
+      // Cerrar drawer
+      // ==========================
+
+      setCarritoAbierto(
+        false
+      )
+
+
+      // ==========================
+      // Confirmación
+      // ==========================
+
+      alert(
+        response.message ||
+        'Pedido confirmado correctamente'
+      )
+
+    } catch (error) {
+
+      console.error(
+        'Error confirmando pedido:',
+        error
+      )
+
+      if (
+        error instanceof Error
+      ) {
+
+        alert(
+          error.message
+        )
+
+      } else {
+
+        alert(
+          'No se pudo confirmar el pedido'
+        )
+
+      }
+
+    } finally {
+
+      setConfirmandoPedido(
+        false
+      )
+
+    }
+  }
+
 
   // ============================
   // Estado de carga
   // ============================
 
   if (!mesa) {
+
     return (
-      <h1>
-        Cargando...
-      </h1>
+      <div
+        className={
+          styles.container
+        }
+      >
+
+        <BackToHome />
+
+        <h1>
+          Cargando mesa...
+        </h1>
+
+      </div>
     )
+
   }
+
 
   // ============================
   // Total pedidos confirmados
@@ -135,35 +320,47 @@ export default function MesaDetallePage() {
 
   const total =
     mesa.pedidos?.reduce(
-      (acc, pedido) =>
-        acc + pedido.total,
+      (
+        acumulado,
+        pedido
+      ) =>
+        acumulado +
+        pedido.total,
       0
     ) ?? 0
+
 
   // ============================
   // Categorías
   // ============================
 
   const categorias = [
+
     'Todos',
+
     ...new Set(
       menu.map(
         producto =>
           producto.categoria
       )
     ),
+
   ]
 
+
   // ============================
-  // Productos filtrados
+  // Productos disponibles
   // ============================
 
   const productosFiltrados =
+
     categoria === 'Todos'
+
       ? menu.filter(
           producto =>
             producto.disponible
         )
+
       : menu.filter(
           producto =>
             producto.categoria ===
@@ -171,184 +368,254 @@ export default function MesaDetallePage() {
             producto.disponible
         )
 
-  // ============================
-  // Agregar producto al carrito
-  // ============================
-
-  function handleAgregarProducto(
-    seleccion: ProductSelection
-  ) {
-    agregarProducto(seleccion)
-  }
 
   // ============================
   // Render
   // ============================
 
   return (
+
     <div
-      className={styles.container}
+      className={
+        styles.container
+      }
     >
+
       <BackToHome />
 
+
       {/* ======================
-          INFORMACIÓN DE MESA
+          INFORMACIÓN MESA
       ====================== */}
 
       <MesaCard
         mesa={mesa}
       />
 
+
       {/* ======================
           MENÚ
       ====================== */}
 
       <section>
+
         <h2>
           Menú
         </h2>
 
+
         <CategoryTabs
-          categorias={categorias}
-          categoriaActiva={categoria}
+
+          categorias={
+            categorias
+          }
+
+          categoriaActiva={
+            categoria
+          }
+
           onSeleccionar={
             setCategoria
           }
+
         />
 
+
         <MenuList
+
           productos={
             productosFiltrados
           }
+
           onAgregar={
             producto =>
               setProductoSeleccionado(
                 producto
               )
           }
+
         />
+
       </section>
+
 
       {/* ======================
           PRODUCT MODAL
       ====================== */}
 
       <ProductModal
+
         producto={
           productoSeleccionado
         }
+
         onCerrar={() =>
           setProductoSeleccionado(
             null
           )
         }
+
         onAgregar={
           handleAgregarProducto
         }
+
       />
 
-      {/* ======================
-              CARRITO
-      ====================== */}
-
-      <CartButton
-        cantidad={totalProductos}
-        total={totalPrecio}
-        onClick={() =>
-          setCartAbierto(true)
-        }
-      />
-
-      <CartDrawer
-        abierto={cartAbierto}
-        onCerrar={() =>
-          setCartAbierto(false)
-        }
-        onConfirmar={() =>
-          console.log(
-            'Confirmar pedido',
-            mesaId
-          )
-           /*
-            SIGUIENTE PASO:
-
-            await crearPedido(
-              mesaId,
-              items
-            )
-          */
-        }
-      />
 
       {/* ======================
           PEDIDOS CONFIRMADOS
       ====================== */}
 
       <section>
+
         <h2>
-          Pedidos
+          Pedidos de la mesa
         </h2>
 
+
         {mesa.pedidos?.length ? (
+
           mesa.pedidos.map(
             pedido => (
+
               <PedidoCard
-                key={pedido.id}
-                pedido={pedido}
+
+                key={
+                  pedido.id
+                }
+
+                pedido={
+                  pedido
+                }
+
               />
+
             )
           )
+
         ) : (
+
           <p>
             No hay pedidos
+            confirmados.
           </p>
+
         )}
+
       </section>
 
+
       {/* ======================
-          TOTAL PEDIDOS
+          TOTAL MESA
       ====================== */}
 
       <div
-        className={styles.total}
+        className={
+          styles.total
+        }
       >
+
         <span>
-          Total
+          Total de la mesa
         </span>
 
         <strong>
+
           $
-          {total.toLocaleString()}
+
+          {total
+            .toLocaleString()}
+
         </strong>
+
       </div>
 
+
       {/* ======================
-          ACCIONES
+          PAGAR
       ====================== */}
 
       <button
-        className={
-          styles.primary
-        }
-      >
-        Pedir comida
-      </button>
-
-      <button
+        type="button"
         className={
           styles.secondary
         }
+        disabled={
+          !mesa.pedidos?.length
+        }
       >
+
         Pagar
+
       </button>
 
+
+      {/* ======================
+          SALIR MESA
+      ====================== */}
+
       <button
+        type="button"
         className={
           styles.danger
         }
       >
+
         Salir de la mesa
+
       </button>
+
+
+      {/* ======================
+          BOTÓN CARRITO
+      ====================== */}
+
+      <CartButton
+
+        cantidad={
+          totalProductos
+        }
+
+        total={
+          totalPrecio
+        }
+
+        onClick={() =>
+          setCarritoAbierto(
+            true
+          )
+        }
+
+      />
+
+
+      {/* ======================
+          CART DRAWER
+      ====================== */}
+
+      <CartDrawer
+
+        abierto={
+          carritoAbierto
+        }
+
+        confirmando={
+          confirmandoPedido
+        }
+
+        onCerrar={() =>
+          setCarritoAbierto(
+            false
+          )
+        }
+
+        onConfirmar={
+          handleConfirmarPedido
+        }
+
+      />
+
     </div>
+
   )
 }

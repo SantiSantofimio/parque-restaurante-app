@@ -273,6 +273,11 @@
   opacity: 0.92;
 }
 
+.confirmButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 /* ============================
    ANIMATION
 ============================ */
