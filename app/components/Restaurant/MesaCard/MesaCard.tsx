@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function MesaCard({
-  mesa,
+  mesa
 }: Props) {
   return (
     <div className={styles.card}>

@@ -9,6 +9,7 @@ router.use(authMiddleware)
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const MESAS_FILE = path.join(__dirname, '../data/mesas.json')
+const MENU_FILE =path.join(__dirname, '../content/menu.json')
 
 // ============================
 // Helpers
@@ -22,6 +23,19 @@ function readMesas() {
 
 function writeMesas(mesas) {
   fs.writeFileSync(MESAS_FILE, JSON.stringify(mesas, null, 2))
+}
+
+function readMenu() {
+  if (!fs.existsSync(MENU_FILE)) {
+     return []
+}
+
+  const raw = fs.readFileSync(MENU_FILE, 'utf-8')
+
+  if (!raw.trim()) {
+    return []
+  }
+  return JSON.parse(raw)
 }
 
 // ============================
@@ -297,6 +311,221 @@ router.put(
       pedidos:
         mesa.pedidos,
     })
+  }
+)
+
+// ============================
+// Confirmar carrito como pedido
+// ============================
+
+router.post(
+  '/:mesaId/pedidos',
+  (req, res) => {
+
+    const { mesaId } =
+      req.params
+
+    const { productos } =
+      req.body
+
+    // Usuario autenticado
+    const userId =
+      req.user.id
+
+    // ============================
+    // Validar carrito
+    // ============================
+
+    if (
+      !Array.isArray(productos) ||
+      productos.length === 0
+    ) {
+      return res
+        .status(400)
+        .json({
+          error:
+            'El carrito está vacío',
+        })
+    }
+
+    const mesas =
+      readMesas()
+
+    const mesa =
+      mesas.find(
+        m =>
+          m.id === mesaId
+      )
+
+    // ============================
+    // Validar mesa
+    // ============================
+
+    if (!mesa) {
+      return res
+        .status(404)
+        .json({
+          error:
+            'Mesa no encontrada',
+        })
+    }
+
+    // ============================
+    // Validar usuario en mesa
+    // ============================
+
+    const usuarioEnMesa =
+      mesa.usuarios.some(
+        usuario =>
+          String(usuario.id) ===
+          String(userId)
+      )
+
+    if (!usuarioEnMesa) {
+      return res
+        .status(403)
+        .json({
+          error:
+            'No perteneces a esta mesa',
+        })
+    }
+
+    // ============================
+    // Leer menú real
+    // ============================
+
+    const menu =
+      readMenu()
+
+    if (!menu.length) {
+      return res
+        .status(500)
+        .json({
+          error:
+            'El menú no está disponible',
+        })
+    }
+
+    if (!mesa.pedidos) {
+      mesa.pedidos = []
+    }
+
+    // ============================
+    // Procesar productos
+    // ============================
+
+    for (
+      const item of productos
+    ) {
+
+      const cantidad =
+        Number(item.cantidad)
+
+      // Validar cantidad
+      if (
+        !Number.isInteger(
+          cantidad
+        ) ||
+        cantidad <= 0
+      ) {
+        return res
+          .status(400)
+          .json({
+            error:
+              'Cantidad de producto inválida',
+          })
+      }
+
+      // Buscar producto real
+      const productoReal =
+        menu.find(
+          producto =>
+            String(producto.id) ===
+            String(
+              item.productoId
+            )
+        )
+
+      if (!productoReal) {
+        return res
+          .status(400)
+          .json({
+            error:
+              `Producto ${item.productoId} no encontrado`,
+          })
+      }
+
+      if (
+        productoReal.disponible ===
+        false
+      ) {
+        return res
+          .status(400)
+          .json({
+            error:
+              `${productoReal.nombre} no está disponible`,
+          })
+      }
+
+      // ============================
+      // Crear pedido
+      // ============================
+
+      const nuevoPedido = {
+        id:
+          Date.now() +
+          Math.floor(
+            Math.random() *
+            100000
+          ),
+
+        productoId:
+          String(
+            productoReal.id
+          ),
+
+        producto:
+          productoReal.nombre,
+
+        precio:
+          productoReal.precio,
+
+        cantidad,
+
+        total:
+          productoReal.precio *
+          cantidad,
+
+        observaciones:
+          item.observaciones ||
+          '',
+
+        userId,
+      }
+
+      mesa.pedidos.push(
+        nuevoPedido
+      )
+    }
+
+    // ============================
+    // Guardar mesa
+    // ============================
+
+    writeMesas(mesas)
+
+    // ============================
+    // Respuesta
+    // ============================
+
+    return res
+      .status(201)
+      .json({
+        message:
+          'Pedido confirmado correctamente',
+
+        mesa,
+      })
   }
 )
 
