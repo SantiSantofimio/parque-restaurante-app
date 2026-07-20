@@ -478,6 +478,9 @@ router.post(
             Math.random() *
             100000
           ),
+        
+        userId:
+          req.user.id,
 
         productoId:
           String(
@@ -499,8 +502,6 @@ router.post(
         observaciones:
           item.observaciones ||
           '',
-
-        userId,
       }
 
       mesa.pedidos.push(

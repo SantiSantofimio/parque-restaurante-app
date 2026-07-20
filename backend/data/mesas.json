@@ -54,6 +54,16 @@
         "total": 9000,
         "observaciones": "En leche",
         "userId": 1781520348307
+      },
+      {
+        "id": 1784565596580,
+        "userId": 1781520348307,
+        "productoId": "2",
+        "producto": "Arepas Mixtas",
+        "precio": 18000,
+        "cantidad": 1,
+        "total": 18000,
+        "observaciones": ""
       }
     ]
   },

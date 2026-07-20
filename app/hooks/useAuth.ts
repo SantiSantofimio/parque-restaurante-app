@@ -37,13 +37,16 @@ export function useAuth() {
             'user'
           )
 
-        if (
-          !savedUser
-        ) {
+        if (!savedUser) {
+
+          setLoading(false)
+
           router.push(
-            '/login'
+            '/auth/login'
           )
+
           return
+          
         }
 
         setUser(
