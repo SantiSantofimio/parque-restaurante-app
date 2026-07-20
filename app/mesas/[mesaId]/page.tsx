@@ -46,10 +46,31 @@ import CartButton from '@/app/components/Restaurant/CartButton/CartButton'
 
 import CartDrawer from '@/app/components/Restaurant/CartDrawer/CartDrawer'
 
+import PaymentModal from '@/app/components/Restaurant/PaymentModal/PaymentModal'
+
+import {
+  pagarPedidos,
+  type TipoPago,
+} from '@/services/facturas'
+
+import { useAuth } from '@/app/hooks/useAuth'
+
 import styles from './mesa.module.css'
 
 
 export default function MesaDetallePage() {
+
+
+  // ============================
+  // PayMent Modal
+  // ============================
+
+  const {
+    user,
+    loading:
+      authLoading,
+   } = useAuth()
+
 
   // ============================
   // Parámetros
@@ -108,6 +129,16 @@ export default function MesaDetallePage() {
     setConfirmandoPedido,
   ] = useState(false)
 
+  const [
+    pagoAbierto,
+    setPagoAbierto,
+  ] = useState(false)
+
+  const [
+    pagando,
+    setPagando,
+  ] = useState(false)
+
 
   // ============================
   // Cargar mesa
@@ -161,6 +192,106 @@ export default function MesaDetallePage() {
     agregarProducto(
       seleccion
     )
+  }
+
+
+  // ============================
+  // Pagar pedidos
+  // ============================
+
+  async function handlePagar(
+    tipoPago:
+      TipoPago
+    ) {
+
+    if (
+      !user ||
+      pagando
+    ) {
+      return
+    }
+
+
+    try {
+
+      setPagando(
+        true
+      )
+
+
+      const response =
+        await pagarPedidos(
+          mesaId,
+          tipoPago
+        )
+
+
+      // ==========================
+      // Actualizar mesa
+      // ==========================
+
+      setMesa(
+        response.mesa
+      )
+
+
+      // ==========================
+      // Cerrar modal
+      // ==========================
+
+      setPagoAbierto(
+        false
+      )
+
+
+      // ==========================
+      // Confirmación
+      // ==========================
+
+      alert(
+        `Pago realizado correctamente.
+
+    Factura: ${response.factura.id}
+
+    Total pagado: $${response.factura.total.toLocaleString()}`
+      )
+
+
+    } catch (
+      error
+    ) {
+
+      console.error(
+        'Error realizando pago:',
+        error
+      )
+
+
+      if (
+        error instanceof
+        Error
+      ) {
+
+        alert(
+          error.message
+        )
+
+      } else {
+
+        alert(
+          'No se pudo realizar el pago'
+        )
+
+      }
+
+    } finally {
+
+      setPagando(
+        false
+      )
+
+    }
+
   }
 
 
@@ -293,7 +424,7 @@ export default function MesaDetallePage() {
   // Estado de carga
   // ============================
 
-  if (!mesa) {
+  if ( authLoading || !mesa ) {
 
     return (
       <div
@@ -537,17 +668,63 @@ export default function MesaDetallePage() {
 
       <button
         type="button"
+
         className={
           styles.secondary
         }
+
         disabled={
           !mesa.pedidos?.length
         }
-      >
 
-        Pagar
+        onClick={() =>
+          setPagoAbierto(
+            true
+          )
+        }
+        >
+
+        💳 Pagar
 
       </button>
+
+      {/* ======================
+          PAYMENT MODAL
+      ====================== */}
+
+      {
+        user && (
+
+          <PaymentModal
+
+            abierto={
+              pagoAbierto
+            }
+
+            pedidos={
+              mesa.pedidos
+            }
+
+            userId={
+              user.id
+            }
+
+            pagando={
+              pagando
+            }
+
+            onCerrar={() =>
+              setPagoAbierto(
+                false
+              )
+            }
+
+            onConfirmar={
+              handlePagar
+            }
+          />
+        )
+      }
 
 
       {/* ======================
