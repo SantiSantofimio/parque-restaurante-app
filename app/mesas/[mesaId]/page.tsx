@@ -26,6 +26,10 @@ import {
   useCart,
 } from '@/app/components/Restaurant/CartContext/CartContext'
 
+import CartButton from '@/app/components/Restaurant/CartButton/CartButton'
+
+import CartDrawer from '@/app/components/Restaurant/CartDrawer/CartDrawer'
+
 import BackToHome from '@/app/components/BackToHome'
 
 import MesaCard from '@/app/components/Restaurant/MesaCard/MesaCard'
@@ -85,6 +89,11 @@ export default function MesaDetallePage() {
     productoSeleccionado,
     setProductoSeleccionado,
   ] = useState<MenuItem | null>(null)
+
+  const [
+    cartAbierto,
+    setCartAbierto,
+  ] = useState(false)
 
   // ============================
   // Cargar mesa
@@ -239,27 +248,37 @@ export default function MesaDetallePage() {
       />
 
       {/* ======================
-          CARRITO TEMPORAL
+              CARRITO
       ====================== */}
 
-      {totalProductos > 0 && (
-        <div>
-          <p>
-            🛒 Productos en carrito:{' '}
-            <strong>
-              {totalProductos}
-            </strong>
-          </p>
+      <CartButton
+        cantidad={totalProductos}
+        total={totalPrecio}
+        onClick={() =>
+          setCartAbierto(true)
+        }
+      />
 
-          <p>
-            Total carrito:{' '}
-            <strong>
-              $
-              {totalPrecio.toLocaleString()}
-            </strong>
-          </p>
-        </div>
-      )}
+      <CartDrawer
+        abierto={cartAbierto}
+        onCerrar={() =>
+          setCartAbierto(false)
+        }
+        onConfirmar={() =>
+          console.log(
+            'Confirmar pedido',
+            mesaId
+          )
+           /*
+            SIGUIENTE PASO:
+
+            await crearPedido(
+              mesaId,
+              items
+            )
+          */
+        }
+      />
 
       {/* ======================
           PEDIDOS CONFIRMADOS
