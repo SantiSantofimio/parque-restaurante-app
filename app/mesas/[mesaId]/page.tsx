@@ -22,6 +22,10 @@ import {
   type MenuItem,
 } from '@/services/menu'
 
+import {
+  useCart,
+} from '@/app/components/Restaurant/CartContext/CartContext'
+
 import BackToHome from '@/app/components/BackToHome'
 
 import MesaCard from '@/app/components/Restaurant/MesaCard/MesaCard'
@@ -39,7 +43,6 @@ import ProductModal, {
 import styles from './mesa.module.css'
 
 export default function MesaDetallePage() {
-
   // ============================
   // Parámetros
   // ============================
@@ -49,6 +52,15 @@ export default function MesaDetallePage() {
   const mesaId =
     params.mesaId as string
 
+  // ============================
+  // Carrito
+  // ============================
+
+  const {
+    agregarProducto,
+    totalProductos,
+    totalPrecio,
+  } = useCart()
 
   // ============================
   // Estados
@@ -74,49 +86,39 @@ export default function MesaDetallePage() {
     setProductoSeleccionado,
   ] = useState<MenuItem | null>(null)
 
-
   // ============================
   // Cargar mesa
   // ============================
 
   useEffect(() => {
-
     if (!mesaId) return
 
     obtenerMesa(mesaId)
       .then(setMesa)
       .catch(console.error)
-
   }, [mesaId])
-
 
   // ============================
   // Cargar menú
   // ============================
 
   useEffect(() => {
-
     obtenerMenu()
       .then(setMenu)
       .catch(console.error)
-
   }, [])
 
-
   // ============================
-  // Loading
+  // Estado de carga
   // ============================
 
   if (!mesa) {
-
     return (
       <h1>
         Cargando...
       </h1>
     )
-
   }
-
 
   // ============================
   // Total pedidos confirmados
@@ -129,38 +131,30 @@ export default function MesaDetallePage() {
       0
     ) ?? 0
 
-
   // ============================
-  // Categorías del menú
+  // Categorías
   // ============================
 
   const categorias = [
-
     'Todos',
-
     ...new Set(
       menu.map(
         producto =>
           producto.categoria
       )
     ),
-
   ]
 
-
   // ============================
-  // Filtrar productos
+  // Productos filtrados
   // ============================
 
   const productosFiltrados =
-
     categoria === 'Todos'
-
       ? menu.filter(
           producto =>
             producto.disponible
         )
-
       : menu.filter(
           producto =>
             producto.categoria ===
@@ -168,55 +162,25 @@ export default function MesaDetallePage() {
             producto.disponible
         )
 
-
   // ============================
-  // Agregar producto
-  // Próximamente irá al carrito
+  // Agregar producto al carrito
   // ============================
 
   function handleAgregarProducto(
     seleccion: ProductSelection
   ) {
-
-    console.log(
-      'Producto para carrito:',
-      {
-        mesaId,
-        ...seleccion,
-      }
-    )
-
-    /*
-      SIGUIENTE PASO:
-
-      addItem({
-        mesaId,
-        producto:
-          seleccion.producto,
-        cantidad:
-          seleccion.cantidad,
-        observaciones:
-          seleccion.observaciones
-      })
-    */
-
+    agregarProducto(seleccion)
   }
-
 
   // ============================
   // Render
   // ============================
 
   return (
-
     <div
-      className={
-        styles.container
-      }
+      className={styles.container}
     >
-
       <BackToHome />
-
 
       {/* ======================
           INFORMACIÓN DE MESA
@@ -226,140 +190,118 @@ export default function MesaDetallePage() {
         mesa={mesa}
       />
 
-
       {/* ======================
           MENÚ
       ====================== */}
 
       <section>
-
         <h2>
           Menú
         </h2>
 
         <CategoryTabs
-
-          categorias={
-            categorias
-          }
-
-          categoriaActiva={
-            categoria
-          }
-
+          categorias={categorias}
+          categoriaActiva={categoria}
           onSeleccionar={
             setCategoria
           }
-
         />
 
-
         <MenuList
-
           productos={
             productosFiltrados
           }
-
           onAgregar={
             producto =>
               setProductoSeleccionado(
                 producto
               )
           }
-
         />
-
       </section>
-
 
       {/* ======================
           PRODUCT MODAL
       ====================== */}
 
       <ProductModal
-
         producto={
           productoSeleccionado
         }
-
         onCerrar={() =>
           setProductoSeleccionado(
             null
           )
         }
-
         onAgregar={
           handleAgregarProducto
         }
-
       />
 
+      {/* ======================
+          CARRITO TEMPORAL
+      ====================== */}
+
+      {totalProductos > 0 && (
+        <div>
+          <p>
+            🛒 Productos en carrito:{' '}
+            <strong>
+              {totalProductos}
+            </strong>
+          </p>
+
+          <p>
+            Total carrito:{' '}
+            <strong>
+              $
+              {totalPrecio.toLocaleString()}
+            </strong>
+          </p>
+        </div>
+      )}
 
       {/* ======================
           PEDIDOS CONFIRMADOS
       ====================== */}
 
       <section>
-
         <h2>
           Pedidos
         </h2>
 
-
         {mesa.pedidos?.length ? (
-
           mesa.pedidos.map(
             pedido => (
-
               <PedidoCard
-
-                key={
-                  pedido.id
-                }
-
-                pedido={
-                  pedido
-                }
-
+                key={pedido.id}
+                pedido={pedido}
               />
-
             )
           )
-
         ) : (
-
           <p>
             No hay pedidos
           </p>
-
         )}
-
       </section>
 
-
       {/* ======================
-          TOTAL
+          TOTAL PEDIDOS
       ====================== */}
 
       <div
-        className={
-          styles.total
-        }
+        className={styles.total}
       >
-
         <span>
           Total
         </span>
 
         <strong>
-
           $
           {total.toLocaleString()}
-
         </strong>
-
       </div>
-
 
       {/* ======================
           ACCIONES
@@ -370,35 +312,24 @@ export default function MesaDetallePage() {
           styles.primary
         }
       >
-
         Pedir comida
-
       </button>
-
 
       <button
         className={
           styles.secondary
         }
       >
-
         Pagar
-
       </button>
-
 
       <button
         className={
           styles.danger
         }
       >
-
         Salir de la mesa
-
       </button>
-
     </div>
-
   )
-
 }
