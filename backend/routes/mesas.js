@@ -430,168 +430,255 @@ router.post(
 // ============================
 // Agregar pedido a mesa
 // ============================
-router.post(
-  '/:mesaId/pedido',
-  (req, res) => {
-    const { mesaId } =
-      req.params
+router.post('/:mesaId/pedido', (req, res) => {
+  const { mesaId } = req.params
 
-    const {
-      producto,
-      precio,
-      cantidad = 1,
-    } = req.body
+  // Usuario autenticado por JWT
+  const user = req.user
 
-    const mesas =
-      readMesas()
-
-    const mesa =
-      mesas.find(
-        (m) =>
-          m.id === mesaId
-      )
-
-    if (!mesa) {
-      return res
-        .status(404)
-        .json({
-          error:
-            'Mesa no encontrada',
-        })
-    }
-
-    if (!mesa.pedidos) {
-      mesa.pedidos = []
-    }
-
-    const pedidoExistente =
-  mesa.pedidos.find(
-    (p) =>
-      p.producto === producto
-  )
-
-if (pedidoExistente) {
-  pedidoExistente.cantidad +=
-    cantidad
-
-  pedidoExistente.total =
-    pedidoExistente.precio *
-    pedidoExistente.cantidad
-} else {
-  mesa.pedidos.push({
-    id: Date.now(),
+  const {
     producto,
     precio,
-    cantidad,
-    total:
-      precio * cantidad,
-  })
-}
+    cantidad = 1,
+    observaciones = '',
+  } = req.body
 
-    writeMesas(mesas)
-
-    res.json({
-      message:
-        'Pedido agregado',
-      pedidos:
-        mesa.pedidos,
+  // ============================
+  // Validar usuario
+  // ============================
+  if (!user || !user.id) {
+    return res.status(401).json({
+      error: 'Usuario no autenticado',
     })
   }
-)
+
+  // ============================
+  // Validar producto
+  // ============================
+  if (
+    !producto ||
+    typeof precio !== 'number' ||
+    !Number.isInteger(cantidad) ||
+    cantidad < 1
+  ) {
+    return res.status(400).json({
+      error: 'Datos del pedido inválidos',
+    })
+  }
+
+  // ============================
+  // Leer mesas
+  // ============================
+  const mesas = readMesas()
+
+  const mesa = mesas.find(
+    m => m.id === mesaId
+  )
+
+  if (!mesa) {
+    return res.status(404).json({
+      error: 'Mesa no encontrada',
+    })
+  }
+
+  // ============================
+  // Verificar que el usuario
+  // pertenece a la mesa
+  // ============================
+  const perteneceAMesa =
+    mesa.usuarios.some(
+      usuario =>
+        usuario.id === user.id
+    )
+
+  if (!perteneceAMesa) {
+    return res.status(403).json({
+      error:
+        'Debes pertenecer a la mesa para realizar pedidos',
+    })
+  }
+
+  if (!mesa.pedidos) {
+    mesa.pedidos = []
+  }
+
+  // ============================
+  // Buscar pedido equivalente
+  //
+  // IMPORTANTE:
+  // ya no combinamos productos
+  // de usuarios diferentes.
+  // ============================
+  const pedidoExistente =
+    mesa.pedidos.find(
+      pedido =>
+        pedido.producto === producto &&
+        pedido.userId === user.id &&
+        (pedido.observaciones || '') ===
+          observaciones
+    )
+
+  if (pedidoExistente) {
+    pedidoExistente.cantidad +=
+      cantidad
+
+    pedidoExistente.total =
+      pedidoExistente.precio *
+      pedidoExistente.cantidad
+  } else {
+    mesa.pedidos.push({
+      id: Date.now(),
+
+      userId: user.id,
+
+      userName:
+        user.name || 'Usuario',
+
+      producto,
+
+      precio,
+
+      cantidad,
+
+      total:
+        precio * cantidad,
+
+      observaciones,
+
+      createdAt:
+        new Date().toISOString(),
+    })
+  }
+
+  // ============================
+  // Guardar
+  // ============================
+  writeMesas(mesas)
+
+  return res.status(201).json({
+    message:
+      'Pedido agregado correctamente',
+
+    pedidos:
+      mesa.pedidos,
+  })
+})
 
 // ============================
 // Actualizar cantidad pedido
 // ============================
-router.put(
-  '/:mesaId/pedido',
-  (req, res) => {
-    const { mesaId } =
-      req.params
+router.put('/:mesaId/pedido', (req, res) => {
+  const { mesaId } = req.params
 
-    const {
-      producto,
-      action,
-    } = req.body
+  const user = req.user
 
-    const mesas =
-      readMesas()
+  const {
+    pedidoId,
+    action,
+  } = req.body
 
-    const mesa =
-      mesas.find(
-        (m) =>
-          m.id === mesaId
-      )
-
-    if (!mesa) {
-      return res
-        .status(404)
-        .json({
-          error:
-            'Mesa no encontrada',
-        })
-    }
-
-    mesa.usuarios = mesa.usuarios.filter(u => u.id !== req.user.id)
-
-    if (!mesa.pedidos) {
-      return res
-        .status(404)
-        .json({
-          error:
-            'No hay pedidos',
-        })
-    }
-
-    const pedido =
-      mesa.pedidos.find(
-        (p) =>
-          p.producto ===
-          producto
-      )
-
-    if (!pedido) {
-      return res
-        .status(404)
-        .json({
-          error:
-            'Pedido no encontrado',
-        })
-    }
-
-    // sumar
-    if (action === 'add') {
-      pedido.cantidad += 1
-    }
-
-    // restar
-    if (
-      action === 'remove'
-    ) {
-      pedido.cantidad -= 1
-    }
-
-    // recalcular total
-    pedido.total =
-      pedido.precio *
-      pedido.cantidad
-
-    // eliminar si llega a 0
-    mesa.pedidos =
-      mesa.pedidos.filter(
-        (p) =>
-          p.cantidad > 0
-      )
-
-    writeMesas(mesas)
-
-    res.json({
-      message:
-        'Pedido actualizado',
-      pedidos:
-        mesa.pedidos,
+  // ============================
+  // Validar usuario
+  // ============================
+  if (!user || !user.id) {
+    return res.status(401).json({
+      error: 'Usuario no autenticado',
     })
   }
-)
+
+  // ============================
+  // Validar acción
+  // ============================
+  if (
+    action !== 'add' &&
+    action !== 'remove'
+  ) {
+    return res.status(400).json({
+      error: 'Acción inválida',
+    })
+  }
+
+  const mesas = readMesas()
+
+  const mesa = mesas.find(
+    m => m.id === mesaId
+  )
+
+  if (!mesa) {
+    return res.status(404).json({
+      error: 'Mesa no encontrada',
+    })
+  }
+
+  if (!mesa.pedidos) {
+    return res.status(404).json({
+      error: 'No hay pedidos',
+    })
+  }
+
+  // ============================
+  // Buscar por ID
+  // ============================
+  const pedido =
+    mesa.pedidos.find(
+      p =>
+        p.id === pedidoId
+    )
+
+  if (!pedido) {
+    return res.status(404).json({
+      error: 'Pedido no encontrado',
+    })
+  }
+
+  // ============================
+  // Seguridad:
+  // solo el propietario puede
+  // modificar su pedido
+  // ============================
+  if (
+    pedido.userId !==
+    user.id
+  ) {
+    return res.status(403).json({
+      error:
+        'No puedes modificar el pedido de otro usuario',
+    })
+  }
+
+  // ============================
+  // Modificar cantidad
+  // ============================
+  if (action === 'add') {
+    pedido.cantidad += 1
+  }
+
+  if (action === 'remove') {
+    pedido.cantidad -= 1
+  }
+
+  pedido.total =
+    pedido.precio *
+    pedido.cantidad
+
+  // ============================
+  // Eliminar al llegar a cero
+  // ============================
+  mesa.pedidos =
+    mesa.pedidos.filter(
+      p => p.cantidad > 0
+    )
+
+  writeMesas(mesas)
+
+  return res.json({
+    message:
+      'Pedido actualizado',
+
+    pedidos:
+      mesa.pedidos,
+  })
+})
 
 // ============================
 // Confirmar carrito como pedido

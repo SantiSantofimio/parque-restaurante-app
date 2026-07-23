@@ -3,13 +3,18 @@ export interface Usuario {
   name: string
 }
 
+export interface PedidoInput {
+  producto: string
+  precio: number
+  cantidad: number
+  observaciones?: string
+}
+
 export interface Pedido {
   id: number
 
-  // Usuario que realizó el pedido
   userId: number
-
-  productoId?: string
+  userName: string
 
   producto: string
   precio: number
@@ -17,12 +22,7 @@ export interface Pedido {
   total: number
 
   observaciones?: string
-}
-
-export interface PedidoInput {
-  productoId: string
-  cantidad: number
-  observaciones?: string
+  createdAt?: string
 }
 
 export interface Mesa {

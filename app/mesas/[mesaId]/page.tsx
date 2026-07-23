@@ -305,128 +305,158 @@ export default function MesaDetallePage() {
 
 
   // ============================
-  // Confirmar pedido
+// Confirmar pedido
+// ============================
+
+async function handleConfirmarPedido() {
+
+  // ============================
+  // Evitar doble click
   // ============================
 
-  async function handleConfirmarPedido() {
-
-    // Evitar doble click
-    if (confirmandoPedido) {
-      return
-    }
-
-    // Validar carrito
-    if (!items.length) {
-      alert(
-        'Tu carrito está vacío'
-      )
-
-      return
-    }
-
-    try {
-
-      setConfirmandoPedido(
-        true
-      )
-
-      // ==========================
-      // Convertir CartItems
-      // al formato del backend
-      // ==========================
-
-      const productos:
-        PedidoInput[] =
-        items.map(item => ({
-
-          productoId:
-            item.producto.id,
-
-          cantidad:
-            item.cantidad,
-
-          observaciones:
-            item.observaciones,
-
-        }))
-
-
-      // ==========================
-      // Enviar pedido
-      // ==========================
-
-      const response =
-        await confirmarPedido(
-          mesaId,
-          productos
-        )
-
-
-      // ==========================
-      // Actualizar mesa
-      // ==========================
-
-      setMesa(
-        response.mesa
-      )
-
-
-      // ==========================
-      // Vaciar carrito
-      // ==========================
-
-      vaciarCarrito()
-
-
-      // ==========================
-      // Cerrar drawer
-      // ==========================
-
-      setCarritoAbierto(
-        false
-      )
-
-
-      // ==========================
-      // Confirmación
-      // ==========================
-
-      alert(
-        response.message ||
-        'Pedido confirmado correctamente'
-      )
-
-    } catch (error) {
-
-      console.error(
-        'Error confirmando pedido:',
-        error
-      )
-
-      if (
-        error instanceof Error
-      ) {
-
-        alert(
-          error.message
-        )
-
-      } else {
-
-        alert(
-          'No se pudo confirmar el pedido'
-        )
-
-      }
-
-    } finally {
-
-      setConfirmandoPedido(
-        false
-      )
-
-    }
+  if (confirmandoPedido) {
+    return
   }
+
+
+  // ============================
+  // Validar usuario
+  // ============================
+
+  if (!user) {
+
+    alert(
+      'Debes iniciar sesión para realizar un pedido'
+    )
+
+    return
+  }
+
+
+  // ============================
+  // Validar carrito
+  // ============================
+
+  if (!items.length) {
+
+    alert(
+      'Tu carrito está vacío'
+    )
+
+    return
+  }
+
+
+  try {
+
+    setConfirmandoPedido(
+      true
+    )
+
+
+    // ============================
+    // Convertir CartItem
+    // a PedidoInput
+    // ============================
+
+    const productos:
+      PedidoInput[] =
+      items.map(item => ({
+
+        producto:
+          item.producto,
+
+        precio:
+          item.precio,
+
+        cantidad:
+          item.cantidad,
+
+        observaciones:
+          item.observaciones,
+
+      }))
+
+
+    // ============================
+    // Enviar carrito
+    // ============================
+
+    const response =
+      await confirmarPedido(
+        mesaId,
+        productos
+      )
+
+
+    // ============================
+    // Actualizar mesa
+    // ============================
+
+    setMesa(
+      response.mesa
+    )
+
+
+    // ============================
+    // Vaciar carrito
+    // ============================
+
+    vaciarCarrito()
+
+
+    // ============================
+    // Cerrar carrito
+    // ============================
+
+    setCarritoAbierto(
+      false
+    )
+
+
+    // ============================
+    // Confirmación
+    // ============================
+
+    alert(
+      response.message ||
+      'Pedido confirmado correctamente'
+    )
+
+
+  } catch (error) {
+
+    console.error(
+      'Error confirmando pedido:',
+      error
+    )
+
+
+    if (
+      error instanceof Error
+    ) {
+
+      alert(
+        error.message
+      )
+
+    } else {
+
+      alert(
+        'No se pudo confirmar el pedido'
+      )
+
+    }
+
+  } finally {
+
+    setConfirmandoPedido(
+      false
+    )
+
+  }
+
+}
 
 
   // ============================
