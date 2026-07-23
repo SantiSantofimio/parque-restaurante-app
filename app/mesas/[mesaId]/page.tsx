@@ -304,7 +304,7 @@ export default function MesaDetallePage() {
   }
 
 
-  // ============================
+// ============================
 // Confirmar pedido
 // ============================
 
@@ -318,13 +318,11 @@ async function handleConfirmarPedido() {
     return
   }
 
-
   // ============================
   // Validar usuario
   // ============================
 
   if (!user) {
-
     alert(
       'Debes iniciar sesión para realizar un pedido'
     )
@@ -332,13 +330,11 @@ async function handleConfirmarPedido() {
     return
   }
 
-
   // ============================
   // Validar carrito
   // ============================
 
   if (!items.length) {
-
     alert(
       'Tu carrito está vacío'
     )
@@ -346,13 +342,11 @@ async function handleConfirmarPedido() {
     return
   }
 
-
   try {
 
     setConfirmandoPedido(
       true
     )
-
 
     // ============================
     // Convertir CartItem
@@ -364,10 +358,10 @@ async function handleConfirmarPedido() {
       items.map(item => ({
 
         producto:
-          item.producto,
+          item.producto.nombre,
 
         precio:
-          item.precio,
+          item.producto.precio,
 
         cantidad:
           item.cantidad,
@@ -377,9 +371,8 @@ async function handleConfirmarPedido() {
 
       }))
 
-
     // ============================
-    // Enviar carrito
+    // Enviar pedido al backend
     // ============================
 
     const response =
@@ -387,7 +380,6 @@ async function handleConfirmarPedido() {
         mesaId,
         productos
       )
-
 
     // ============================
     // Actualizar mesa
@@ -397,22 +389,19 @@ async function handleConfirmarPedido() {
       response.mesa
     )
 
-
     // ============================
     // Vaciar carrito
     // ============================
 
     vaciarCarrito()
 
-
     // ============================
-    // Cerrar carrito
+    // Cerrar drawer
     // ============================
 
     setCarritoAbierto(
       false
     )
-
 
     // ============================
     // Confirmación
@@ -423,7 +412,6 @@ async function handleConfirmarPedido() {
       'Pedido confirmado correctamente'
     )
 
-
   } catch (error) {
 
     console.error(
@@ -431,21 +419,16 @@ async function handleConfirmarPedido() {
       error
     )
 
-
     if (
       error instanceof Error
     ) {
-
       alert(
         error.message
       )
-
     } else {
-
       alert(
         'No se pudo confirmar el pedido'
       )
-
     }
 
   } finally {
@@ -455,9 +438,7 @@ async function handleConfirmarPedido() {
     )
 
   }
-
 }
-
 
   // ============================
   // Estado de carga
