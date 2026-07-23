@@ -1,6 +1,5 @@
 import type {
   Mesa,
-  Usuario,
   PedidoInput,
 } from '@/types/mesas'
 
@@ -118,24 +117,16 @@ Promise<Mesa[]> {
 // ============================
 
 export async function entrarAMesa(
-  mesaId: string,
-  user: Usuario
+  mesaId: string
 ): Promise<{
   mesa: Mesa
+  message: string
 }> {
-
   const res = await fetch(
     `${API_URL}/${mesaId}/entrar`,
     {
       method: 'POST',
-
-      headers:
-        getAuthHeaders(),
-
-      body:
-        JSON.stringify({
-          user,
-        }),
+      headers: getAuthHeaders(),
     }
   )
 
@@ -148,8 +139,13 @@ export async function entrarAMesa(
   }
 
   if (!res.ok) {
+    const data = await res
+      .json()
+      .catch(() => null)
+
     throw new Error(
-      await getErrorMessage(res)
+      data?.error ||
+      'Error al entrar a la mesa'
     )
   }
 
@@ -161,42 +157,65 @@ export async function entrarAMesa(
 // ============================
 
 export async function salirDeMesa(
-  mesaId: string,
-  user: Usuario
+  mesaId: string
 ): Promise<{
   mesa: Mesa
+  message: string
 }> {
 
-  const res = await fetch(
-    `${API_URL}/${mesaId}/salir`,
-    {
-      method: 'POST',
+  const res =
+    await fetch(
+      `${API_URL}/${mesaId}/salir`,
+      {
 
-      headers:
-        getAuthHeaders(),
+        method:
+          'POST',
 
-      body:
-        JSON.stringify({
-          user,
-        }),
-    }
-  )
+        headers:
+          getAuthHeaders(),
 
-  if (res.status === 401) {
+      }
+    )
+
+
+  if (
+    res.status === 401
+  ) {
+
     redirectToLogin()
 
     throw new Error(
       'Sesión expirada'
     )
+
   }
 
-  if (!res.ok) {
+
+  if (
+    !res.ok
+  ) {
+
+    const data =
+      await res
+        .json()
+        .catch(
+          () => null
+        )
+
+
     throw new Error(
-      await getErrorMessage(res)
+
+      data?.error ||
+
+      'Error al salir de la mesa'
+
     )
+
   }
+
 
   return res.json()
+
 }
 
 // ============================

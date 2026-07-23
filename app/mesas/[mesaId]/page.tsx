@@ -7,10 +7,12 @@ import {
 
 import {
   useParams,
+  useRouter,
 } from 'next/navigation'
 
 import {
   obtenerMesa,
+  salirDeMesa,
   confirmarPedido,
 } from '@/services/mesas'
 
@@ -78,6 +80,8 @@ export default function MesaDetallePage() {
 
   const params = useParams()
 
+  const router = useRouter()
+
   const mesaId =
     params.mesaId as string
 
@@ -137,6 +141,11 @@ export default function MesaDetallePage() {
   const [
     pagando,
     setPagando,
+  ] = useState(false)
+
+  const [
+    saliendo,
+    setSaliendo,
   ] = useState(false)
 
 
@@ -499,6 +508,95 @@ export default function MesaDetallePage() {
             producto.disponible
         )
 
+  
+  // ============================
+  // Productos disponibles
+  // ============================
+  async function handleSalirMesa() {
+
+  if (
+    saliendo
+  ) {
+    return
+  }
+
+
+  const confirmar =
+    window.confirm(
+      '¿Seguro que quieres salir de esta mesa?'
+    )
+
+
+  if (
+    !confirmar
+  ) {
+    return
+  }
+
+
+  try {
+
+    setSaliendo(
+      true
+    )
+
+
+    const response =
+      await salirDeMesa(
+        mesaId
+      )
+
+
+    alert(
+      response.message
+    )
+
+
+    // ==========================
+    // Volver al listado
+    // ==========================
+
+    router.push(
+      '/mesas'
+    )
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      'Error saliendo de mesa:',
+      error
+    )
+
+
+    if (
+      error instanceof
+      Error
+    ) {
+
+      alert(
+        error.message
+      )
+
+    } else {
+
+      alert(
+        'No se pudo salir de la mesa'
+      )
+
+    }
+
+  } finally {
+
+    setSaliendo(
+      false
+    )
+
+  }
+
+}
 
   // ============================
   // Render
@@ -736,9 +834,19 @@ export default function MesaDetallePage() {
         className={
           styles.danger
         }
+
+        onClick={() =>
+          handleSalirMesa()
+        }
+
+        disabled={
+          saliendo
+        }
       >
 
-        Salir de la mesa
+        {saliendo
+          ? 'Saliendo...'
+          : '🚪 Salir de la mesa'}
 
       </button>
 

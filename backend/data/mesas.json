@@ -7,25 +7,9 @@
       {
         "id": 123,
         "name": "Santiago"
-      },
-      {
-        "id": 1781520348307,
-        "name": "carlos",
-        "email": "carlos@hotmail.com"
       }
     ],
-    "pedidos": [
-      {
-        "id": 1784567817908,
-        "userId": 1781520348307,
-        "productoId": "1",
-        "producto": "Patacón con Hogao",
-        "precio": 12000,
-        "cantidad": 1,
-        "total": 12000,
-        "observaciones": ""
-      }
-    ]
+    "pedidos": []
   },
   {
     "id": "mesa-2",

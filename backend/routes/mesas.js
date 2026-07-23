@@ -41,16 +41,92 @@ function readMenu() {
 // ============================
 // Obtener mesas
 // ============================
-router.get('/', (req, res) => {
-  const { personas } = req.query
-  const mesas = readMesas()
+router.get(
+  '/',
+  (req, res) => {
 
-  const disponibles = personas
-    ? mesas.filter((m) => !m.ocupada && m.capacidad >= Number(personas))
-    : mesas
+    const {
+      personas,
+    } = req.query
 
-  res.json(disponibles)
-})
+    const mesas =
+      readMesas()
+
+
+    // ==========================
+    // Sin filtro
+    // ==========================
+
+    if (
+      !personas
+    ) {
+
+      return res.json(
+        mesas
+      )
+
+    }
+
+
+    // ==========================
+    // Personas solicitadas
+    // ==========================
+
+    const cantidadPersonas =
+      Number(
+        personas
+      )
+
+
+    if (
+      Number.isNaN(
+        cantidadPersonas
+      ) ||
+      cantidadPersonas < 1
+    ) {
+
+      return res
+        .status(400)
+        .json({
+          error:
+            'Cantidad de personas inválida',
+        })
+
+    }
+
+
+    // ==========================
+    // Mesas con espacio
+    // ==========================
+
+    const disponibles =
+      mesas.filter(
+        mesa => {
+
+          const ocupados =
+            mesa.usuarios
+              ?.length || 0
+
+          const espaciosLibres =
+            mesa.capacidad -
+            ocupados
+
+
+          return (
+            espaciosLibres >=
+            cantidadPersonas
+          )
+
+        }
+      )
+
+
+    return res.json(
+      disponibles
+    )
+
+  }
+)
 
 router.get('/:mesaId', (req, res) => {
   const { mesaId } = req.params
@@ -75,34 +151,81 @@ router.get('/:mesaId', (req, res) => {
 // ============================
 router.post('/:mesaId/entrar', (req, res) => {
   const { mesaId } = req.params
-  const { user } = req.body
+
+  // El usuario viene del JWT gracias a authMiddleware.
+  // Ya no confiamos en un usuario enviado desde el frontend.
+  const user = req.user
 
   if (!user || !user.id) {
-    return res.status(400).json({ error: 'Usuario requerido' })
+    return res.status(401).json({
+      error: 'Usuario no autenticado',
+    })
   }
 
   const mesas = readMesas()
-  const mesa = mesas.find((m) => m.id === mesaId)
 
-  if (!mesa)
-    return res.status(404).json({ error: 'Mesa no encontrada' })
+  const mesa = mesas.find(
+    m => m.id === mesaId
+  )
 
-  const usuarioYaEnMesa = mesa.usuarios.some((u) => u.id === user.id)
-
-  if (usuarioYaEnMesa) {
-    return res.status(400).json({ error: 'Usuario ya está en la mesa' })
+  if (!mesa) {
+    return res.status(404).json({
+      error: 'Mesa no encontrada',
+    })
   }
 
-  if (mesa.usuarios.length >= mesa.capacidad) {
-    return res.status(400).json({ error: 'Mesa llena' })
+  // ============================
+  // Verificar si el usuario
+  // ya pertenece a alguna mesa
+  // ============================
+  const mesaActual = mesas.find(
+    m =>
+      m.usuarios?.some(
+        u => u.id === user.id
+      )
+  )
+
+  if (mesaActual) {
+    // Si intenta entrar nuevamente
+    // a la misma mesa, devolvemos
+    // la mesa actual sin duplicarlo.
+    if (mesaActual.id === mesaId) {
+      return res.json({
+        message: 'Ya perteneces a esta mesa',
+        mesa: mesaActual,
+      })
+    }
+
+    return res.status(400).json({
+      error: `Ya perteneces a la ${mesaActual.id}`,
+    })
   }
 
-  mesa.usuarios.push(user)
-  mesa.ocupada = mesa.usuarios.length > 0
+  // ============================
+  // Comprobar capacidad
+  // ============================
+  if (
+    mesa.usuarios.length >=
+    mesa.capacidad
+  ) {
+    return res.status(400).json({
+      error: 'Mesa llena',
+    })
+  }
+
+  // ============================
+  // Agregar usuario
+  // ============================
+  mesa.usuarios.push({
+    id: user.id,
+    name: user.name,
+  })
+
+  mesa.ocupada = true
 
   writeMesas(mesas)
 
-  res.json({
+  return res.json({
     message: 'Entraste a la mesa',
     mesa,
   })
@@ -111,44 +234,198 @@ router.post('/:mesaId/entrar', (req, res) => {
 // ============================
 // Salir de una mesa
 // ============================
-router.post('/:mesaId/salir', (req, res) => {
-  const { mesaId } = req.params
-  const { user } = req.body
 
-  if (!user || !user.id) {
-    return res.status(400).json({ error: 'Usuario requerido' })
-  }
+router.post(
+  '/:mesaId/salir',
+  (req, res) => {
 
-  const mesas = readMesas()
-  const mesa = mesas.find((m) => m.id === mesaId)
+    const {
+      mesaId,
+    } = req.params
 
-  if (!mesa)
-    return res.status(404).json({ error: 'Mesa no encontrada' })
+    // No confiamos en un usuario
+    // enviado desde el frontend.
+    // Usamos el usuario autenticado
+    // del token JWT.
+    const user =
+      req.user
 
-  if (mesa.pedidos && mesa.pedidos.length > 0) {
-    return res.status(400).json({
-      error:
-        'No puedes salir con pedidos pendientes. Primero paga o elimina los pedidos.',
+
+    // ==========================
+    // Validar autenticación
+    // ==========================
+
+    if (
+      !user ||
+      !user.id
+    ) {
+
+      return res
+        .status(401)
+        .json({
+          error:
+            'Usuario no autenticado',
+        })
+
+    }
+
+
+    // ==========================
+    // Buscar mesa
+    // ==========================
+
+    const mesas =
+      readMesas()
+
+    const mesa =
+      mesas.find(
+        m =>
+          m.id ===
+          mesaId
+      )
+
+
+    if (
+      !mesa
+    ) {
+
+      return res
+        .status(404)
+        .json({
+          error:
+            'Mesa no encontrada',
+        })
+
+    }
+
+
+    // ==========================
+    // Verificar que pertenece
+    // a la mesa
+    // ==========================
+
+    const usuarioEnMesa =
+      mesa.usuarios.some(
+        usuario =>
+          usuario.id ===
+          user.id
+      )
+
+
+    if (
+      !usuarioEnMesa
+    ) {
+
+      return res
+        .status(400)
+        .json({
+          error:
+            'No perteneces a esta mesa',
+        })
+
+    }
+
+
+    // ==========================
+    // Buscar pedidos pendientes
+    // del usuario actual
+    // ==========================
+
+    const pedidosUsuario =
+      (
+        mesa.pedidos || []
+      ).filter(
+        pedido =>
+          pedido.userId ===
+          user.id
+      )
+
+
+    // ==========================
+    // No permitir salir
+    // con pedidos propios
+    // pendientes
+    // ==========================
+
+    if (
+      pedidosUsuario.length >
+      0
+    ) {
+
+      return res
+        .status(400)
+        .json({
+
+          error:
+            'Tienes pedidos pendientes. Debes pagar tu consumo antes de salir de la mesa.',
+
+        })
+
+    }
+
+
+    // ==========================
+    // Eliminar usuario
+    // ==========================
+
+    mesa.usuarios =
+      mesa.usuarios.filter(
+        usuario =>
+          usuario.id !==
+          user.id
+      )
+
+
+    // ==========================
+    // Actualizar estado
+    // ==========================
+
+    mesa.ocupada =
+      mesa.usuarios.length >
+      0
+
+
+    // ==========================
+    // Limpieza defensiva
+    // ==========================
+
+    if (
+      mesa.usuarios.length ===
+        0 &&
+      mesa.pedidos.length ===
+        0
+    ) {
+
+      mesa.ocupada =
+        false
+
+    }
+
+
+    // ==========================
+    // Guardar
+    // ==========================
+
+    writeMesas(
+      mesas
+    )
+
+
+    // ==========================
+    // Respuesta
+    // ==========================
+
+    return res.json({
+
+      message:
+        'Saliste de la mesa correctamente',
+
+      mesa,
+
     })
+
   }
-
-  // quitar usuario
-  mesa.usuarios = mesa.usuarios.filter(
-    (u) => u.id !== user.id
-  )
-
-  // si ya no hay usuarios → mesa libre
-  if (mesa.usuarios.length === 0) {
-    mesa.ocupada = false
-  }
-
-  writeMesas(mesas)
-
-  res.json({
-    message: 'Saliste de la mesa',
-    mesa,
-  })
-})
+)
 
 // ============================
 // Agregar pedido a mesa
@@ -253,6 +530,8 @@ router.put(
             'Mesa no encontrada',
         })
     }
+
+    mesa.usuarios = mesa.usuarios.filter(u => u.id !== req.user.id)
 
     if (!mesa.pedidos) {
       return res
