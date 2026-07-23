@@ -309,18 +309,9 @@ export default function MesaDetallePage() {
 // ============================
 
 async function handleConfirmarPedido() {
-
-  // ============================
-  // Evitar doble click
-  // ============================
-
   if (confirmandoPedido) {
     return
   }
-
-  // ============================
-  // Validar usuario
-  // ============================
 
   if (!user) {
     alert(
@@ -329,10 +320,6 @@ async function handleConfirmarPedido() {
 
     return
   }
-
-  // ============================
-  // Validar carrito
-  // ============================
 
   if (!items.length) {
     alert(
@@ -343,36 +330,29 @@ async function handleConfirmarPedido() {
   }
 
   try {
-
-    setConfirmandoPedido(
-      true
-    )
+    setConfirmandoPedido(true)
 
     // ============================
-    // Convertir CartItem
-    // a PedidoInput
+    // CartItem -> PedidoInput
     // ============================
 
     const productos:
       PedidoInput[] =
       items.map(item => ({
-
-        producto:
-          item.producto.nombre,
-
-        precio:
-          item.producto.precio,
+        productoId:
+          String(
+            item.producto.id
+          ),
 
         cantidad:
           item.cantidad,
 
         observaciones:
           item.observaciones,
-
       }))
 
     // ============================
-    // Enviar pedido al backend
+    // Confirmar en backend
     // ============================
 
     const response =
@@ -390,22 +370,14 @@ async function handleConfirmarPedido() {
     )
 
     // ============================
-    // Vaciar carrito
+    // Limpiar carrito
     // ============================
 
     vaciarCarrito()
 
-    // ============================
-    // Cerrar drawer
-    // ============================
-
     setCarritoAbierto(
       false
     )
-
-    // ============================
-    // Confirmación
-    // ============================
 
     alert(
       response.message ||
@@ -413,7 +385,6 @@ async function handleConfirmarPedido() {
     )
 
   } catch (error) {
-
     console.error(
       'Error confirmando pedido:',
       error
@@ -432,11 +403,9 @@ async function handleConfirmarPedido() {
     }
 
   } finally {
-
     setConfirmandoPedido(
       false
     )
-
   }
 }
 

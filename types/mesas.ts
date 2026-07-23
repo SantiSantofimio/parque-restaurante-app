@@ -4,8 +4,7 @@ export interface Usuario {
 }
 
 export interface PedidoInput {
-  producto: string
-  precio: number
+  productoId: string
   cantidad: number
   observaciones?: string
 }
