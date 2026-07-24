@@ -34,7 +34,7 @@ import BackToHome from '@/app/components/BackToHome'
 
 import MesaCard from '@/app/components/Restaurant/MesaCard/MesaCard'
 
-import PedidoCard from '@/app/components/Restaurant/PedidoCard/PedidoCard'
+import OrderCard from '@/app/components/Restaurant/OrderByUser/OrderByUser'
 
 import CategoryTabs from '@/app/components/Restaurant/CategoryTabs/CategoryTabs'
 
@@ -58,6 +58,7 @@ import {
 import { useAuth } from '@/app/hooks/useAuth'
 
 import styles from './mesa.module.css'
+import OrderByUser from '@/app/components/Restaurant/OrderByUser/OrderByUser';
 
 
 export default function MesaDetallePage() {
@@ -413,7 +414,7 @@ async function handleConfirmarPedido() {
   // Estado de carga
   // ============================
 
-  if ( authLoading || !mesa ) {
+  if ( authLoading || !mesa || !user ) {
 
     return (
       <div
@@ -681,35 +682,12 @@ async function handleConfirmarPedido() {
           Pedidos de la mesa
         </h2>
 
-
-        {mesa.pedidos?.length ? (
-
-          mesa.pedidos.map(
-            pedido => (
-
-              <PedidoCard
-
-                key={
-                  pedido.id
-                }
-
-                pedido={
-                  pedido
-                }
-
-              />
-
-            )
-          )
-
-        ) : (
-
-          <p>
-            No hay pedidos
-            confirmados.
-          </p>
-
-        )}
+        <OrderByUser
+          pedidos={
+            mesa.pedidos ?? []
+          }
+          currentUserId={user.id}
+        />
 
       </section>
 

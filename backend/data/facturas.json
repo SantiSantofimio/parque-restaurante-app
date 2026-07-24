@@ -419,5 +419,120 @@
     "total": 18000,
     "estado": "pagada",
     "createdAt": "2026-07-23T19:24:42.756Z"
+  },
+  {
+    "id": 1784908679191,
+    "user": {
+      "id": 1781520348307,
+      "name": "carlos",
+      "email": "carlos@hotmail.com"
+    },
+    "mesaId": "mesa-1",
+    "tipoPago": "mesa",
+    "pedidos": [
+      {
+        "id": 1784908360958,
+        "userId": 1781520348307,
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 1,
+        "total": 14000,
+        "observaciones": ""
+      },
+      {
+        "id": 1784908401109,
+        "userId": 1783514943597,
+        "productoId": "5",
+        "producto": "Limonada Natural",
+        "precio": 8000,
+        "cantidad": 1,
+        "total": 8000,
+        "observaciones": ""
+      },
+      {
+        "id": 1784908670416,
+        "userId": 1781520348307,
+        "productoId": "2",
+        "producto": "Arepas Mixtas",
+        "precio": 18000,
+        "cantidad": 1,
+        "total": 18000,
+        "observaciones": "con cebolla"
+      },
+      {
+        "id": 1784908646173,
+        "userId": 1781520348307,
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 2,
+        "total": 28000,
+        "observaciones": ""
+      },
+      {
+        "id": 1784908722382,
+        "userId": 1783514943597,
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 1,
+        "total": 14000,
+        "observaciones": ""
+      }
+    ],
+    "total": 82000,
+    "estado": "pagada",
+    "createdAt": "2026-07-24T15:57:59.191Z"
+  },
+  {
+    "id": 1784908719998,
+    "user": {
+      "id": 1781520348307,
+      "name": "carlos",
+      "email": "carlos@hotmail.com"
+    },
+    "mesaId": "mesa-1",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1784908787386,
+        "userId": 1781520348307,
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 1,
+        "total": 14000,
+        "observaciones": ""
+      }
+    ],
+    "total": 14000,
+    "estado": "pagada",
+    "createdAt": "2026-07-24T15:58:39.998Z"
+  },
+  {
+    "id": 1784908730928,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-1",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1784908776770,
+        "userId": 1783514943597,
+        "productoId": "1",
+        "producto": "Patacón con Hogao",
+        "precio": 12000,
+        "cantidad": 1,
+        "total": 12000,
+        "observaciones": ""
+      }
+    ],
+    "total": 12000,
+    "estado": "pagada",
+    "createdAt": "2026-07-24T15:58:50.928Z"
   }
 ]

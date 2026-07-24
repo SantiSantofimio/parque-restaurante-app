@@ -1,0 +1,97 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.group {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.userLabel {
+  display: block;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: #1f2937;
+}
+
+.you {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #6b7280;
+}
+
+.userTotal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.userTotal span {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.userTotal strong {
+  font-size: 18px;
+  color: #111827;
+}
+
+.orders {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 30px 20px;
+
+  border: 1px dashed #d1d5db;
+  border-radius: 18px;
+
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty span {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.empty p {
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .header {
+    align-items: flex-start;
+  }
+
+  .userTotal {
+    flex-shrink: 0;
+  }
+}

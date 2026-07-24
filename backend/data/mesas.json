@@ -7,10 +7,6 @@
       {
         "id": 123,
         "name": "Santiago"
-      },
-      {
-        "id": 1781520348307,
-        "name": "carlos"
       }
     ],
     "pedidos": []
@@ -18,8 +14,17 @@
   {
     "id": "mesa-2",
     "capacidad": 2,
-    "ocupada": false,
-    "usuarios": [],
+    "ocupada": true,
+    "usuarios": [
+      {
+        "id": 1781520348307,
+        "name": "carlos"
+      },
+      {
+        "id": 1783514943597,
+        "name": "Santiago Santofimio"
+      }
+    ],
     "pedidos": []
   }
 ]
