@@ -1,7 +1,27 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+
+const isGitHubPages =
+  process.env.GITHUB_PAGES === 'true'
+
+const basePath =
+  '/parque-restaurante-app'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  output: 'export',
 
-export default nextConfig;
+  trailingSlash: true,
+
+  images: {
+    unoptimized: true,
+  },
+
+  basePath: isGitHubPages
+    ? basePath
+    : '',
+
+  assetPrefix: isGitHubPages
+    ? `${basePath}/`
+    : '',
+}
+
+export default nextConfig
