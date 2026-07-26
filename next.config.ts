@@ -3,8 +3,8 @@ import type { NextConfig } from 'next'
 const isGitHubPages =
   process.env.GITHUB_PAGES === 'true'
 
-const basePath =
-  '/parque-restaurante-app'
+const repoName =
+  'parque-restaurante-app'
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -16,11 +16,11 @@ const nextConfig: NextConfig = {
   },
 
   basePath: isGitHubPages
-    ? basePath
+    ? `/${repoName}`
     : '',
 
   assetPrefix: isGitHubPages
-    ? `${basePath}/`
+    ? `/${repoName}/`
     : '',
 }
 
