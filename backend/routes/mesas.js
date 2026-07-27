@@ -377,27 +377,27 @@ router.post(
 
 
     // ==========================
-    // Actualizar estado
-    // ==========================
-
-    mesa.ocupada =
-      mesa.usuarios.length >
-      0
-
-
-    // ==========================
-    // Limpieza defensiva
+    // Actualizar estado de mesa
     // ==========================
 
     if (
-      mesa.usuarios.length ===
-        0 &&
-      mesa.pedidos.length ===
-        0
+      mesa.usuarios.length === 0
     ) {
 
-      mesa.ocupada =
-        false
+      // El último usuario salió.
+      // La mesa vuelve completamente
+      // al estado disponible.
+
+      mesa.usuarios = []
+      mesa.pedidos = []
+      mesa.ocupada = false
+
+    } else {
+
+      // Todavía quedan usuarios
+      // utilizando la mesa.
+
+      mesa.ocupada = true
 
     }
 
@@ -415,288 +415,31 @@ router.post(
     // Respuesta
     // ==========================
 
-    return res.json({
+      return res.json({
 
-      message:
-        'Saliste de la mesa correctamente',
+        message:
+          'Saliste de la mesa correctamente',
 
-      mesa,
+        mesa,
 
-    })
+      })
 
-  }
-)
-
-// ============================
-// Agregar pedido a mesa
-// ============================
-router.post('/:mesaId/pedido', (req, res) => {
-  const { mesaId } = req.params
-
-  // Usuario autenticado por JWT
-  const user = req.user
-
-  const {
-    producto,
-    precio,
-    cantidad = 1,
-    observaciones = '',
-  } = req.body
-
-  // ============================
-  // Validar usuario
-  // ============================
-  if (!user || !user.id) {
-    return res.status(401).json({
-      error: 'Usuario no autenticado',
-    })
-  }
-
-  // ============================
-  // Validar producto
-  // ============================
-  if (
-    !producto ||
-    typeof precio !== 'number' ||
-    !Number.isInteger(cantidad) ||
-    cantidad < 1
-  ) {
-    return res.status(400).json({
-      error: 'Datos del pedido inválidos',
-    })
-  }
-
-  // ============================
-  // Leer mesas
-  // ============================
-  const mesas = readMesas()
-
-  const mesa = mesas.find(
-    m => m.id === mesaId
+    }
   )
 
-  if (!mesa) {
-    return res.status(404).json({
-      error: 'Mesa no encontrada',
-    })
-  }
+  router.post(
+    '/:mesaId/pedidos',
+    (req, res) => {
 
-  // ============================
-  // Verificar que el usuario
-  // pertenece a la mesa
-  // ============================
-  const perteneceAMesa =
-    mesa.usuarios.some(
-      usuario =>
-        usuario.id === user.id
-    )
+      const { mesaId } =
+        req.params
 
-  if (!perteneceAMesa) {
-    return res.status(403).json({
-      error:
-        'Debes pertenecer a la mesa para realizar pedidos',
-    })
-  }
+      const { productos } =
+        req.body
 
-  if (!mesa.pedidos) {
-    mesa.pedidos = []
-  }
-
-  // ============================
-  // Buscar pedido equivalente
-  //
-  // IMPORTANTE:
-  // ya no combinamos productos
-  // de usuarios diferentes.
-  // ============================
-  const pedidoExistente =
-    mesa.pedidos.find(
-      pedido =>
-        pedido.producto === producto &&
-        pedido.userId === user.id &&
-        (pedido.observaciones || '') ===
-          observaciones
-    )
-
-  if (pedidoExistente) {
-    pedidoExistente.cantidad +=
-      cantidad
-
-    pedidoExistente.total =
-      pedidoExistente.precio *
-      pedidoExistente.cantidad
-  } else {
-    mesa.pedidos.push({
-      id: Date.now(),
-
-      userId: user.id,
-
-      userName:
-        user.name || 'Usuario',
-
-      producto,
-
-      precio,
-
-      cantidad,
-
-      total:
-        precio * cantidad,
-
-      observaciones,
-
-      createdAt:
-        new Date().toISOString(),
-    })
-  }
-
-  // ============================
-  // Guardar
-  // ============================
-  writeMesas(mesas)
-
-  return res.status(201).json({
-    message:
-      'Pedido agregado correctamente',
-
-    pedidos:
-      mesa.pedidos,
-  })
-})
-
-// ============================
-// Actualizar cantidad pedido
-// ============================
-router.put('/:mesaId/pedido', (req, res) => {
-  const { mesaId } = req.params
-
-  const user = req.user
-
-  const {
-    pedidoId,
-    action,
-  } = req.body
-
-  // ============================
-  // Validar usuario
-  // ============================
-  if (!user || !user.id) {
-    return res.status(401).json({
-      error: 'Usuario no autenticado',
-    })
-  }
-
-  // ============================
-  // Validar acción
-  // ============================
-  if (
-    action !== 'add' &&
-    action !== 'remove'
-  ) {
-    return res.status(400).json({
-      error: 'Acción inválida',
-    })
-  }
-
-  const mesas = readMesas()
-
-  const mesa = mesas.find(
-    m => m.id === mesaId
-  )
-
-  if (!mesa) {
-    return res.status(404).json({
-      error: 'Mesa no encontrada',
-    })
-  }
-
-  if (!mesa.pedidos) {
-    return res.status(404).json({
-      error: 'No hay pedidos',
-    })
-  }
-
-  // ============================
-  // Buscar por ID
-  // ============================
-  const pedido =
-    mesa.pedidos.find(
-      p =>
-        p.id === pedidoId
-    )
-
-  if (!pedido) {
-    return res.status(404).json({
-      error: 'Pedido no encontrado',
-    })
-  }
-
-  // ============================
-  // Seguridad:
-  // solo el propietario puede
-  // modificar su pedido
-  // ============================
-  if (
-    pedido.userId !==
-    user.id
-  ) {
-    return res.status(403).json({
-      error:
-        'No puedes modificar el pedido de otro usuario',
-    })
-  }
-
-  // ============================
-  // Modificar cantidad
-  // ============================
-  if (action === 'add') {
-    pedido.cantidad += 1
-  }
-
-  if (action === 'remove') {
-    pedido.cantidad -= 1
-  }
-
-  pedido.total =
-    pedido.precio *
-    pedido.cantidad
-
-  // ============================
-  // Eliminar al llegar a cero
-  // ============================
-  mesa.pedidos =
-    mesa.pedidos.filter(
-      p => p.cantidad > 0
-    )
-
-  writeMesas(mesas)
-
-  return res.json({
-    message:
-      'Pedido actualizado',
-
-    pedidos:
-      mesa.pedidos,
-  })
-})
-
-// ============================
-// Confirmar carrito como pedido
-// ============================
-
-router.post(
-  '/:mesaId/pedidos',
-  (req, res) => {
-
-    const { mesaId } =
-      req.params
-
-    const { productos } =
-      req.body
-
-    // Usuario autenticado
-    const userId =
-      req.user.id
+      // Usuario autenticado
+      const userId =
+        req.user.id
 
     // ============================
     // Validar carrito
@@ -894,6 +637,6 @@ router.post(
         mesa,
       })
   }
-)
+  )
 
 export default router
