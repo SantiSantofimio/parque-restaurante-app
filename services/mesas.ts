@@ -7,6 +7,8 @@ import {
   getAuthHeaders,
 } from './api'
 
+import { appPath, } from '@/app/lib/paths'
+
 const API_URL =
   'http://localhost:4000/api/mesas'
 
@@ -24,7 +26,7 @@ function redirectToLogin() {
     )
 
     window.location.href =
-      '/auth/login'
+      appPath('/auth/login')
   }
 }
 

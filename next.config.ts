@@ -6,22 +6,31 @@ const isGitHubPages =
 const repoName =
   'parque-restaurante-app'
 
+const basePath =
+  isGitHubPages
+    ? `/${repoName}`
+    : ''
+
 const nextConfig: NextConfig = {
   output: 'export',
 
   trailingSlash: true,
 
+  basePath,
+
+  assetPrefix:
+    isGitHubPages
+      ? `${basePath}/`
+      : undefined,
+
   images: {
     unoptimized: true,
   },
 
-  basePath: isGitHubPages
-    ? `/${repoName}`
-    : '',
-
-  assetPrefix: isGitHubPages
-    ? `/${repoName}/`
-    : '',
+  env: {
+    NEXT_PUBLIC_BASE_PATH:
+      basePath,
+  },
 }
 
 export default nextConfig
