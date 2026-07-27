@@ -1,4 +1,7 @@
 import type { Ticket } from '@/types/tickets'
+import {
+  appPath,
+} from '@/app/lib/paths'
 
 const API_URL = 'http://localhost:4000/api/tickets'
 
@@ -13,7 +16,7 @@ function getAuthHeaders() {
 
 function handleUnauthorized() {
   localStorage.removeItem('token')
-  window.location.href = '/auth/login'
+  window.location.href = appPath('/auth/login/')
 }
 
 export async function obtenerTickets(): Promise<Ticket[]> {

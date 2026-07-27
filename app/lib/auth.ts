@@ -1,3 +1,7 @@
+import {
+  appPath,
+} from './paths'
+
 export function getUser() {
   if (
     typeof window ===
@@ -21,7 +25,17 @@ export function isAuthenticated() {
 }
 
 export function redirectToLogin() {
-  localStorage.removeItem('token')
+  if (
+    typeof window ===
+    'undefined'
+  ) {
+    return
+  }
 
-  window.location.href = '/auth/login'
+  localStorage.removeItem(
+    'token'
+  )
+
+  window.location.href =
+    appPath('/auth/login/')
 }

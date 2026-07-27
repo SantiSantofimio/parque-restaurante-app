@@ -1,4 +1,7 @@
 import { getAuthHeaders } from './api'
+import {
+  appPath,
+} from '@/app/lib/paths'
 
 const API_URL =
 'http://localhost:4000/api/menu'
@@ -33,7 +36,7 @@ if(res.status===401){
 
 localStorage.removeItem('token')
 
-window.location.href='/auth/login'
+window.location.href = appPath('/auth/login/')
 
 throw new Error('Sesión expirada')
 
