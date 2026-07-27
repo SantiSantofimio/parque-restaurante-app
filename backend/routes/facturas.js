@@ -321,6 +321,25 @@ router.post(
 
     }
 
+    // =================
+    // Limpiar Factura
+    //==================
+
+    const pedidosFacturados = 
+      pedidosAPagar.map(
+        pedido => ({
+          ...pedido,
+
+          total:
+          Number(
+            pedido.precio
+          ) *
+          Number(
+            pedido.cantidad
+          ),
+        })
+      )
+
 
     // ==========================
     // Calcular total
@@ -328,29 +347,39 @@ router.post(
     // ==========================
 
     const total =
-      pedidosAPagar.reduce(
+      pedidosFacturados.reduce(
         (
           acumulado,
           pedido
-        ) =>
-          acumulado +
-          pedido.total,
+        ) => {
+          const precio =
+            Number(
+              pedido.precio
+            )
+
+          const cantidad =
+            Number(
+              pedido.cantidad
+            )
+          
+          if (
+            !Number.isFinite(
+              precio
+            ) ||
+            precio < 0 || 
+            !Number.isInteger(
+              cantidad
+            ) || cantidad < 1
+          ) {
+            return acumulado
+          }
+          return (
+            acumulado + 
+            precio * cantidad
+          )
+        },
         0
-      )
-
-
-    if (
-      total <= 0
-    ) {
-
-      return res
-        .status(400)
-        .json({
-          error:
-            'El total de la factura no es válido',
-        })
-
-    }
+      )   
 
 
     // ==========================
@@ -378,7 +407,7 @@ router.post(
       tipoPago,
 
       pedidos:
-        pedidosAPagar,
+        pedidosFacturados,
 
       total,
 
