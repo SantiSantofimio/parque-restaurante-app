@@ -11,7 +11,13 @@ const __dirname = path.dirname(__filename)
 const router = express.Router()
 
 const USERS_FILE = path.join(__dirname, '../data/users.json')
-const JWT_SECRET = 'super_secret_key'
+const JWT_SECRET = process.env.JWT_SECRET
+
+if (!JWT_SECRET) {
+  throw new Error(
+    'JWT_SECRET no ha sido configurado'
+  )
+}
 
 // helper para leer usuarios
 function readUsers() {
@@ -87,9 +93,18 @@ router.post('/login', async (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: user.id, name: user.name, email: user.email },
+    {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+
+      role:
+      user.role || 'customer', 
+    },
     JWT_SECRET,
-    { expiresIn: '1d' }
+    {
+      expiresIn: '1d',
+    }
   )
 
   res.json({
@@ -97,8 +112,11 @@ router.post('/login', async (req, res) => {
     user: {
       id: user.id,
       name: user.name,
-      email: user.email
-    }
+      email: user.email,
+
+      role:
+      user.role || 'customer',
+    },
   })
 })
 

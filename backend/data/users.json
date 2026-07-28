@@ -4,20 +4,23 @@
     "name": "santiago",
     "email": "santi@gm.com",
     "password": "$2b$10$A6RIHVAPOGVqHcSrOcmSiu0cuvCERnV7bZY6.82SlTaECXLgSilxq",
-    "puntos": 0
+    "puntos": 0,
+    "role": "customer"
   },
   {
     "id": 1781520348307,
     "name": "carlos",
     "email": "carlos@hotmail.com",
     "password": "$2b$10$031UIxxZm.dBnjdvEhMPI.dt5NJ.eAje7fYno0f1SRGlbGKaLhCSm",
-    "puntos": 20
+    "puntos": 20,
+    "role": "customer"
   },
   {
     "id": 1783514943597,
     "name": "Santiago Santofimio",
     "email": "santi@admin.yuma.com",
     "password": "$2b$10$kWUx7vVOE/HxGnPAKuQCieitYXsr4c1F5Ou8zTG5gYLj73xrX6tjO",
-    "puntos": 56
+    "puntos": 56,
+    "role": "admin"
   }
 ]

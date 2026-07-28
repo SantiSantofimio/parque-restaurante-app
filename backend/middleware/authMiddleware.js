@@ -1,33 +1,21 @@
 import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = 'super_secret_key'
+const JWT_SECRET =
+  process.env.JWT_SECRET
+
+if (!JWT_SECRET) {
+  throw new Error(
+    'JWT_SECRET no está configurado'
+  )
+}
 
 function authMiddleware(
   req,
   res,
   next
 ) {
-
-  console.log(
-    'HEADERS:',
-    req.headers
-  )
-
   const authHeader =
     req.headers.authorization
-
-  console.log( 
-    'AUTH HEADER:',
-    authHeader
-  )
-
-  // Permitir solicitudes sin token para paginas o recursos estaticos
-  if (!authHeader) {
-    return res.status(401).json({
-      error:
-        'No autorizado',
-    })
-  }
 
   if (
     !authHeader ||
@@ -43,33 +31,28 @@ function authMiddleware(
       })
   }
 
-  const token = authHeader.split(
-    'Bearer '
-  )[1]
-
-  console.log('TOKEN:', token)
+  const token =
+    authHeader.slice(7)
 
   try {
-    const decode = jwt.verify(
-      token,
-      JWT_SECRET
-    )
+    const decoded =
+      jwt.verify(
+        token,
+        JWT_SECRET
+      )
 
-    console.log('DECODED TOKEN:', decode)
-
-    req.user = decode
+    req.user =
+      decoded
 
     next()
-  } catch (error) {
-    console.log('ERROR JWT:', error.message)
+  } catch {
     return res
       .status(401)
       .json({
         error:
-          'Token inválido',
+          'Token inválido o expirado',
       })
   }
 }
 
-export default
-  authMiddleware
+export default authMiddleware

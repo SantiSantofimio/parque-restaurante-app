@@ -1,6 +1,13 @@
+export type UserRole = 
+  | 'cutomer'
+  | 'employee'
+  | 'admin'  
+
 export interface Usuario {
   id: number
   name: string
+  email?: string
+  role?: UserRole
 }
 
 export interface PedidoInput {
