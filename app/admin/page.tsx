@@ -11,7 +11,9 @@ import {
 
 import {
   AdminAccessError,
+  obtenerAdminDashboard,
   obtenerAdminStatus,
+  type AdminDashboardResponse,
   type AdminUser,
 } from '@/services/admin'
 
@@ -19,18 +21,24 @@ import {
   appPath,
 } from '@/app/lib/paths'
 
+import AdminSidebar from '@/app/components/admin/AdminSidebar/AdminSidebar'
+import AdminHeader from '@/app/components/admin/AdminHeader/AdminHeader'
+import styles from './admin.module.css'
+
 export default function AdminPage() {
 
   const router =
     useRouter()
 
-  const [
+  const [ 
     user,
-    setUser,
-  ] =
-    useState<AdminUser | null>(
-      null
-    )
+    setUser, 
+  ] = useState<AdminUser | null>()
+
+  const [
+    dashboard,
+    setDashboard
+  ] = useState<AdminDashboardResponse | null>(null)
 
   const [
     loading,
@@ -38,17 +46,9 @@ export default function AdminPage() {
   ] =
     useState(true)
 
-  const [
-    forbidden,
-    setForbidden,
-  ] =
-    useState(false)
+  const [ forbidden, setForbidden, ] = useState(false)
 
-  const [
-    error,
-    setError,
-  ] =
-    useState('')
+  const [ error,setError, ] = useState('')
 
   useEffect(() => {
 
@@ -58,16 +58,19 @@ export default function AdminPage() {
 
       try {
 
-        const data =
-          await obtenerAdminStatus()
+        const [
+          statusData,
+          dashboardData,
+        ] =
+          await Promise.all([
+            obtenerAdminStatus(),
+            obtenerAdminDashboard(),
+          ])
 
-        if (!activo) {
-          return
-        }
+          if (!activo) return
 
-        setUser(
-          data.user
-        )
+          setUser(statusData.user)
+          setDashboard(dashboardData)
 
       } catch (error) {
 
@@ -184,31 +187,154 @@ export default function AdminPage() {
 
   }
 
+  if ( 
+    !user ||
+    !dashboard
+  ) {
+    return null
+  }
 
-  return (
-    <main>
 
-      <h1>
-        Panel administrativo
-      </h1>
+    return (
+        <div
+            className={
+            styles.admin
+            }
+        >
 
-      <p>
-        Bienvenido,
-        {' '}
-        {user?.name}
-      </p>
+            <AdminSidebar />
 
-      <p>
-        Rol:
-        {' '}
-        {user?.role}
-      </p>
+            <section
+            className={
+                styles.workspace
+            }
+            >
 
-      <p>
-        Acceso administrativo
-        verificado correctamente.
-      </p>
+            <AdminHeader
+                user={user}
+            />
 
-    </main>
-  )
+            <main
+                className={
+                styles.content
+                }
+            >
+
+                <div
+                className={
+                    styles.welcome
+                }
+                >
+                <div>
+                    <span>
+                    RESUMEN GENERAL
+                    </span>
+
+                    <h2>
+                    Buenos días,
+                    {' '}
+                    {user.name}
+                    </h2>
+
+                    <p>
+                    Aquí podrás controlar
+                    la operación del Parque
+                    Turístico Yuma.
+                    </p>
+                </div>
+                </div>
+
+                <div
+                  className={
+                    styles.metricsGrid
+                  }
+                >
+                  <article
+                    className={
+                    styles.metricCard
+                  }>
+                    <span>
+                    👥 Clientes
+                    </span>
+
+                  <strong>
+                    {dashboard.clientes.total}
+                  </strong>
+                  
+                  <p>
+                    Clientes registrados
+                  </p>
+                  </article>
+
+                  <article
+                    className={
+                      styles.metricCard
+                    }>
+                    
+                    <span>
+                      🪑 Mesas
+                    </span>
+
+                    <strong>
+                      {dashboard.mesas.ocupadas}
+                      /
+                      {dashboard.mesas.total}
+                    </strong>
+
+                    <p>
+                      Mesas ocupadas
+                    </p>
+
+                  </article>
+
+                  <article
+                    className={
+                      styles.metricCard
+                    }
+                  >
+                    <span>
+                      🍽️ Pedidos
+                    </span>
+
+                    <strong>
+                      {dashboard.pedidos.activos}
+                    </strong>
+
+                    <p>
+                      Pedidos activos
+                    </p>
+
+                  </article>
+
+                  <article
+                    className={
+                      styles.metricCard
+                    }
+                  >
+                    <span>
+                    💰 Ingresos
+                  </span>
+
+                  <strong>
+                    $
+                    {dashboard.facturacion.ingresos
+                      .toLocaleString()}
+                  </strong>
+
+                  <p>
+                    {
+                      dashboard.facturacion.facturas
+                    } facturas pagadas
+                  </p>
+
+                  </article>
+                  
+                </div>
+
+            </main>
+
+            </section>
+
+        </div>
+    )
 }

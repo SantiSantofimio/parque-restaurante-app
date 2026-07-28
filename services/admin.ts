@@ -21,6 +21,30 @@ export interface AdminStatusResponse {
   user: AdminUser
 }
 
+export interface AdminDashboardResponse {
+  mesas: {
+    total: number
+    ocupadas: number
+    disponibles: number
+  }
+
+  pedidos: {
+    activos: number
+    valorActivo: number
+  }
+
+  clientes: {
+    total: number
+  }
+
+  facturacion: {
+    facturas: number
+    ingresos: number
+  }
+
+  generatedAt: string
+}
+
 export class AdminAccessError extends Error {
   status: number
 
@@ -36,6 +60,59 @@ export class AdminAccessError extends Error {
     this.status =
       status
   }
+}
+
+export async function obtenerAdminDashboard():
+Promise<AdminDashboardResponse> {
+
+  const res =
+    await fetch(
+      `${API_URL}/dashboard`,
+      {
+        headers:
+          getAuthHeaders(),
+      }
+    )
+
+  if (
+    res.status === 401
+  ) {
+    redirectToLogin()
+
+    throw new AdminAccessError(
+      'Sesión expirada',
+      401
+    )
+  }
+
+  if (
+    res.status === 403
+  ) {
+    throw new AdminAccessError(
+      'No tienes permisos de administrador',
+      403
+    )
+  }
+
+  if (
+    !res.ok
+  ) {
+
+    const data =
+      await res
+        .json()
+        .catch(
+          () => null
+        )
+
+    throw new AdminAccessError(
+      data?.error ||
+        'No se pudo cargar el dashboard administrativo',
+      res.status
+    )
+  }
+
+  return res.json()
 }
 
 export async function obtenerAdminStatus():
@@ -88,4 +165,5 @@ Promise<AdminStatusResponse> {
   }
 
   return res.json()
+
 }

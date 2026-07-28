@@ -1,0 +1,60 @@
+.header {
+  min-height: 90px;
+  padding: 20px 32px;
+  border-bottom: 1px solid #e9eceb;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.eyebrow {
+  color: #14865f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.header h1 {
+  margin: 4px 0 0;
+  color: #17221e;
+  font-size: 24px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userInfo {
+  text-align: right;
+}
+
+.userInfo strong,
+.userInfo span {
+  display: block;
+}
+
+.userInfo strong {
+  color: #17221e;
+  font-size: 14px;
+}
+
+.userInfo span {
+  color: #78817d;
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #e7f5ef;
+  color: #0d7956;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
