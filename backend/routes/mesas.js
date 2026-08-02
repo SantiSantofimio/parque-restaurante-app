@@ -3,27 +3,17 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import authMiddleware from '../middleware/authMiddleware.js'
+import mesasRepository from '../repositories/mesasRepository.js'
 
 const router = express.Router()
 router.use(authMiddleware)
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const MESAS_FILE = path.join(__dirname, '../data/mesas.json')
 const MENU_FILE =path.join(__dirname, '../content/menu.json')
 
 // ============================
 // Helpers
 // ============================
-function readMesas() {
-  if (!fs.existsSync(MESAS_FILE)) return []
-  const raw = fs.readFileSync(MESAS_FILE, 'utf-8')
-  if (!raw.trim()) return []
-  return JSON.parse(raw)
-}
-
-function writeMesas(mesas) {
-  fs.writeFileSync(MESAS_FILE, JSON.stringify(mesas, null, 2))
-}
 
 function readMenu() {
   if (!fs.existsSync(MENU_FILE)) {
@@ -50,7 +40,7 @@ router.get(
     } = req.query
 
     const mesas =
-      readMesas()
+      mesasRepository.getAll()
 
 
     // ==========================
@@ -131,11 +121,7 @@ router.get(
 router.get('/:mesaId', (req, res) => {
   const { mesaId } = req.params
 
-  const mesas = readMesas()
-
-  const mesa = mesas.find(
-    m => m.id === mesaId
-  )
+  const mesa = mesasRepository.findById(mesaId)
 
   if (!mesa) {
     return res.status(404).json({
@@ -161,12 +147,7 @@ router.post('/:mesaId/entrar', (req, res) => {
       error: 'Usuario no autenticado',
     })
   }
-
-  const mesas = readMesas()
-
-  const mesa = mesas.find(
-    m => m.id === mesaId
-  )
+  const mesa = mesasRepository.findById(mesaId)
 
   if (!mesa) {
     return res.status(404).json({
@@ -178,12 +159,7 @@ router.post('/:mesaId/entrar', (req, res) => {
   // Verificar si el usuario
   // ya pertenece a alguna mesa
   // ============================
-  const mesaActual = mesas.find(
-    m =>
-      m.usuarios?.some(
-        u => u.id === user.id
-      )
-  )
+  const mesaActual = mesasRepository.findByUserId(user.id)
 
   if (mesaActual) {
     // Si intenta entrar nuevamente
@@ -223,7 +199,9 @@ router.post('/:mesaId/entrar', (req, res) => {
 
   mesa.ocupada = true
 
-  writeMesas(mesas)
+  const mesas = mesasRepository.getAll()
+
+  mesasRepository.saveAll(mesas)
 
   return res.json({
     message: 'Entraste a la mesa',
@@ -274,14 +252,9 @@ router.post(
     // Buscar mesa
     // ==========================
 
-    const mesas =
-      readMesas()
-
     const mesa =
-      mesas.find(
-        m =>
-          m.id ===
-          mesaId
+      mesasRepository.findById(
+        mesaId
       )
 
 
@@ -406,9 +379,7 @@ router.post(
     // Guardar
     // ==========================
 
-    writeMesas(
-      mesas
-    )
+    mesasRepository.update(mesa)
 
 
     // ==========================
@@ -456,14 +427,9 @@ router.post(
             'El carrito está vacío',
         })
     }
-
-    const mesas =
-      readMesas()
-
     const mesa =
-      mesas.find(
-        m =>
-          m.id === mesaId
+      mesasRepository.findById(
+        mesaId
       )
 
     // ============================
@@ -622,7 +588,7 @@ router.post(
     // Guardar mesa
     // ============================
 
-    writeMesas(mesas)
+    mesasRepository.update(mesa)
 
     // ============================
     // Respuesta

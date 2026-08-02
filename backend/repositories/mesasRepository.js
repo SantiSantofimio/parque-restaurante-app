@@ -30,6 +30,34 @@ class MesasRepository {
 
   }
 
+  findByUserId(
+    userId
+  ) {
+
+    return this
+     .getAll()
+     .find(
+     mesa =>
+         mesa.usuarios?.some(
+         usuario =>
+         usuario.id === userId
+         )
+     )
+
+  }
+
+  exists(
+    id
+  ) {
+
+    return Boolean(
+        this.findById(
+        id
+        )
+    )
+
+  }
+
   saveAll(
     mesas
   ) {
