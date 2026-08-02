@@ -1,4 +1,6 @@
 import express from 'express'
+import requireRole from '../../middleware/requireRole.js'
+import authMiddleware from '../../middleware/authMiddleware.js'
 
 const router = express.Router()
 

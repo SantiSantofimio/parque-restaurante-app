@@ -1,4 +1,4 @@
-export function requireRole(
+export default function requireRole(
   ...rolesPermitidos
 ) {
   return (
@@ -6,6 +6,7 @@ export function requireRole(
     res,
     next
   ) => {
+
     const user =
       req.user
 
@@ -32,5 +33,6 @@ export function requireRole(
     }
 
     next()
+
   }
 }
