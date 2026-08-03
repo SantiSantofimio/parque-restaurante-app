@@ -90,26 +90,9 @@ router.get(
     // ==========================
 
     const disponibles =
-      mesas.filter(
-        mesa => {
-
-          const ocupados =
-            mesa.usuarios
-              ?.length || 0
-
-          const espaciosLibres =
-            mesa.capacidad -
-            ocupados
-
-
-          return (
-            espaciosLibres >=
-            cantidadPersonas
-          )
-
-        }
+      mesasRepository.findAvailable(
+        cantidadPersonas
       )
-
 
     return res.json(
       disponibles
@@ -123,7 +106,7 @@ router.get('/:mesaId', (req, res) => {
 
   const mesa = mesasRepository.findById(mesaId)
 
-  if (!mesa) {
+  if (!mesasRepository.exists(mesaId)) {
     return res.status(404).json({
       error: 'Mesa no encontrada',
     })
