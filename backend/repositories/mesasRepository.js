@@ -1,32 +1,17 @@
+import BaseRepository from './BaseRepository.js'
+
 import {
   MESAS_FILE,
 } from '../config/paths.js'
 
-import {
-  readJsonFile,
-  writeJsonFile,
-} from '../utils/jsonStorage.js'
+class MesasRepository
+  extends BaseRepository {
 
-class MesasRepository {
+  constructor() {
 
-  getAll() {
-
-    return readJsonFile(
+    super(
       MESAS_FILE
     )
-
-  }
-
-  findById(
-    id
-  ) {
-
-    return this
-      .getAll()
-      .find(
-        mesa =>
-          mesa.id === id
-      )
 
   }
 
@@ -35,105 +20,49 @@ class MesasRepository {
   ) {
 
     return this
-     .getAll()
-     .find(
-     mesa =>
-         mesa.usuarios?.some(
-         usuario =>
-         usuario.id === userId
-         )
-     )
+      .getAll()
+      .find(
+        mesa =>
+          mesa.usuarios?.some(
+            usuario =>
+              usuario.id ===
+              userId
+          )
+      )
+
+  }
+
+  findAvailable(
+    personas
+  ) {
+
+    return this
+      .getAll()
+      .filter(
+        mesa => {
+
+          const ocupados =
+            mesa.usuarios?.length || 0
+
+          return (
+            mesa.capacidad -
+            ocupados >=
+            personas
+          )
+
+        }
+      )
 
   }
 
   exists(
-    id
+    mesaId
   ) {
 
     return Boolean(
-        this.findById(
-        id
-        )
-    )
-
-  }
-
-  saveAll(
-    mesas
-  ) {
-
-    writeJsonFile(
-      MESAS_FILE,
-      mesas
-    )
-
-  }
-
-  create(
-    mesa
-  ) {
-
-    const mesas =
-      this.getAll()
-
-    mesas.push(
-      mesa
-    )
-
-    this.saveAll(
-      mesas
-    )
-
-    return mesa
-
-  }
-
-  update(
-    updatedMesa
-  ) {
-
-    const mesas =
-      this.getAll()
-
-    const index =
-      mesas.findIndex(
-        mesa =>
-          mesa.id ===
-          updatedMesa.id
+      this.findById(
+        mesaId
       )
-
-    if (
-      index === -1
-    ) {
-      return null
-    }
-
-    mesas[index] =
-      updatedMesa
-
-    this.saveAll(
-      mesas
-    )
-
-    return updatedMesa
-
-  }
-
-  delete(
-    id
-  ) {
-
-    const mesas =
-      this.getAll()
-
-    const filtered =
-      mesas.filter(
-        mesa =>
-          mesa.id !== id
-      )
-
-    this.saveAll(
-      filtered
     )
 
   }
