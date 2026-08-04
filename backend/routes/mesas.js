@@ -4,6 +4,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import authMiddleware from '../middleware/authMiddleware.js'
 import mesasRepository from '../repositories/mesasRepository.js'
+import { obtenerMesas } from '../controllers/mesasController.js'
 
 const router = express.Router()
 router.use(authMiddleware)
@@ -31,75 +32,8 @@ function readMenu() {
 // ============================
 // Obtener mesas
 // ============================
-router.get(
-  '/',
-  (req, res) => {
+router.get('/', obtenerMesas)
 
-    const {
-      personas,
-    } = req.query
-
-    const mesas =
-      mesasRepository.getAll()
-
-
-    // ==========================
-    // Sin filtro
-    // ==========================
-
-    if (
-      !personas
-    ) {
-
-      return res.json(
-        mesas
-      )
-
-    }
-
-
-    // ==========================
-    // Personas solicitadas
-    // ==========================
-
-    const cantidadPersonas =
-      Number(
-        personas
-      )
-
-
-    if (
-      Number.isNaN(
-        cantidadPersonas
-      ) ||
-      cantidadPersonas < 1
-    ) {
-
-      return res
-        .status(400)
-        .json({
-          error:
-            'Cantidad de personas inválida',
-        })
-
-    }
-
-
-    // ==========================
-    // Mesas con espacio
-    // ==========================
-
-    const disponibles =
-      mesasRepository.findAvailable(
-        cantidadPersonas
-      )
-
-    return res.json(
-      disponibles
-    )
-
-  }
-)
 
 router.get('/:mesaId', (req, res) => {
   const { mesaId } = req.params
