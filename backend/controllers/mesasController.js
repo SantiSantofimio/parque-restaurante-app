@@ -322,3 +322,209 @@ export function salirDeMesa(
   })
 
 }
+
+export function confirmarPedido(
+  req,
+  res
+) {
+
+  const {
+    mesaId,
+  } = req.params
+
+  const {
+    productos,
+  } = req.body
+
+  const userId =
+    req.user.id
+
+    // ============================
+    // Validar carrito
+    // ============================
+
+    if (
+      !Array.isArray(productos) ||
+      productos.length === 0
+    ) {
+      return res
+        .status(400)
+        .json({
+          error:
+            'El carrito está vacío',
+        })
+    }
+    const mesa =
+      mesasRepository.findById(
+        mesaId
+      )
+
+    // ============================
+    // Validar mesa
+    // ============================
+
+    if (!mesa) {
+      return res
+        .status(404)
+        .json({
+          error:
+            'Mesa no encontrada',
+        })
+    }
+
+    // ============================
+    // Validar usuario en mesa
+    // ============================
+
+    const usuarioEnMesa =
+      mesa.usuarios.some(
+        usuario =>
+          String(usuario.id) ===
+          String(userId)
+      )
+
+    if (!usuarioEnMesa) {
+      return res
+        .status(403)
+        .json({
+          error:
+            'No perteneces a esta mesa',
+        })
+    }
+
+    // ============================
+    // Leer menú real
+    // ============================
+
+    const menu = menuRepository.getAll()
+
+    if (!menu.length) {
+      return res
+        .status(500)
+        .json({
+          error:
+            'El menú no está disponible',
+        })
+    }
+
+    if (!mesa.pedidos) {
+      mesa.pedidos = []
+    }
+
+    // ============================
+    // Procesar productos
+    // ============================
+
+    for (
+      const item of productos
+    ) {
+
+      const cantidad =
+        Number(item.cantidad)
+
+      // Validar cantidad
+      if (
+        !Number.isInteger(
+          cantidad
+        ) ||
+        cantidad <= 0
+      ) {
+        return res
+          .status(400)
+          .json({
+            error:
+              'Cantidad de producto inválida',
+          })
+      }
+
+      // Buscar producto real
+      const productoReal = menuRepository.findById(
+        item.productoId
+      )
+
+      if (!productoReal) {
+        return res
+          .status(400)
+          .json({
+            error:
+              `Producto ${item.productoId} no encontrado`,
+          })
+      }
+
+      if (
+        productoReal.disponible ===
+        false
+      ) {
+        return res
+          .status(400)
+          .json({
+            error:
+              `${productoReal.nombre} no está disponible`,
+          })
+      }
+
+      // ============================
+      // Crear pedido
+      // ============================
+
+      const nuevoPedido = {
+        id:
+          Date.now() +
+          Math.floor(
+            Math.random() *
+            100000
+          ),
+        
+        userId:
+          req.user.id,
+
+        userName:
+          req.user.name,
+
+        productoId:
+          String(
+            productoReal.id
+          ),
+
+        producto:
+          productoReal.nombre,
+
+        precio:
+          productoReal.precio,
+
+        cantidad,
+
+        total:
+          productoReal.precio *
+          cantidad,
+
+        observaciones:
+          item.observaciones ||
+          '',
+      }
+
+      mesa.pedidos.push(
+        nuevoPedido
+      )
+    }
+
+    // ============================
+    // Guardar mesa
+    // ============================
+
+    mesasRepository.update(mesa)
+
+    // ============================
+    // Respuesta
+    // ============================
+
+    return res
+      .status(201)
+      .json({
+        message:
+          'Pedido confirmado correctamente',
+
+        mesa,
+      })
+  
+}

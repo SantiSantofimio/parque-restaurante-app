@@ -256,10 +256,25 @@ export async function confirmarPedido(
   }
 
   if (!res.ok) {
-    throw new Error(
-      await getErrorMessage(res)
+
+    console.log(
+        'STATUS:',
+        res.status
     )
-  }
+
+    const texto =
+        await res.text()
+
+    console.log(
+        'RESPUESTA BACKEND:',
+        texto
+    )
+
+    throw new Error(
+        texto
+    )
+
+}
 
   return res.json()
 }

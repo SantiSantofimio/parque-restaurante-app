@@ -43,3 +43,9 @@ export const TICKETS_FILE =
     DATA_PATH,
     'tickets.json'
   )
+
+export const MENU_FILE =
+  path.join(
+    CONTENT_DIR,
+    'menu.json'
+  )
