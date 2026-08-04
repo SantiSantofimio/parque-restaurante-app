@@ -1,5 +1,7 @@
 import mesasRepository from '../repositories/mesasRepository.js'
 
+import menuRepository from '../repositories/menuRepository.js'
+
 export function obtenerMesas(
   req,
   res
@@ -396,16 +398,6 @@ export function confirmarPedido(
     // Leer menú real
     // ============================
 
-    const menu = menuRepository.getAll()
-
-    if (!menu.length) {
-      return res
-        .status(500)
-        .json({
-          error:
-            'El menú no está disponible',
-        })
-    }
 
     if (!mesa.pedidos) {
       mesa.pedidos = []
@@ -423,10 +415,7 @@ export function confirmarPedido(
         Number(item.cantidad)
 
       // Validar cantidad
-      if (
-        !Number.isInteger(
-          cantidad
-        ) ||
+      if (!Number.isInteger(cantidad) || 
         cantidad <= 0
       ) {
         return res

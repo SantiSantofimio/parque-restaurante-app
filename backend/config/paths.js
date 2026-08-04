@@ -20,6 +20,12 @@ export const DATA_PATH =
     '../data'
   )
 
+export const CONTENT_PATH =
+  path.join(
+    __dirname,
+    '../content'
+  )
+
 export const USERS_FILE =
   path.join(
     DATA_PATH,
@@ -46,6 +52,6 @@ export const TICKETS_FILE =
 
 export const MENU_FILE =
   path.join(
-    CONTENT_DIR,
+    CONTENT_PATH,
     'menu.json'
   )

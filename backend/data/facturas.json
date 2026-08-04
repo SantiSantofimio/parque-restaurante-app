@@ -891,5 +891,31 @@
     "total": 14000,
     "estado": "pagada",
     "createdAt": "2026-08-04T17:58:23.670Z"
+  },
+  {
+    "id": 1785876073795,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1785876144894,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "4",
+        "producto": "Trucha al Ajillo",
+        "precio": 42000,
+        "cantidad": 1,
+        "total": 42000,
+        "observaciones": ""
+      }
+    ],
+    "total": 42000,
+    "estado": "pagada",
+    "createdAt": "2026-08-04T20:41:13.795Z"
   }
 ]
