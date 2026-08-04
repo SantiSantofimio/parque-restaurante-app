@@ -865,5 +865,31 @@
     "total": 14000,
     "estado": "pagada",
     "createdAt": "2026-08-04T17:49:33.017Z"
+  },
+  {
+    "id": 1785866303670,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1785866325936,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 1,
+        "total": 14000,
+        "observaciones": ""
+      }
+    ],
+    "total": 14000,
+    "estado": "pagada",
+    "createdAt": "2026-08-04T17:58:23.670Z"
   }
 ]

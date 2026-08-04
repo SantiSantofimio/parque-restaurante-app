@@ -4,7 +4,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import authMiddleware from '../middleware/authMiddleware.js'
 import mesasRepository from '../repositories/mesasRepository.js'
-import { obtenerMesas, obtenerMesa } from '../controllers/mesasController.js'
+import { obtenerMesas, obtenerMesa, entrarAMesa } from '../controllers/mesasController.js'
 
 const router = express.Router()
 router.use(authMiddleware)
@@ -40,78 +40,7 @@ router.get('/:mesaId', obtenerMesa)
 // ============================
 // Entrar a una mesa
 // ============================
-router.post('/:mesaId/entrar', (req, res) => {
-  const { mesaId } = req.params
-
-  // El usuario viene del JWT gracias a authMiddleware.
-  // Ya no confiamos en un usuario enviado desde el frontend.
-  const user = req.user
-
-  if (!user || !user.id) {
-    return res.status(401).json({
-      error: 'Usuario no autenticado',
-    })
-  }
-
-  const mesa = mesasRepository.findById(mesaId)
-
-  if (!mesa) {
-    return res.status(404).json({
-      error: 'Mesa no encontrada',
-    })
-  }
-
-  // ============================
-  // Verificar si el usuario
-  // ya pertenece a alguna mesa
-  // ============================
-  const mesaActual = mesasRepository.findByUserId(user.id)
-
-  if (mesaActual) {
-    // Si intenta entrar nuevamente
-    // a la misma mesa, devolvemos
-    // la mesa actual sin duplicarlo.
-    if (mesaActual.id === mesaId) {
-      return res.json({
-        message: 'Ya perteneces a esta mesa',
-        mesa: mesaActual,
-      })
-    }
-
-    return res.status(400).json({
-      error: `Ya perteneces a la ${mesaActual.id}`,
-    })
-  }
-
-  // ============================
-  // Comprobar capacidad
-  // ============================
-  if (
-    mesa.usuarios.length >=
-    mesa.capacidad
-  ) {
-    return res.status(400).json({
-      error: 'Mesa llena',
-    })
-  }
-
-  // ============================
-  // Agregar usuario
-  // ============================
-  mesa.usuarios.push({
-    id: user.id,
-    name: user.name,
-  })
-
-  mesa.ocupada = true
-
-  mesasRepository.update(mesa)
-
-  return res.json({
-    message: 'Entraste a la mesa',
-    mesa,
-  })
-})
+router.post('/:mesaId/entrar', entrarAMesa)
 
 // ============================
 // Salir de una mesa
