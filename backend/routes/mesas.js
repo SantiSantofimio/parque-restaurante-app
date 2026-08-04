@@ -4,7 +4,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import authMiddleware from '../middleware/authMiddleware.js'
 import mesasRepository from '../repositories/mesasRepository.js'
-import { obtenerMesas } from '../controllers/mesasController.js'
+import { obtenerMesas, obtenerMesa } from '../controllers/mesasController.js'
 
 const router = express.Router()
 router.use(authMiddleware)
@@ -35,19 +35,7 @@ function readMenu() {
 router.get('/', obtenerMesas)
 
 
-router.get('/:mesaId', (req, res) => {
-  const { mesaId } = req.params
-
-  const mesa = mesasRepository.findById(mesaId)
-
-  if (!mesasRepository.exists(mesaId)) {
-    return res.status(404).json({
-      error: 'Mesa no encontrada',
-    })
-  }
-
-  res.json(mesa)
-})
+router.get('/:mesaId', obtenerMesa)
 
 // ============================
 // Entrar a una mesa

@@ -51,3 +51,34 @@ export function obtenerMesas(
   )
 
 }
+
+export function obtenerMesa(
+  req,
+  res
+) {
+
+  const {
+    mesaId,
+  } = req.params
+
+  const mesa =
+    mesasRepository.findById(
+      mesaId
+    )
+
+  if (!mesa) {
+
+    return res
+      .status(404)
+      .json({
+        error:
+          'Mesa no encontrada',
+      })
+
+  }
+
+  return res.json(
+    mesa
+  )
+
+}
