@@ -130,6 +130,7 @@ router.post('/:mesaId/entrar', (req, res) => {
       error: 'Usuario no autenticado',
     })
   }
+
   const mesa = mesasRepository.findById(mesaId)
 
   if (!mesa) {
@@ -182,9 +183,7 @@ router.post('/:mesaId/entrar', (req, res) => {
 
   mesa.ocupada = true
 
-  const mesas = mesasRepository.getAll()
-
-  mesasRepository.saveAll(mesas)
+  mesasRepository.update(mesa)
 
   return res.json({
     message: 'Entraste a la mesa',
@@ -539,6 +538,9 @@ router.post(
         
         userId:
           req.user.id,
+
+        userName:
+          req.user.name,
 
         productoId:
           String(

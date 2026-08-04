@@ -14,8 +14,24 @@
   {
     "id": "mesa-2",
     "capacidad": 2,
-    "ocupada": false,
-    "usuarios": [],
-    "pedidos": []
+    "ocupada": true,
+    "usuarios": [
+      {
+        "id": 1783514943597,
+        "name": "Santiago Santofimio"
+      }
+    ],
+    "pedidos": [
+      {
+        "id": 1785864141500,
+        "userId": 1783514943597,
+        "productoId": "6",
+        "producto": "Jugo de Mango",
+        "precio": 9000,
+        "cantidad": 1,
+        "total": 9000,
+        "observaciones": ""
+      }
+    ]
   }
 ]
