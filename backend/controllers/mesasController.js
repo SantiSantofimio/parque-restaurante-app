@@ -113,121 +113,46 @@ export function salirDeMesa(
   res
 ) {
 
-  const {
-    mesaId,
-  } = req.params
+    try {
 
-  const user =
-    req.user
+        const resultado = mesasService.salirDeMesa(
+            req.params.mesaId,
+            req.user
+        )
 
-  if (
-    !user ||
-    !user.id
-  ) {
+        return res.json(
+            resultado
+        )
 
-    return res
-      .status(401)
-      .json({
-        error:
-          'Usuario no autenticado',
-      })
+    } catch (error) {
 
-  }
+        const mensaje = error.mensaje
 
-  const mesa =
-    mesasRepository.findById(
-      mesaId
-    )
+        let status = 400
 
-  if (!mesa) {
+        if (
+            mensaje ===
+            'Usuario no autenticado'
+        ) {
 
-    return res
-      .status(404)
-      .json({
-        error:
-          'Mesa no encontrada',
-      })
+            status = 401
 
-  }
+        } else if (
+            mensaje ===
+            'Mesa no encontrada'
+        ) {
 
-  const usuarioEnMesa =
-    mesa.usuarios.some(
-      usuario =>
-        usuario.id ===
-        user.id
-    )
+            status = 404
 
-  if (!usuarioEnMesa) {
+        }
 
-    return res
-      .status(400)
-      .json({
-        error:
-          'No perteneces a esta mesa',
-      })
-
-  }
-
-  const pedidosUsuario =
-    (
-      mesa.pedidos || []
-    ).filter(
-      pedido =>
-        pedido.userId ===
-        user.id
-    )
-
-  if (
-    pedidosUsuario.length > 0
-  ) {
-
-    return res
-      .status(400)
-      .json({
-
-        error:
-          'Tienes pedidos pendientes. Debes pagar tu consumo antes de salir de la mesa.',
-
-      })
-
-  }
-
-  mesa.usuarios =
-    mesa.usuarios.filter(
-      usuario =>
-        usuario.id !==
-        user.id
-    )
-
-  if (
-    mesa.usuarios.length === 0
-  ) {
-
-    mesa.usuarios = []
-
-    mesa.pedidos = []
-
-    mesa.ocupada = false
-
-  } else {
-
-    mesa.ocupada = true
-
-  }
-
-  mesasRepository.update(
-    mesa
-  )
-
-  return res.json({
-
-    message:
-      'Saliste de la mesa correctamente',
-
-    mesa,
-
-  })
-
+        return res 
+            .status(status)
+            .json({
+                error: mensaje,
+            })
+        
+    }
 }
 
 export function confirmarPedido(

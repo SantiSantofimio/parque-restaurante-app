@@ -943,5 +943,31 @@
     "total": 18000,
     "estado": "pagada",
     "createdAt": "2026-08-05T09:19:17.840Z"
+  },
+  {
+    "id": 1785923269347,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1785923270461,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "3",
+        "producto": "Bandeja Paisa",
+        "precio": 38000,
+        "cantidad": 1,
+        "total": 38000,
+        "observaciones": ""
+      }
+    ],
+    "total": 38000,
+    "estado": "pagada",
+    "createdAt": "2026-08-05T09:47:49.347Z"
   }
 ]
