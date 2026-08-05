@@ -66,117 +66,46 @@ export function entrarAMesa(
   res
 ) {
 
-  const {
-    mesaId,
-  } = req.params
+    try {
 
-  const user =
-    req.user
+        const resultado = mesasService.entrarAMesa(
+            req.params.mesaId,
+            req.user
+        )
+        
+        return res.json(
+            resultado
+        )
 
-  if (
-    !user ||
-    !user.id
-  ) {
+    } catch (error) {
 
-    return res
-      .status(401)
-      .json({
-        error:
-          'Usuario no autenticado',
-      })
+        const mensaje = error.mensaje
 
-  }
+        let status = 400
 
-  const mesa =
-    mesasRepository.findById(
-      mesaId
-    )
+        if (
+            mensaje ===
+            'Usuario no autenticado'
+        ) {
 
-  if (!mesa) {
+            status = 401
 
-    return res
-      .status(404)
-      .json({
-        error:
-          'Mesa no encontrada',
-      })
+        } else if (
+            mensaje ===
+            'Mesa no encontrada'
+        ) {
 
-  }
+            status = 404
 
-  const mesaActual =
-    mesasRepository.findByUserId(
-      user.id
-    )
+        }
 
-  if (mesaActual) {
-
-    if (
-      mesaActual.id ===
-      mesaId
-    ) {
-
-      return res.json({
-
-        message:
-          'Ya perteneces a esta mesa',
-
-        mesa:
-          mesaActual,
-
-      })
-
+        return res 
+            .status(status)
+            .json({
+                error: mensaje,
+            })
+        
     }
-
-    return res
-      .status(400)
-      .json({
-
-        error:
-          `Ya perteneces a la ${mesaActual.id}`,
-
-      })
-
-  }
-
-  if (
-    mesa.usuarios.length >=
-    mesa.capacidad
-  ) {
-
-    return res
-      .status(400)
-      .json({
-        error:
-          'Mesa llena',
-      })
-
-  }
-
-  mesa.usuarios.push({
-
-    id:
-      user.id,
-
-    name:
-      user.name,
-
-  })
-
-  mesa.ocupada = true
-
-  mesasRepository.update(
-    mesa
-  )
-
-  return res.json({
-
-    message:
-      'Entraste a la mesa',
-
-    mesa,
-
-  })
-
 }
 
 export function salirDeMesa(
