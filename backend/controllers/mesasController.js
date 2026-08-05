@@ -2,55 +2,31 @@ import mesasRepository from '../repositories/mesasRepository.js'
 
 import menuRepository from '../repositories/menuRepository.js'
 
+import mesasService from '../services/mesasService.js'
+
 export function obtenerMesas(
   req,
   res
 ) {
 
-  const {
-    personas,
-  } = req.query
+  try {
+    const mesas = mesasService.obtenerMesas(
+      req.query.personas
+    )
 
-  const mesas =
-    mesasRepository.getAll()
-
-  if (
-    !personas
-  ) {
     return res.json(
       mesas
     )
-  }
 
-  const cantidad =
-    Number(
-      personas
-    )
-
-  if (
-    Number.isNaN(
-      cantidad
-    ) ||
-    cantidad < 1
-  ) {
+  } catch (error) {
 
     return res
       .status(400)
       .json({
         error:
-          'Cantidad de personas inválida',
+          error.message,
       })
-
   }
-
-  const disponibles =
-    mesasRepository.findAvailable(
-      cantidad
-    )
-
-  return res.json(
-    disponibles
-  )
 
 }
 
