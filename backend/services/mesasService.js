@@ -37,15 +37,9 @@ const mesasService = {
     ) {
 
         const mesa =
-            mesasRepository.findById(
+            this.validarMesa(
             mesaId
             )
-
-        if (!mesa) {
-            throw new Error(
-            'Mesa no encontrada'
-            )
-        }
 
         return mesa
 
@@ -56,25 +50,14 @@ const mesasService = {
     user
     ) {
 
-        if (
-            !user ||
-            !user.id
-        ) {
-            throw new Error(
-            'Usuario no autenticado'
-            )
-        }
+        this.validarUsuario(
+            user
+        )
 
         const mesa =
-            mesasRepository.findById(
+            this.validarMesa(
             mesaId
             )
-
-        if (!mesa) {
-            throw new Error(
-            'Mesa no encontrada'
-            )
-        }
 
         const mesaActual =
             mesasRepository.findByUserId(
@@ -128,7 +111,7 @@ const mesasService = {
 
         mesa.ocupada = true
 
-        mesasRepository.update(
+        this.guardarMesa(
             mesa
         )
 
@@ -143,43 +126,216 @@ const mesasService = {
 
     },
 
-  salirDeMesa(
-    mesaId,
-    user
+
+    validarMesa(
+        mesaId
+    ) {
+
+        const mesa =
+            mesasRepository.findById(
+                mesaId
+            )
+
+        if (!mesa) {
+
+            throw new Error(
+                'Mesa no encontrada'
+            )
+
+        }
+
+        return mesa
+
+    },
+
+
+    validarUsuario(
+        user
     ) {
 
         if (
             !user ||
             !user.id
         ) {
-            throw new Error(
-            'Usuario no autenticado'
-            )
-        }
 
-        const mesa =
-            mesasRepository.findById(
-            mesaId
+            throw new Error(
+                'Usuario no autenticado'
             )
 
-        if (!mesa) {
-            throw new Error(
-            'Mesa no encontrada'
-            )
         }
+
+    },
+
+
+    validarUsuarioEnMesa(
+        mesa,
+        user
+    ) {
 
         const usuarioEnMesa =
             mesa.usuarios.some(
-            usuario =>
-                usuario.id ===
-                user.id
+                usuario =>
+                    String(usuario.id) ===
+                    String(user.id)
             )
 
         if (!usuarioEnMesa) {
+
             throw new Error(
-            'No perteneces a esta mesa'
+                'No perteneces a esta mesa'
             )
+
         }
+
+    },
+
+
+    guardarMesa(
+        mesa
+    ) {
+
+        mesasRepository.update(
+            mesa
+        )
+
+    },
+
+
+    validarProducto(
+        productoId
+    ) {
+
+        const producto =
+            menuRepository.findById(
+                productoId
+            )
+
+        if (!producto) {
+
+            throw new Error(
+                `Producto ${productoId} no encontrado`
+            )
+
+        }
+
+        if (
+            !producto.disponible
+        ) {
+
+            throw new Error(
+                `Producto ${producto.nombre} no disponible`
+            )
+
+        }
+
+        return producto
+
+    },
+
+
+    crearPedido(
+        producto,
+        cantidad,
+        observaciones,
+        user
+    ) {
+
+        return {
+
+            id:
+                Date.now() +
+                Math.floor(
+                    Math.random() *
+                    100000
+                ),
+
+            userId:
+                user.id,
+
+            userName:
+                user.name,
+
+            productoId:
+                String(
+                    producto.id
+                ),
+
+            producto:
+                producto.nombre,
+
+            precio:
+                producto.precio,
+
+            cantidad,
+
+            total:
+                producto.precio *
+                cantidad,
+
+            observaciones:
+                observaciones || '',
+
+        }
+
+    },
+
+
+    procesarProductoPedido(
+        item,
+        user
+    ) {
+
+        const cantidad =
+            Number(
+                item.cantidad
+            )
+
+        if (
+            !Number.isInteger(
+                cantidad
+            ) ||
+            cantidad <= 0
+        ) {
+
+            throw new Error(
+                `Cantidad inválida para el producto ${item.productoId}`
+            )
+
+        }
+
+        const producto =
+            this.validarProducto(
+                item.productoId
+            )
+
+        return this.crearPedido(
+            producto,
+            cantidad,
+            item.observaciones,
+            user
+        )
+
+    },
+
+
+    salirDeMesa(
+        mesaId,
+        user
+    ) {
+
+        this.validarUsuario(
+            user
+        )
+
+        const mesa =
+            this.validarMesa(
+            mesaId
+            )
+
+        this.validarUsuarioEnMesa(
+            mesa,
+            user
+        )
 
         const pedidosUsuario =
             (
@@ -219,7 +375,7 @@ const mesasService = {
 
         }
 
-        mesasRepository.update(
+        this.guardarMesa(
             mesa
         )
 
@@ -240,6 +396,10 @@ const mesasService = {
         productos
     ) {
 
+        this.validarUsuario(
+            user
+        )
+
         // ============================
         // Validar carrito
         // ============================
@@ -253,37 +413,23 @@ const mesasService = {
             )
         }
 
-        const mesa =
-            mesasRepository.findById(
-                mesaId
-            )
-
         // ============================
         // Validar mesa
-        // ============================ 
+        // ============================
 
-        if (!mesa) {
-            throw new Error(
-                'Mesa no encontrada'
+        const mesa =
+            this.validarMesa(
+            mesaId
             )
-        }
 
         // ============================
         // Validar usuario en mesa
         // ============================
 
-        const usuarioEnMesa =
-            mesa.usuarios.some(
-                usuario =>
-                    String(usuario.id) ===
-                    String(user.id)
-            )
-
-        if (!usuarioEnMesa) {
-            throw new Error(
-                'No perteneces a esta mesa'
-            )
-        }
+        this.validarUsuarioEnMesa(
+            mesa,
+            user
+        )
 
         // ============================
         // Leer menú real
@@ -302,88 +448,21 @@ const mesasService = {
         const item of productos
         ) {
 
-            const cantidad =
-                Number(item.cantidad)
-
-            // Validar cantidad
-            if (!Number.isInteger(cantidad) || 
-                cantidad <= 0
-            ) {
-                throw new Error(
-                    `Cantidad inválida para el producto ${item.productoId}`
-                )
-            }
-
-            // Buscar producto real
-            const productoReal = menuRepository.findById(
-                item.productoId
+            const pedido =
+            this.procesarProductoPedido(
+                item,
+                user
             )
-
-            if (!productoReal) {
-                throw new Error(
-                    `Producto ${item.productoId} no encontrado`
-                )
-            }
-
-            if (
-                productoReal.disponible ===
-                false
-            ) {
-                throw new Error(
-                    `Producto ${productoReal.nombre} no disponible`
-                )
-            }
-
-            // ============================
-            // Crear pedido
-            // ============================
-
-            const nuevoPedido = {
-                id:
-                Date.now() +
-                Math.floor(
-                    Math.random() *
-                    100000
-                ),
-                
-                userId:
-                    user.id,
-
-                userName:
-                    user.name,
-
-                productoId:
-                    String(
-                        productoReal.id
-                    ),
-
-                producto:
-                    productoReal.nombre,
-
-                precio:
-                    productoReal.precio,
-
-                cantidad,
-
-                total:
-                    productoReal.precio *
-                    cantidad,
-
-                observaciones:
-                    item.observaciones ||
-                    '',
-            }
-
-            mesa.pedidos.push(
-                nuevoPedido
-            )
+            mesa.pedidos.push(pedido)
         }
 
         // ============================
         // Guardar mesa
         // ============================
 
-        mesasRepository.update(mesa)
+        this.guardarMesa(
+            mesa
+        )
 
         return {
             message:
