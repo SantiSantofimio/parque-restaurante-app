@@ -1,6 +1,9 @@
 import mesasRepository
   from '../repositories/mesasRepository.js'
 
+import menuRepository
+  from '../repositories/menuRepository.js'
+
 const mesasService = {
 
   obtenerMesas(
@@ -28,6 +31,25 @@ const mesasService = {
     )
 
   },
+
+  obtenerMesa(
+    mesaId
+    ) {
+
+        const mesa =
+            mesasRepository.findById(
+            mesaId
+            )
+
+        if (!mesa) {
+            throw new Error(
+            'Mesa no encontrada'
+            )
+        }
+
+        return mesa
+
+    },
 
   entrarAMesa(
     mesaId,
@@ -208,6 +230,165 @@ const mesasService = {
 
             mesa,
 
+        }
+
+    },
+
+    confirmarPedido(
+        mesaId,
+        user,
+        productos
+    ) {
+
+        // ============================
+        // Validar carrito
+        // ============================
+
+        if (
+            !Array.isArray(productos) ||
+            productos.length === 0
+        ) {
+            throw new Error(
+                'El carrito está vacío'
+            )
+        }
+
+        const mesa =
+            mesasRepository.findById(
+                mesaId
+            )
+
+        // ============================
+        // Validar mesa
+        // ============================ 
+
+        if (!mesa) {
+            throw new Error(
+                'Mesa no encontrada'
+            )
+        }
+
+        // ============================
+        // Validar usuario en mesa
+        // ============================
+
+        const usuarioEnMesa =
+            mesa.usuarios.some(
+                usuario =>
+                    String(usuario.id) ===
+                    String(user.id)
+            )
+
+        if (!usuarioEnMesa) {
+            throw new Error(
+                'No perteneces a esta mesa'
+            )
+        }
+
+        // ============================
+        // Leer menú real
+        // ============================
+
+
+        if (!mesa.pedidos) {
+        mesa.pedidos = []
+        }
+
+        // ============================
+        // Procesar productos
+        // ============================
+
+        for (
+        const item of productos
+        ) {
+
+            const cantidad =
+                Number(item.cantidad)
+
+            // Validar cantidad
+            if (!Number.isInteger(cantidad) || 
+                cantidad <= 0
+            ) {
+                throw new Error(
+                    `Cantidad inválida para el producto ${item.productoId}`
+                )
+            }
+
+            // Buscar producto real
+            const productoReal = menuRepository.findById(
+                item.productoId
+            )
+
+            if (!productoReal) {
+                throw new Error(
+                    `Producto ${item.productoId} no encontrado`
+                )
+            }
+
+            if (
+                productoReal.disponible ===
+                false
+            ) {
+                throw new Error(
+                    `Producto ${productoReal.nombre} no disponible`
+                )
+            }
+
+            // ============================
+            // Crear pedido
+            // ============================
+
+            const nuevoPedido = {
+                id:
+                Date.now() +
+                Math.floor(
+                    Math.random() *
+                    100000
+                ),
+                
+                userId:
+                    user.id,
+
+                userName:
+                    user.name,
+
+                productoId:
+                    String(
+                        productoReal.id
+                    ),
+
+                producto:
+                    productoReal.nombre,
+
+                precio:
+                    productoReal.precio,
+
+                cantidad,
+
+                total:
+                    productoReal.precio *
+                    cantidad,
+
+                observaciones:
+                    item.observaciones ||
+                    '',
+            }
+
+            mesa.pedidos.push(
+                nuevoPedido
+            )
+        }
+
+        // ============================
+        // Guardar mesa
+        // ============================
+
+        mesasRepository.update(mesa)
+
+        return {
+            message:
+            'Pedido confirmado',
+            mesa,
         }
 
     },
