@@ -26,6 +26,6 @@ router.post('/:mesaId/entrar', asynHandler(entrarAMesa))
 router.post('/:mesaId/salir', asynHandler(salirDeMesa))
 
 
-  router.post('/:mesaId/pedidos', asynHandler(confirmarPedido))
+router.post('/:mesaId/pedidos', asynHandler(confirmarPedido))
 
 export default router

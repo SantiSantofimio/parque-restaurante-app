@@ -2,6 +2,8 @@ import express from 'express'
 
 import authMiddleware from '../middleware/authMiddleware.js'
 
+import facturasService from '../services/facturasService.js'
+
 import facturasRepository from '../repositories/facturasRepository.js'
 import mesasRepository from '../repositories/mesasRepository.js'
 
@@ -377,22 +379,15 @@ router.get(
   (req, res) => {
 
     const facturas =
-      facturasRepository.getAll()
-
+      facturasService.obtenerFacturasUsuario(
+        req.user.id
+      )
 
     // Solo devolvemos facturas
     // del usuario autenticado
 
-    const facturasUsuario =
-      facturas.filter(
-        factura =>
-          factura.user?.id ===
-          req.user.id
-      )
-
-
     res.json(
-      facturasUsuario
+      facturas
     )
 
   }
