@@ -1307,5 +1307,161 @@
     "total": 12000,
     "estado": "pagada",
     "createdAt": "2026-08-07T13:12:01.295Z"
+  },
+  {
+    "id": 1786109453891,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-1",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786109415173,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "4",
+        "producto": "Trucha al Ajillo",
+        "precio": 42000,
+        "cantidad": 1,
+        "total": 42000,
+        "observaciones": ""
+      }
+    ],
+    "total": 42000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T13:30:53.891Z"
+  },
+  {
+    "id": 1786125905559,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786125955058,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "2",
+        "producto": "Arepas Mixtas",
+        "precio": 18000,
+        "cantidad": 1,
+        "total": 18000,
+        "observaciones": ""
+      }
+    ],
+    "total": 18000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T18:05:05.559Z"
+  },
+  {
+    "id": 1786128185481,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786127997708,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "3",
+        "producto": "Bandeja Paisa",
+        "precio": 38000,
+        "cantidad": 1,
+        "total": 38000,
+        "observaciones": ""
+      }
+    ],
+    "total": 38000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T18:43:05.481Z"
+  },
+  {
+    "id": 1786128213709,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786127997708,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "3",
+        "producto": "Bandeja Paisa",
+        "precio": 38000,
+        "cantidad": 1,
+        "total": 38000,
+        "observaciones": ""
+      }
+    ],
+    "total": 38000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T18:43:33.709Z"
+  },
+  {
+    "id": 1786128230038,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "mesa",
+    "pedidos": [
+      {
+        "id": 1786128301553,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 1,
+        "total": 14000,
+        "observaciones": ""
+      }
+    ],
+    "total": 14000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T18:43:50.038Z"
+  },
+  {
+    "id": 1786128256698,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786128315012,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 1,
+        "total": 14000,
+        "observaciones": ""
+      }
+    ],
+    "total": 14000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T18:44:16.698Z"
   }
 ]
