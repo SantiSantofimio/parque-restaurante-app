@@ -1203,5 +1203,31 @@
     "total": 12000,
     "estado": "pagada",
     "createdAt": "2026-08-07T10:16:02.665Z"
+  },
+  {
+    "id": 1786098131897,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-1",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786098211911,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "2",
+        "producto": "Arepas Mixtas",
+        "precio": 18000,
+        "cantidad": 1,
+        "total": 18000,
+        "observaciones": ""
+      }
+    ],
+    "total": 18000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T10:22:11.897Z"
   }
 ]

@@ -45,6 +45,7 @@ app.listen(PORT, () => {
     `Servidor corriendo en http://localhost:${PORT}`
   )
 })
+
 app.use(errorHandler)
 
 export default app
