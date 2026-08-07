@@ -5,24 +5,11 @@ export function obtenerMesas(
   res
 ) {
 
-  try {
     const mesas = mesasService.obtenerMesas(
-      req.query.personas
+        req.query.personas
     )
 
-    return res.json(
-      mesas
-    )
-
-  } catch (error) {
-
-    return res
-      .status(400)
-      .json({
-        error:
-          error.message,
-      })
-  }
+    return res.json(mesas)
 
 }
 
