@@ -4,6 +4,15 @@ import mesasRepository
 import menuRepository
   from '../repositories/menuRepository.js'
 
+  import ValidationError
+  from '../errors/ValidationError.js'
+  import NotFoundError
+  from '../errors/NotFoundError.js'
+  import ForbiddenError
+  from '../errors/ForbiddenError.js'
+  import UnauthorizedError
+  from '../errors/UnauthorizedError.js'
+
 const mesasService = {
 
   obtenerMesas(
@@ -21,7 +30,7 @@ const mesasService = {
       Number.isNaN(cantidad) ||
       cantidad < 1
     ) {
-      throw new Error(
+      throw new ValidationError(
         'Cantidad de personas inválida'
       )
     }
@@ -82,7 +91,7 @@ const mesasService = {
 
             }
 
-            throw new Error(
+            throw new ValidationError(
             `Ya perteneces a la ${mesaActual.id}`
             )
 
@@ -93,7 +102,7 @@ const mesasService = {
             mesa.capacidad
         ) {
 
-            throw new Error(
+            throw new ValidationError(
             'Mesa llena'
             )
 
@@ -138,7 +147,7 @@ const mesasService = {
 
         if (!mesa) {
 
-            throw new Error(
+            throw new NotFoundError(
                 'Mesa no encontrada'
             )
 
@@ -158,7 +167,7 @@ const mesasService = {
             !user.id
         ) {
 
-            throw new Error(
+            throw new UnauthorizedError(
                 'Usuario no autenticado'
             )
 
@@ -181,7 +190,7 @@ const mesasService = {
 
         if (!usuarioEnMesa) {
 
-            throw new Error(
+            throw new ForbiddenError(
                 'No perteneces a esta mesa'
             )
 
@@ -212,7 +221,7 @@ const mesasService = {
 
         if (!producto) {
 
-            throw new Error(
+            throw new ValidationError(
                 `Producto ${productoId} no encontrado`
             )
 
@@ -222,7 +231,7 @@ const mesasService = {
             !producto.disponible
         ) {
 
-            throw new Error(
+            throw new ValidationError(
                 `Producto ${producto.nombre} no disponible`
             )
 
@@ -297,7 +306,7 @@ const mesasService = {
             cantidad <= 0
         ) {
 
-            throw new Error(
+            throw new ValidationError(
                 `Cantidad inválida para el producto ${item.productoId}`
             )
 
@@ -349,7 +358,7 @@ const mesasService = {
         if (
             pedidosUsuario.length > 0
         ) {
-            throw new Error(
+            throw new ValidationError(
             'Tienes pedidos pendientes. Debes pagar tu consumo antes de salir de la mesa.'
             )
         }
@@ -408,7 +417,7 @@ const mesasService = {
             !Array.isArray(productos) ||
             productos.length === 0
         ) {
-            throw new Error(
+            throw new ValidationError(
                 'El carrito está vacío'
             )
         }
