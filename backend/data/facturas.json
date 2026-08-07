@@ -1229,5 +1229,57 @@
     "total": 18000,
     "estado": "pagada",
     "createdAt": "2026-08-07T10:22:11.897Z"
+  },
+  {
+    "id": 1786107608089,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786105331888,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "3",
+        "producto": "Bandeja Paisa",
+        "precio": 38000,
+        "cantidad": 1,
+        "total": 38000,
+        "observaciones": ""
+      }
+    ],
+    "total": 38000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T13:00:08.089Z"
+  },
+  {
+    "id": 1786107624250,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-1",
+    "tipoPago": "mesa",
+    "pedidos": [
+      {
+        "id": 1786107643736,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "1",
+        "producto": "Patacón con Hogao",
+        "precio": 12000,
+        "cantidad": 1,
+        "total": 12000,
+        "observaciones": ""
+      }
+    ],
+    "total": 12000,
+    "estado": "pagada",
+    "createdAt": "2026-08-07T13:00:24.250Z"
   }
 ]

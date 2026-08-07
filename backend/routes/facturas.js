@@ -1,21 +1,10 @@
 import express from 'express'
-import fs from 'fs'
-import path from 'path'
-import {
-  fileURLToPath,
-} from 'url'
 
 import authMiddleware from '../middleware/authMiddleware.js'
 
-const __filename =
-  fileURLToPath(
-    import.meta.url
-  )
+import facturasRepository from '../repositories/facturasRepository.js'
+import mesasRepository from '../repositories/mesasRepository.js'
 
-const __dirname =
-  path.dirname(
-    __filename
-  )
 
 const router =
   express.Router()
@@ -23,120 +12,6 @@ const router =
 router.use(
   authMiddleware
 )
-
-
-// ============================
-// Archivos
-// ============================
-
-const FACTURAS_FILE =
-  path.join(
-    __dirname,
-    '../data/facturas.json'
-  )
-
-const MESAS_FILE =
-  path.join(
-    __dirname,
-    '../data/mesas.json'
-  )
-
-
-// ============================
-// Helpers mesas
-// ============================
-
-function readMesas() {
-
-  if (
-    !fs.existsSync(
-      MESAS_FILE
-    )
-  ) {
-    return []
-  }
-
-  const raw =
-    fs.readFileSync(
-      MESAS_FILE,
-      'utf-8'
-    )
-
-  if (
-    !raw.trim()
-  ) {
-    return []
-  }
-
-  return JSON.parse(
-    raw
-  )
-}
-
-
-function writeMesas(
-  mesas
-) {
-
-  fs.writeFileSync(
-    MESAS_FILE,
-    JSON.stringify(
-      mesas,
-      null,
-      2
-    )
-  )
-
-}
-
-
-// ============================
-// Helpers facturas
-// ============================
-
-function readFacturas() {
-
-  if (
-    !fs.existsSync(
-      FACTURAS_FILE
-    )
-  ) {
-    return []
-  }
-
-  const raw =
-    fs.readFileSync(
-      FACTURAS_FILE,
-      'utf-8'
-    )
-
-  if (
-    !raw.trim()
-  ) {
-    return []
-  }
-
-  return JSON.parse(
-    raw
-  )
-}
-
-
-function saveFacturas(
-  facturas
-) {
-
-  fs.writeFileSync(
-    FACTURAS_FILE,
-    JSON.stringify(
-      facturas,
-      null,
-      2
-    )
-  )
-
-}
-
 
 // ============================
 // CREAR FACTURA / PAGAR
@@ -196,14 +71,9 @@ router.post(
     // Buscar mesa
     // ==========================
 
-    const mesas =
-      readMesas()
-
     const mesa =
-      mesas.find(
-        m =>
-          m.id ===
-          mesaId
+      mesasRepository.findById(
+        mesaId
       )
 
 
@@ -426,13 +296,13 @@ router.post(
     // ==========================
 
     const facturas =
-      readFacturas()
+      facturasRepository.getAll()
 
     facturas.push(
       nuevaFactura
     )
 
-    saveFacturas(
+    facturasRepository.saveAll(
       facturas
     )
 
@@ -473,8 +343,8 @@ router.post(
     // Guardar mesa
     // ==========================
 
-    writeMesas(
-      mesas
+    mesasRepository.update(
+      mesa
     )
 
 
@@ -507,7 +377,7 @@ router.get(
   (req, res) => {
 
     const facturas =
-      readFacturas()
+      facturasRepository.getAll()
 
 
     // Solo devolvemos facturas
