@@ -4,6 +4,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import authMiddleware from '../middleware/authMiddleware.js' 
 import { obtenerMesas, obtenerMesa, entrarAMesa, salirDeMesa, confirmarPedido } from '../controllers/mesasController.js'
+import asynHandler from '../utils/asyncHandler.js'
 
 const router = express.Router()
 router.use(authMiddleware)
@@ -31,23 +32,23 @@ function readMenu() {
 // ============================
 // Obtener mesas
 // ============================
-router.get('/', obtenerMesas)
+router.get('/', asynHandler(obtenerMesas))
 
 
-router.get('/:mesaId', obtenerMesa)
+router.get('/:mesaId', asynHandler(obtenerMesa))
 
 // ============================
 // Entrar a una mesa
 // ============================
-router.post('/:mesaId/entrar', entrarAMesa)
+router.post('/:mesaId/entrar', asynHandler(entrarAMesa))
 
 // ============================
 // Salir de una mesa
 // ============================
 
-router.post('/:mesaId/salir', salirDeMesa)
+router.post('/:mesaId/salir', asynHandler(salirDeMesa))
 
 
-  router.post('/:mesaId/pedidos', confirmarPedido)
+  router.post('/:mesaId/pedidos', asynHandler(confirmarPedido))
 
 export default router

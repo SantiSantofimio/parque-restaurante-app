@@ -11,7 +11,7 @@ import facturasRoutes from './routes/facturas.js'
 import contentRoutes from './routes/content.js'
 import menuRoutes from './routes/menu.js'
 import adminRoutes from './routes/admin/index.js'
-import errorHandler from './middlewares/errorHandler.js'
+import errorHandler from './middleware/errorHandler.js'
 
 const app = express()
 const PORT = process.env.PORT || 4000
