@@ -2,7 +2,12 @@ import express from 'express'
 
 import authMiddleware from '../middleware/authMiddleware.js'
 
-import facturasService from '../services/facturasService.js'
+import asyncHandler from '../utils/asyncHandler.js'
+
+import {
+  pagarPedidos,
+  obtenerFacturas
+} from '../controllers/facturasController.js'
 
 
 const router =
@@ -17,21 +22,10 @@ router.use(
 // ============================
 
 router.post(
-  '/',
-  (req, res) => {
-
-    const resultado =
-      facturasService.pagarPedidos(
-        req.user,
-        req.body.mesaId,
-        req.body.tipoPago
-      )
-
-      return res.json(
-        resultado
-      )
-
-  }
+  '/', 
+asyncHandler(
+  pagarPedidos
+  )
 )
 
 
@@ -41,21 +35,9 @@ router.post(
 
 router.get(
   '/',
-  (req, res) => {
-
-    const facturas =
-      facturasService.obtenerFacturasUsuario(
-        req.user.id
-      )
-
-    // Solo devolvemos facturas
-    // del usuario autenticado
-
-    res.json(
-      facturas
-    )
-
-  }
+  asyncHandler(
+    obtenerFacturas
+  )
 )
 
 
