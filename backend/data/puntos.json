@@ -1,5 +1,82 @@
 [
   {
+    "id": "16498c2d-2176-43fd-9db3-8a919c048611",
+    "userId": 1783514943597,
+    "puntos": 12,
+    "descripcion": "Compra de 1 infantil(s)",
+    "fecha": "2026-08-08T10:41:00.212Z"
+  },
+  {
+    "id": "b0b6b875-877e-43b0-93aa-7e86ca22e55b",
+    "userId": 1783514943597,
+    "puntos": 40,
+    "descripcion": "Compra de 2 adulto(s)",
+    "fecha": "2026-08-08T10:40:48.163Z"
+  },
+  {
+    "id": "61fc5bd0-c3bf-4df8-99a7-158d018fa67b",
+    "userId": 1783514943597,
+    "puntos": 20,
+    "descripcion": "Compra de 1 adulto(s)",
+    "fecha": "2026-08-08T10:40:39.106Z"
+  },
+  {
+    "id": "ed7e3fbf-3852-4817-8fe3-b0fb29974064",
+    "userId": 1783514943597,
+    "puntos": 24,
+    "descripcion": "Compra de 2 infantil(s)",
+    "fecha": "2026-08-08T10:28:21.836Z"
+  },
+  {
+    "id": "baa96dd5-ff62-4280-b42d-9770d16804cd",
+    "userId": 1783514943597,
+    "puntos": 40,
+    "descripcion": "Compra de 2 adulto(s)",
+    "fecha": "2026-08-08T10:28:18.890Z"
+  },
+  {
+    "id": "ec485cfb-b62a-4a0b-8a6d-28fadbaf4e5d",
+    "userId": 1783514943597,
+    "puntos": 12,
+    "descripcion": "Compra de 1 infantil(s)",
+    "fecha": "2026-08-08T10:28:11.893Z"
+  },
+  {
+    "id": "bb763291-864c-48f7-b8b3-90ad4dc9e3a1",
+    "userId": 1783514943597,
+    "puntos": 20,
+    "descripcion": "Compra de 1 adulto(s)",
+    "fecha": "2026-08-08T10:28:08.753Z"
+  },
+  {
+    "id": "0fe5a2ba-c029-412e-bcc3-d2b2f2d34bc2",
+    "userId": 1783514943597,
+    "puntos": 12,
+    "descripcion": "Compra de 1 infantil(s)",
+    "fecha": "2026-08-08T08:57:23.455Z"
+  },
+  {
+    "id": "b0f25db2-9fa9-4eaf-bbb3-589aa30bd6bb",
+    "userId": 1783514943597,
+    "puntos": 24,
+    "descripcion": "Compra de 2 infantil(s)",
+    "fecha": "2026-08-08T08:57:19.465Z"
+  },
+  {
+    "id": "1dcf11ac-2ec8-4d8a-bfe8-696ec9cf1a44",
+    "userId": 1783514943597,
+    "puntos": 20,
+    "descripcion": "Compra de 1 adulto(s)",
+    "fecha": "2026-08-08T08:57:06.348Z"
+  },
+  {
+    "id": "87872025-89a3-41d7-b1c7-09cb544ae10c",
+    "userId": 1783514943597,
+    "puntos": 20,
+    "descripcion": "Compra de 1 adulto(s)",
+    "fecha": "2026-08-08T08:53:03.660Z"
+  },
+  {
     "id": "f0da8b41-5702-49d6-a145-f1ceb12bea38",
     "userId": 1783514943597,
     "puntos": 20,

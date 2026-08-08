@@ -55,3 +55,9 @@ export const MENU_FILE =
     CONTENT_PATH,
     'menu.json'
   )
+
+export const POINTS_FILE =
+  path.join(
+    DATA_PATH,
+    'puntos.json'
+  )
