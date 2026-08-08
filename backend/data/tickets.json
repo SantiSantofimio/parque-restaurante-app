@@ -190,5 +190,17 @@
     "estado": "activo",
     "fechaCompra": "2026-08-08T10:41:00.209Z",
     "codigoQR": "419e9f80-a53f-4ac3-9628-d22b62188262"
+  },
+  {
+    "id": "ticket-1786187189403",
+    "userId": 1783514943597,
+    "tipo": "adulto",
+    "cantidad": 1,
+    "precioUnitario": 20000,
+    "total": 20000,
+    "puntosGanados": 20,
+    "estado": "activo",
+    "fechaCompra": "2026-08-08T11:06:29.403Z",
+    "codigoQR": "23ed3aca-0e5d-4c7e-9115-45f56f96277c"
   }
 ]

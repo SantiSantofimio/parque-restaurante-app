@@ -1,65 +1,19 @@
 import express from 'express'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+
 import authMiddleware from '../middleware/authMiddleware.js'
+
+import asyncHandler from '../utils/asyncHandler.js'
+
+import { obtenerDashboard } from '../controllers/dashboardController.js'
 
 const router = express.Router()
 
 router.use(authMiddleware)
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
-const USERS_FILE = path.join(__dirname, '../data/users.json')
-const TICKETS_FILE = path.join(__dirname, '../data/tickets.json')
-const MESAS_FILE = path.join(__dirname, '../data/mesas.json')
-
-router.get('/', (req, res) => {
-  const users = JSON.parse(fs.readFileSync(USERS_FILE))
-  const tickets = JSON.parse(fs.readFileSync(TICKETS_FILE))
-  const mesas = JSON.parse(fs.readFileSync(MESAS_FILE))
-
-  const user = users.find(u => u.id === req.user.id)
-
-  const ticketsActivos =
-    tickets.filter(
-      t => t.userId === req.user.id && t.estado === 'activo'
-    ).length
-
-  const mesa =
-    mesas.find(m =>
-      m.usuarios.some(u => u.id === req.user.id)
-    )
-
-  function obtenerRecomendaciones() {
-    return [
-      {
-        id: 1,
-        titulo: '20% en restaurante',
-        descripcion: 'Disfruta de un 20% de descuento en nuestro restaurante al comprar dos entradas.',
-        tipo: 'restaurante',
-        image: '/promos/piscina.jpg',
-      },
-      {
-        id: 2,
-        titulo: 'Recorrido ecológico',
-        descripcion: 'Explora la naturaleza con un recorrido guiado por nuestro parque ecológico.',
-        tipo: 'tour',
-        image: '/promos/promocion2.jpg',
-      }
-    ]
-  }
-
-  res.json({
-    name: user?.name ?? 'Usuario',
-    puntos: user?.puntos ?? 0,
-    tickets: ticketsActivos,
-    mesaActual: mesa?.id ?? null,
-    promociones: [], // si no tienes promociones aquí, envía un array vacío
-    recomendaciones: obtenerRecomendaciones()
-  })
-})
+router.get('/', 
+  asyncHandler(obtenerDashboard)
+)
 
 
 export default router

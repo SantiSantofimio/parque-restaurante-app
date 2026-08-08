@@ -1604,5 +1604,31 @@
     "total": 38000,
     "estado": "pagada",
     "createdAt": "2026-08-08T07:40:42.658Z"
+  },
+  {
+    "id": 1786187174702,
+    "user": {
+      "id": 1783514943597,
+      "name": "Santiago Santofimio",
+      "email": "santi@admin.yuma.com"
+    },
+    "mesaId": "mesa-1",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786187197789,
+        "userId": 1783514943597,
+        "userName": "Santiago Santofimio",
+        "productoId": "1",
+        "producto": "Patacón con Hogao",
+        "precio": 12000,
+        "cantidad": 1,
+        "total": 12000,
+        "observaciones": ""
+      }
+    ],
+    "total": 12000,
+    "estado": "pagada",
+    "createdAt": "2026-08-08T11:06:14.702Z"
   }
 ]
