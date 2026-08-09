@@ -26,6 +26,48 @@ export const CONTENT_PATH =
     '../content'
   )
 
+export const BANNERS_FILE =
+  path.join(
+    CONTENT_PATH,
+    'banners.json'
+  )
+
+export const SERVICES_FILE =
+  path.join(
+    CONTENT_PATH,
+    'services.json'
+  )
+
+export const PROMOTIONS_FILE =
+  path.join(
+    CONTENT_PATH,
+    'promotions.json'
+  )
+
+export const NEWS_FILE =
+  path.join(
+    CONTENT_PATH,
+    'news.json'
+  )
+
+export const EVENTS_FILE =
+  path.join(
+    CONTENT_PATH,
+    'events.json'
+  )
+
+export const TOURS_FILE =
+  path.join(
+    CONTENT_PATH,
+    'tours.json'
+  )
+
+export const RESTAURANT_FILE =
+  path.join(
+    CONTENT_PATH,
+    'restaurant.json'
+  )
+
 export const USERS_FILE =
   path.join(
     DATA_PATH,

@@ -1,5 +1,26 @@
 [
   {
+    "id": "bb9113be-a142-44d1-abab-7c87d35df7e0",
+    "userId": 1783514943597,
+    "puntos": 40,
+    "descripcion": "Compra de 2 adulto(s)",
+    "fecha": "2026-08-09T17:41:34.970Z"
+  },
+  {
+    "id": "b5153cec-9bac-48b7-9912-865c207f9e9b",
+    "userId": 1783514943597,
+    "puntos": 20,
+    "descripcion": "Compra de 1 adulto(s)",
+    "fecha": "2026-08-09T17:41:26.554Z"
+  },
+  {
+    "id": "e8f5b8a6-c041-4917-b636-fe3f6ad328c0",
+    "userId": 1786268287366,
+    "puntos": 20,
+    "descripcion": "Compra de 1 adulto(s)",
+    "fecha": "2026-08-09T11:15:50.087Z"
+  },
+  {
     "id": "7dc3575f-7a19-4351-941f-752055c17b62",
     "userId": 1783514943597,
     "puntos": 20,

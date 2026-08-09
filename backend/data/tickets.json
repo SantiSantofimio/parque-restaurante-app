@@ -202,5 +202,41 @@
     "estado": "activo",
     "fechaCompra": "2026-08-08T11:06:29.403Z",
     "codigoQR": "23ed3aca-0e5d-4c7e-9115-45f56f96277c"
+  },
+  {
+    "id": "ticket-1786274150082",
+    "userId": 1786268287366,
+    "tipo": "adulto",
+    "cantidad": 1,
+    "precioUnitario": 20000,
+    "total": 20000,
+    "puntosGanados": 20,
+    "estado": "activo",
+    "fechaCompra": "2026-08-09T11:15:50.082Z",
+    "codigoQR": "b91abe28-e160-4e71-8258-f9274884830c"
+  },
+  {
+    "id": "ticket-1786297286549",
+    "userId": 1783514943597,
+    "tipo": "adulto",
+    "cantidad": 1,
+    "precioUnitario": 20000,
+    "total": 20000,
+    "puntosGanados": 20,
+    "estado": "activo",
+    "fechaCompra": "2026-08-09T17:41:26.549Z",
+    "codigoQR": "4ae79841-6934-4028-865c-9378996f36cb"
+  },
+  {
+    "id": "ticket-1786297294968",
+    "userId": 1783514943597,
+    "tipo": "adulto",
+    "cantidad": 2,
+    "precioUnitario": 20000,
+    "total": 40000,
+    "puntosGanados": 40,
+    "estado": "activo",
+    "fechaCompra": "2026-08-09T17:41:34.968Z",
+    "codigoQR": "2097f5ed-96e8-4bdb-a96b-4b6c6e3b0c9e"
   }
 ]

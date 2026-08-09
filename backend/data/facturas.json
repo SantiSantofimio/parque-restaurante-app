@@ -1630,5 +1630,57 @@
     "total": 12000,
     "estado": "pagada",
     "createdAt": "2026-08-08T11:06:14.702Z"
+  },
+  {
+    "id": 1786274136485,
+    "user": {
+      "id": 1786268287366,
+      "name": "Manuel S",
+      "email": "manuels@santofimio.admin.com"
+    },
+    "mesaId": "mesa-2",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786274198151,
+        "userId": 1786268287366,
+        "userName": "Manuel S",
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 1,
+        "total": 14000,
+        "observaciones": ""
+      }
+    ],
+    "total": 14000,
+    "estado": "pagada",
+    "createdAt": "2026-08-09T11:15:36.485Z"
+  },
+  {
+    "id": 1786274540061,
+    "user": {
+      "id": 1786268287366,
+      "name": "Manuel S",
+      "email": "manuels@santofimio.admin.com"
+    },
+    "mesaId": "mesa-1",
+    "tipoPago": "individual",
+    "pedidos": [
+      {
+        "id": 1786274543167,
+        "userId": 1786268287366,
+        "userName": "Manuel S",
+        "productoId": "7",
+        "producto": "Brownie",
+        "precio": 14000,
+        "cantidad": 1,
+        "total": 14000,
+        "observaciones": ""
+      }
+    ],
+    "total": 14000,
+    "estado": "pagada",
+    "createdAt": "2026-08-09T11:22:20.061Z"
   }
 ]

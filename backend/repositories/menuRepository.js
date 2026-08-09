@@ -1,32 +1,18 @@
+import BaseRepository
+  from './BaseRepository.js'
+
 import {
   MENU_FILE,
 } from '../config/paths.js'
 
-import {
-  readJsonFile,
-} from '../utils/jsonStorage.js'
+class MenuRepository
+  extends BaseRepository {
 
-class MenuRepository {
+  constructor() {
 
-  getAll() {
-
-    return readJsonFile(
+    super(
       MENU_FILE
     )
-
-  }
-
-  findById(
-    id
-  ) {
-
-    return this
-      .getAll()
-      .find(
-        producto =>
-          String(producto.id) ===
-          String(id)
-      )
 
   }
 
@@ -35,4 +21,5 @@ class MenuRepository {
 const menuRepository =
   new MenuRepository()
 
-export default menuRepository
+export default
+  menuRepository

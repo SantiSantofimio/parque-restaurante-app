@@ -20,7 +20,7 @@
     "name": "Santiago Santofimio",
     "email": "santi@admin.yuma.com",
     "password": "$2b$10$kWUx7vVOE/HxGnPAKuQCieitYXsr4c1F5Ou8zTG5gYLj73xrX6tjO",
-    "puntos": 320,
+    "puntos": 380,
     "role": "admin"
   },
   {
@@ -29,7 +29,7 @@
     "email": "manuels@santofimio.admin.com",
     "password": "$2b$10$cU1XCOOfSx5GApGYmdaB5OqBjpMpdOHekrxI6oXZ0HgLjFN4OJAwO",
     "role": "customer",
-    "puntos": 0,
+    "puntos": 20,
     "createdAt": "2026-08-09T09:38:07.366Z"
   }
 ]
