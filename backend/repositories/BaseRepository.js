@@ -22,6 +22,12 @@ export default class BaseRepository {
 
   }
 
+  count() {
+
+    return this.getAll().length
+
+  }
+
   findById(
     id
   ) {
@@ -32,6 +38,18 @@ export default class BaseRepository {
         item =>
           item.id === id
       )
+
+  }
+
+  exists(
+    id
+  ) {
+
+    return Boolean(
+      this.findById(
+        id
+      )
+    )
 
   }
 
@@ -94,6 +112,21 @@ export default class BaseRepository {
     const entities =
       this.getAll()
 
+    const index =
+      entities.findIndex(
+        entity =>
+          entity.id === id
+      )
+
+    if (
+      index === -1
+    ) {
+      return null
+    }
+
+    const deletedEntity =
+      entities[index]
+
     const filtered =
       entities.filter(
         entity =>
@@ -104,6 +137,8 @@ export default class BaseRepository {
       this.filePath,
       filtered
     )
+
+    return deletedEntity
 
   }
 
