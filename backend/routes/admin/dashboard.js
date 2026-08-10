@@ -1,5 +1,9 @@
 import express from 'express'
-import requireRole from '../../middleware/requireRole.js'
+
+import requirePermission from '../../middleware/requirePermission.js'
+
+import { PERMISSIONS } from '../../config/permissions.js'
+
 import authMiddleware from '../../middleware/authMiddleware.js'
 
 import asyncHandler from '../../utils/asyncHandler.js'
@@ -16,8 +20,8 @@ router.get(
 
   authMiddleware,
 
-  requireRole(
-    'admin'
+  requirePermission(
+    PERMISSIONS.VIEW_ADMIN_DASHBOARD
   ),
 
   asyncHandler(obtenerDashboardAdmin

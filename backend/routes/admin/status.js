@@ -1,6 +1,13 @@
 import express from 'express'
+
 import authMiddleware from '../../middleware/authMiddleware.js'
-import requireRole from '../../middleware/requireRole.js'
+
+import requirePermission from '../../middleware/requirePermission.js'
+
+import {
+  PERMISSIONS,
+} from '../../config/permissions.js'
+
 
 const router = express.Router()
 
@@ -13,8 +20,8 @@ router.get(
 
   authMiddleware,
 
-  requireRole(
-    'admin'
+  requirePermission(
+    PERMISSIONS.VIEW_ADMIN_DASHBOARD
   ),
 
   (req, res) => {
