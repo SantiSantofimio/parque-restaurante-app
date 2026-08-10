@@ -28,6 +28,18 @@ class UsersRepository
 
   }
 
+  findById(
+    id
+  ) {
+
+    return this
+      .getAll()
+      .find(
+        user => 
+          String(user.id) === String(id)
+      )
+  }
+
 }
 
 const usersRepository =

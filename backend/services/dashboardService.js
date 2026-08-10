@@ -13,9 +13,6 @@ const dashboardService = {
     userId
   ) {
 
-    const users =
-      usersRepository.getAll()
-
     const tickets =
       ticketsRepository.getAll()
 
@@ -23,9 +20,7 @@ const dashboardService = {
       mesasRepository.getAll()
 
     const user =
-      users.find(
-        u => u.id === userId
-      )
+      usersRepository.findById(userId)
 
     const ticketsActivos =
       tickets.filter(

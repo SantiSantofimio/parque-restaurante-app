@@ -1,9 +1,6 @@
 import bcrypt
   from 'bcrypt'
 
-import jwt
-  from 'jsonwebtoken'
-
 import usersRepository
   from '../repositories/usersRepository.js'
 
@@ -13,16 +10,9 @@ import ValidationError
 import UnauthorizedError
   from '../errors/UnauthorizedError.js'
 
-const JWT_SECRET =
-  process.env.JWT_SECRET
-
-if (!JWT_SECRET) {
-
-  throw new Error(
-    'JWT_SECRET no ha sido configurado'
-  )
-
-}
+  import {
+    generateToken,
+  } from '../utils/jwt.js'
 
 const authService = {
 
@@ -85,15 +75,14 @@ const authService = {
         } = datos
 
         const user =
-            this.validarCredenciales(
+            await this.validarCredenciales(
                 email,
                 password
             )
 
         const token =
-            await this.generarToken(
-                user,
-                password
+            this.generarToken(
+                user
             )
 
         return {
@@ -120,8 +109,9 @@ const authService = {
 
     },
 
-    validarCredenciales(
-        email
+    async validarCredenciales(
+        email,
+        password
     ) {
 
         const user =
@@ -137,16 +127,7 @@ const authService = {
 
         }
 
-        return user
-
-    },
-
-    async generarToken(
-        user,
-        password
-    ) {
-
-        const passwordCorrecta =
+        const passwordCorrecta = 
             await bcrypt.compare(
                 password,
                 user.password
@@ -157,38 +138,26 @@ const authService = {
             throw new UnauthorizedError(
                 'Credenciales incorrectas'
             )
-
         }
 
-        return jwt.sign(
+        return user
 
-            {
+    },
 
-                id:
-                    user.id,
+    generarToken(
+        user
+    ) {
 
-                name:
-                    user.name,
+        return generateToken({
 
-                email:
-                    user.email,
+            id: user.id,
 
-                role:
-                    user.role,
+            name: user.name,
 
-            },
+            email: user.email,
 
-            JWT_SECRET,
-
-            {
-
-                expiresIn:
-                    '1d',
-
-            }
-
-        )
-
+            role: user.role,
+        })
     },
 
     validarRegistro(
