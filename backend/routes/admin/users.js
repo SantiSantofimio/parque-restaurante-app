@@ -13,6 +13,7 @@ import asyncHandler
 import {
   obtenerUsuarios,
   cambiarRol,
+  cambiarEstado,
 } from '../../controllers/adminUsersController.js'
 
 import {
@@ -52,6 +53,17 @@ router.patch(
   asyncHandler(
     cambiarRol
   )
+)
+
+router.patch(
+    '/:userId/status',
+    requirePermission(
+        PERMISSIONS.TOGGLE_USER_STATUS
+    ),
+
+    asyncHandler(
+        cambiarEstado
+    )
 )
 
 

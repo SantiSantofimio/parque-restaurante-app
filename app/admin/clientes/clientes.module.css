@@ -1,0 +1,663 @@
+.page {
+  width: 100%;
+  min-height: 100%;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 8px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  color: #0c8f5b;
+}
+
+.title {
+  margin: 0;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+  font-weight: 700;
+
+  color: #171717;
+}
+
+.description {
+  max-width: 650px;
+  margin: 12px 0 0;
+
+  font-size: 1rem;
+  line-height: 1.6;
+
+  color: #707070;
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+.summary {
+  min-width: 150px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 18px 20px;
+
+  border: 1px solid #e8e8e8;
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.summary strong {
+  font-size: 1.8rem;
+  line-height: 1;
+
+  color: #0c8f5b;
+}
+
+.summary span {
+  margin-top: 7px;
+
+  font-size: 0.82rem;
+
+  color: #777777;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 16px;
+
+  margin-bottom: 24px;
+  padding: 16px 18px;
+
+  border: 1px solid #f0cccc;
+  border-radius: 14px;
+
+  background: #fff7f7;
+}
+
+.error strong {
+  font-size: 0.92rem;
+  color: #a52b2b;
+}
+
+.error span {
+  font-size: 0.85rem;
+  color: #777777;
+}
+
+.error button {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+
+  align-self: center;
+
+  border: 0;
+  background: transparent;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  color: #a52b2b;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   SECTION
+========================================= */
+
+.section {
+  width: 100%;
+
+  border: 1px solid #e9e9e9;
+  border-radius: 22px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.04);
+
+  overflow: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 22px 24px;
+
+  border-bottom: 1px solid #eeeeee;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+
+  font-size: 1.05rem;
+  font-weight: 700;
+
+  color: #202020;
+}
+
+.sectionHeader p {
+  margin: 5px 0 0;
+
+  font-size: 0.84rem;
+
+  color: #808080;
+}
+
+.countBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 32px;
+  height: 32px;
+
+  padding: 0 9px;
+
+  border-radius: 999px;
+
+  background: #e8f7f0;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  color: #08784d;
+}
+
+
+/* =========================================
+   LIST
+========================================= */
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================================
+   USER CARD
+========================================= */
+
+.userCard {
+  display: grid;
+  grid-template-columns:
+    minmax(220px, 1.5fr)
+    minmax(250px, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 24px;
+
+  padding: 20px 24px;
+
+  border-bottom: 1px solid #eeeeee;
+
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.userCard:last-child {
+  border-bottom: 0;
+}
+
+.userCard:hover {
+  background: #fafcfb;
+}
+
+
+/* =========================================
+   USER INFO
+========================================= */
+
+.userInfo {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  min-width: 0;
+}
+
+.avatar {
+  flex: 0 0 auto;
+
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #e8f7f0;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  color: #08784d;
+}
+
+.identity {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.userName {
+  overflow: hidden;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: #202020;
+}
+
+.userEmail {
+  overflow: hidden;
+
+  font-size: 0.82rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  color: #808080;
+}
+
+
+/* =========================================
+   META
+========================================= */
+
+.userMeta {
+  display: flex;
+  align-items: center;
+
+  gap: 24px;
+}
+
+.metaGroup {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.metaLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #9a9a9a;
+}
+
+
+/* =========================================
+   ROLE
+========================================= */
+
+.roleSelect {
+  min-width: 125px;
+
+  padding: 8px 32px 8px 10px;
+
+  border: 1px solid #dddddd;
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  color: #333333;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.roleSelect:hover {
+  border-color: #bcbcbc;
+}
+
+.roleSelect:focus {
+  border-color: #0c8f5b;
+
+  box-shadow:
+    0 0 0 3px rgba(12, 143, 91, 0.12);
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+}
+
+.statusActive {
+  color: #08784d;
+}
+
+.statusActive .statusDot {
+  background: #0c8f5b;
+}
+
+.statusInactive {
+  color: #9a5b1a;
+}
+
+.statusInactive .statusDot {
+  background: #c8862e;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.statusButton {
+  min-width: 100px;
+
+  padding: 9px 14px;
+
+  border-radius: 9px;
+
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.statusButton:active {
+  transform: scale(0.98);
+}
+
+.deactivateButton {
+  border: 1px solid #ead1d1;
+
+  background: #ffffff;
+
+  color: #a52b2b;
+}
+
+.deactivateButton:hover {
+  background: #fff5f5;
+
+  border-color: #dcaeae;
+}
+
+.activateButton {
+  border: 1px solid #0c8f5b;
+
+  background: #0c8f5b;
+
+  color: #ffffff;
+}
+
+.activateButton:hover {
+  background: #08784d;
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 70px 24px;
+
+  text-align: center;
+}
+
+.emptyIcon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 18px;
+
+  border-radius: 18px;
+
+  background: #f3f5f4;
+
+  font-size: 1.5rem;
+}
+
+.empty h3 {
+  margin: 0;
+
+  font-size: 1rem;
+
+  color: #303030;
+}
+
+.empty p {
+  max-width: 420px;
+
+  margin: 8px 0 0;
+
+  font-size: 0.85rem;
+  line-height: 1.5;
+
+  color: #858585;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading {
+  min-height: 50vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.loadingIndicator {
+  width: 30px;
+  height: 30px;
+
+  margin-bottom: 18px;
+
+  border: 3px solid #e5e5e5;
+  border-top-color: #0c8f5b;
+
+  border-radius: 50%;
+
+  animation:
+    spin 700ms linear infinite;
+}
+
+.loading h1 {
+  margin: 0;
+
+  font-size: 1.2rem;
+
+  color: #303030;
+}
+
+.loading p {
+  max-width: 400px;
+
+  margin: 8px 0 0;
+
+  font-size: 0.85rem;
+
+  color: #858585;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .userCard {
+    grid-template-columns:
+      1fr
+      1fr;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .page {
+    padding: 20px 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 20px;
+  }
+
+  .summary {
+    width: fit-content;
+  }
+
+  .sectionHeader {
+    padding: 18px;
+  }
+
+  .userCard {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+
+    padding: 18px;
+  }
+
+  .userMeta {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 16px;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .statusButton {
+    width: 100%;
+  }
+
+  .error {
+    grid-template-columns: 1fr;
+  }
+
+  .error button {
+    grid-column: 1;
+    grid-row: auto;
+
+    justify-self: flex-start;
+
+    margin-top: 8px;
+  }
+
+}
+
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}

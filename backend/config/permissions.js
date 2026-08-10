@@ -21,4 +21,7 @@ export const PERMISSIONS = {
   MANAGE_TICKETS:
     'manage_tickets',
 
+  TOGGLE_USER_STATUS:
+    'toggle_user_status',
+
 }

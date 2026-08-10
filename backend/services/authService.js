@@ -127,6 +127,14 @@ const authService = {
 
         }
 
+        if (
+            user.active === false
+        ) {
+            throw new UnauthorizedError(
+                'La cuenta está desactivada'
+            )
+        }
+
         const passwordCorrecta = 
             await bcrypt.compare(
                 password,
@@ -219,6 +227,8 @@ const authService = {
 
             puntos:
                 0,
+
+            active: true,
 
             createdAt:
                 new Date()

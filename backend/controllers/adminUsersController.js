@@ -40,3 +40,27 @@ export function cambiarRol(
   })
 
 }
+
+export function cambiarEstado(
+    req,
+    res
+    ) {
+
+        const usuario =
+            adminUsersService.cambiarEstado(
+            req.user,
+            req.params.userId,
+            req.body.active
+            )
+
+        return res.json({
+
+            message:
+            'Estado del usuario actualizado correctamente',
+
+            user:
+            usuario,
+
+    })
+
+}

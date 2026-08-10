@@ -243,6 +243,85 @@ const adminUsersService = {
 
   },
 
+  cambiarEstado(
+    actor,
+    targetUserId,
+    activo
+    ) {
+
+    const actorRole =
+        actor.role ||
+        ROLES.CUSTOMER
+
+    const targetUser =
+        usersRepository.findById(
+        targetUserId
+        )
+
+    if (!targetUser) {
+
+        throw new NotFoundError(
+        'Usuario no encontrado'
+        )
+
+    }
+
+    if (
+        String(actor.id) ===
+        String(targetUserId)
+    ) {
+
+        throw new ForbiddenError(
+        'No puedes desactivar tu propia cuenta'
+        )
+
+    }
+
+    const targetRole =
+        targetUser.role ||
+        ROLES.CUSTOMER
+
+
+    if (
+        actorRole === ROLES.ADMIN &&
+        (
+        targetRole === ROLES.ADMIN ||
+        targetRole === ROLES.SUPERADMIN
+        )
+    ) {
+
+        throw new ForbiddenError(
+        'No puedes modificar el estado de un usuario administrativo superior o igual a tu rango'
+        )
+
+    }
+
+
+    if (
+        actorRole !== ROLES.ADMIN &&
+        actorRole !== ROLES.SUPERADMIN
+    ) {
+
+        throw new ForbiddenError(
+        'No tienes permisos para modificar el estado del usuario'
+        )
+
+    }
+
+
+    targetUser.active =
+        Boolean(activo)
+
+    usersRepository.update(
+        targetUser
+    )
+
+    return this.sanitizarUsuario(
+        targetUser
+    )
+
+    },
+
 }
 
 
