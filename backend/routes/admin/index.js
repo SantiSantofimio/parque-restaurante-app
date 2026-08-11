@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.use(statusRouter)
 
-router.use(usersRouter)
+router.use('/users', usersRouter)
 
 router.use(dashboardRouter)
 

@@ -5,7 +5,8 @@
     "email": "santi@gm.com",
     "password": "$2b$10$A6RIHVAPOGVqHcSrOcmSiu0cuvCERnV7bZY6.82SlTaECXLgSilxq",
     "puntos": 0,
-    "role": "customer"
+    "role": "customer",
+    "active": false
   },
   {
     "id": 1781520348307,
@@ -13,7 +14,7 @@
     "email": "carlos@hotmail.com",
     "password": "$2b$10$031UIxxZm.dBnjdvEhMPI.dt5NJ.eAje7fYno0f1SRGlbGKaLhCSm",
     "puntos": 20,
-    "role": "customer"
+    "role": "employee"
   },
   {
     "id": 1783514943597,
@@ -21,14 +22,14 @@
     "email": "santi@admin.yuma.com",
     "password": "$2b$10$kWUx7vVOE/HxGnPAKuQCieitYXsr4c1F5Ou8zTG5gYLj73xrX6tjO",
     "puntos": 400,
-    "role": "admin"
+    "role": "superadmin"
   },
   {
     "id": 1786268287366,
     "name": "Manuel S",
     "email": "manuels@santofimio.admin.com",
     "password": "$2b$10$cU1XCOOfSx5GApGYmdaB5OqBjpMpdOHekrxI6oXZ0HgLjFN4OJAwO",
-    "role": "customer",
+    "role": "superadmin",
     "puntos": 20,
     "createdAt": "2026-08-09T09:38:07.366Z"
   }
