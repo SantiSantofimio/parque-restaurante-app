@@ -1,78 +1,39 @@
+import {
+  apiRequest,
+} from './api'
+
+
 export type AdminUser = {
-  id: number | string
-  name: string
-  email: string
-  role: string
-  puntos: number
-  createdAt: string | null
-  active: boolean
-}
 
-function obtenerToken() {
+  id:
+    number | string
 
-  if (
-    typeof window === 'undefined'
-  ) {
-    return null
-  }
+  name:
+    string
 
-  return localStorage.getItem(
-    'token'
-  )
-}
+  email:
+    string
 
+  role:
+    string
 
-async function request(
-  url: string,
-  options: RequestInit = {}
-) {
+  puntos:
+    number
 
-  const token =
-    obtenerToken()
+  createdAt:
+    string | null
 
-  const response =
-    await fetch(
-      url,
-      {
-        ...options,
+  active:
+    boolean
 
-        headers: {
-          'Content-Type':
-            'application/json',
-
-          ...(token
-            ? {
-                Authorization:
-                  `Bearer ${token}`,
-              }
-            : {}),
-
-          ...(options.headers || {}),
-        },
-      }
-    )
-
-  const data =
-    await response.json()
-
-  if (!response.ok) {
-
-    throw new Error(
-      data?.error ||
-      'Error en la solicitud'
-    )
-
-  }
-
-  return data
 }
 
 
 export async function obtenerUsuariosAdmin() {
 
-  return request(
-    'http://localhost:4000/api/admin/users'
-  ) as Promise<AdminUser[]>
+  return apiRequest<AdminUser[]>(
+    '/admin/users'
+  )
 
 }
 
@@ -82,8 +43,11 @@ export async function cambiarRolUsuario(
   role: string
 ) {
 
-  return request(
-    `http://localhost:4000/api/admin/users/${userId}/role`,
+  return apiRequest<{
+    message: string
+    user: AdminUser
+  }>(
+    `/admin/users/${userId}/role`,
     {
       method: 'PATCH',
 
@@ -102,8 +66,11 @@ export async function cambiarEstadoUsuario(
   active: boolean
 ) {
 
-  return request(
-    `http://localhost:4000/api/admin/users/${userId}/status`,
+  return apiRequest<{
+    message: string
+    user: AdminUser
+  }>(
+    `/admin/users/${userId}/status`,
     {
       method: 'PATCH',
 
