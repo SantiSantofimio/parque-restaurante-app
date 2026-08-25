@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './Recommendations.module.css'
-import { Recommendation } from '@/services/dashboard'
+import { Recommendation } from '@/app/services/dashboard'
 
 interface Props {
   recomendaciones: Recommendation[]

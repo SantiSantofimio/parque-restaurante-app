@@ -14,7 +14,7 @@ import {
   obtenerMesa,
   salirDeMesa,
   confirmarPedido,
-} from '@/services/mesas'
+} from '@/app/services/mesas'
 
 import type {
   Mesa,
@@ -24,7 +24,7 @@ import type {
 import {
   obtenerMenu,
   type MenuItem,
-} from '@/services/menu'
+} from '@/app/services/menu'
 
 import {
   useCart,
@@ -51,7 +51,7 @@ import PaymentModal from '@/app/components/Restaurant/PaymentModal/PaymentModal'
 import {
   pagarPedidos,
   type TipoPago,
-} from '@/services/facturas'
+} from '@/app/services/facturas'
 
 import { useAuth } from '@/app/hooks/useAuth'
 

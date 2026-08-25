@@ -11,7 +11,7 @@ import type {
 
 import type {
   TipoPago,
-} from '@/services/facturas'
+} from '@/app/services/facturas'
 
 import styles from './PaymentModal.module.css'
 

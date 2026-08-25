@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { comprarTicket } from '@/services/tickets'
+import { comprarTicket } from '@/app/services/tickets'
 import styles from './tickets.module.css'
 import BackToHome from '@/app/components/BackToHome'
 

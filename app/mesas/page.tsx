@@ -17,7 +17,7 @@ import type {
 import {
   obtenerMesas,
   entrarAMesa,
-} from '@/services/mesas'
+} from '@/app/services/mesas'
 
 import {
   useAuth,

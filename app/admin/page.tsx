@@ -15,7 +15,7 @@ import {
   obtenerAdminStatus,
   type AdminDashboardResponse,
   type AdminUser,
-} from '@/services/admin'
+} from '@/app/services/admin'
 
 import {
   appPath,

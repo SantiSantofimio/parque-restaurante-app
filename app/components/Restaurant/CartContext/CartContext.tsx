@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from 'react'
 
-import type { MenuItem } from '@/services/menu'
+import type { MenuItem } from '@/app/services/menu'
 
 import type {
   ProductSelection,

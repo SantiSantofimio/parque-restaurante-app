@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import styles from './Services.module.css'
 
-import type { Service } from '@/services/content'
+import type { Service } from '@/app/services/content'
 
 interface Props {
   services: Service[]

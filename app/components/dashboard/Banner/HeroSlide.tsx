@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import styles from './HeroSlide.module.css'
-import type { Banner } from '@/services/content'
+import type { Banner } from '@/app/services/content'
 
 interface Props {
   banner: Banner

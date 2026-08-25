@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import HeroSlide from './HeroSlide'
 import styles from './Banner.module.css'
 
-import type { Banner as BannerType } from '@/services/content'
+import type { Banner as BannerType } from '@/app/services/content'
 
 interface Props {
   banners: BannerType[]

@@ -10,7 +10,7 @@ import {
   cambiarRolUsuario,
   cambiarEstadoUsuario,
   type AdminUser,
-} from '@/services/adminUsers'
+} from '@/app/services/adminUsers'
 
 import styles from './clientes.module.css'
 

@@ -1,7 +1,7 @@
 'use client'
 
 import MenuCard from '../MenuCard/MenuCard'
-import type { MenuItem } from '@/services/menu'
+import type { MenuItem } from '@/app/services/menu'
 
 import styles from './MenuList.module.css'
 

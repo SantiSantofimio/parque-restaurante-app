@@ -7,7 +7,7 @@ import BackToHome from '@/app/components/BackToHome'
 import {
   obtenerPuntos,
   MovimientoPuntos,
-} from '@/services/puntos'
+} from '@/app/services/puntos'
 
 import styles from './puntos.module.css'
 

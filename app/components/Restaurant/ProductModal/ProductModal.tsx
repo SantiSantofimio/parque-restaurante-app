@@ -7,7 +7,7 @@ import {
 
 import type {
   MenuItem,
-} from '@/services/menu'
+} from '@/app/services/menu'
 
 import styles from './ProductModal.module.css'
 

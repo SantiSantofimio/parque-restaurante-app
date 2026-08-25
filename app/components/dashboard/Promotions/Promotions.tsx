@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import styles from './Promotions.module.css'
-import type { Promotion } from '@/services/content'
+import type { Promotion } from '@/app/services/content'
 
 interface Props {
   promotions: Promotion[]

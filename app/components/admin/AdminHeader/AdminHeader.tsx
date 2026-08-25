@@ -1,6 +1,6 @@
 import type {
   AdminUser,
-} from '@/services/admin'
+} from '@/app/services/admin'
 
 import styles
   from './AdminHeader.module.css'

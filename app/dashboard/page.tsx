@@ -7,11 +7,11 @@ import {
 import {
   obtenerDashboard,
   DashboardData,
-} from '@/services/dashboard'
+} from '@/app/services/dashboard'
 import { 
   obtenerContenido,
   ContentData,
-} from '@/services/content'
+} from '@/app/services/content'
 
 import { useRouter } from 'next/navigation'
 import styles from './dashboard.module.css'
