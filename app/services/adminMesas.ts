@@ -9,12 +9,25 @@ export type AdminMesaUsuario = {
 }
 
 
+export type AdminMesaPedido = {
+  id: number | string
+  userId: number | string
+  userName: string
+  productoId: string
+  producto: string
+  precio: number
+  cantidad: number
+  total: number
+  observaciones: string
+}
+
+
 export type AdminMesa = {
   id: string
   capacidad: number
   ocupada: boolean
   usuarios: AdminMesaUsuario[]
-  pedidos: unknown[]
+  pedidos: AdminMesaPedido[]
   ocupacion: number
   consumo: number
 }
@@ -39,6 +52,17 @@ export async function obtenerMesasAdmin() {
 
   return apiRequest<AdminMesasResponse>(
     '/admin/mesas'
+  )
+
+}
+
+
+export async function obtenerMesaAdmin(
+  mesaId: string
+) {
+
+  return apiRequest<AdminMesa>(
+    `/admin/mesas/${mesaId}`
   )
 
 }

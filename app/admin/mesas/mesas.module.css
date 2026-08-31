@@ -210,7 +210,8 @@
     0.8fr
     0.8fr
     1fr
-    1.5fr;
+    1.5fr
+    auto;
 
   align-items: center;
 
@@ -425,6 +426,28 @@
   font-size: 0.85rem;
 
   color: #858585;
+}
+
+.viewButton {
+  padding: 9px 12px;
+
+  border: 1px solid #dddddd;
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  color: #08784d;
+
+  cursor: pointer;
+}
+
+.viewButton:hover {
+  border-color: #0c8f5b;
+  background: #f5fbf8;
 }
 
 @media (max-width: 1200px) {

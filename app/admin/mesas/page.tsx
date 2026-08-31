@@ -6,6 +6,10 @@ import {
 } from 'react'
 
 import {
+  useRouter,
+} from 'next/navigation'
+
+import {
   obtenerMesasAdmin,
   type AdminMesa,
   type AdminMesasResumen,
@@ -37,6 +41,8 @@ export default function AdminMesasPage() {
     error,
     setError,
   ] = useState('')
+
+  const router = useRouter()
 
 
   async function cargarMesas() {
@@ -558,6 +564,20 @@ export default function AdminMesasPage() {
                     )}
 
                   </div>
+
+                  <button
+                    type='button'
+                    className={
+                      styles.viewButton
+                    }
+                    onClick={()=>
+                      router.push(
+                        `/admin/mesas/${mesa.id}`
+                      )
+                    }
+                    >
+                      Ver mesa →
+                    </button>
 
                 </article>
 

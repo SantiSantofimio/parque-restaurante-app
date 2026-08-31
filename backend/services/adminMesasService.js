@@ -1,6 +1,10 @@
 import mesasRepository
   from '../repositories/mesasRepository.js'
 
+import NotFoundError
+  from '../errors/NotFoundError.js'
+
+
 const adminMesasService = {
 
   obtenerMesas() {
@@ -10,58 +14,10 @@ const adminMesasService = {
 
     const mesasAdministrativas =
       mesas.map(
-        mesa => {
-
-          const usuarios =
-            Array.isArray(
-              mesa.usuarios
-            )
-              ? mesa.usuarios
-              : []
-
-          const pedidos =
-            Array.isArray(
-              mesa.pedidos
-            )
-              ? mesa.pedidos
-              : []
-
-          const consumo =
-            pedidos.reduce(
-              (
-                total,
-                pedido
-              ) =>
-                total +
-                Number(
-                  pedido.total || 0
-                ),
-              0
-            )
-
-          return {
-
-            id:
-              mesa.id,
-
-            capacidad:
-              mesa.capacidad,
-
-            ocupada:
-              usuarios.length > 0,
-
-            usuarios,
-
-            pedidos,
-
-            ocupacion:
-              usuarios.length,
-
-            consumo,
-
-          }
-
-        }
+        mesa =>
+          this.transformarMesa(
+            mesa
+          )
       )
 
     return {
@@ -77,6 +33,87 @@ const adminMesasService = {
     }
 
   },
+
+
+  obtenerMesa(
+    mesaId
+  ) {
+
+    const mesa =
+      mesasRepository.findById(
+        mesaId
+      )
+
+    if (!mesa) {
+
+      throw new NotFoundError(
+        'Mesa no encontrada'
+      )
+
+    }
+
+    return this.transformarMesa(
+      mesa
+    )
+
+  },
+
+
+  transformarMesa(
+    mesa
+  ) {
+
+    const usuarios =
+      Array.isArray(
+        mesa.usuarios
+      )
+        ? mesa.usuarios
+        : []
+
+    const pedidos =
+      Array.isArray(
+        mesa.pedidos
+      )
+        ? mesa.pedidos
+        : []
+
+    const consumo =
+      pedidos.reduce(
+        (
+          total,
+          pedido
+        ) =>
+          total +
+          Number(
+            pedido.total || 0
+          ),
+        0
+      )
+
+    return {
+
+      id:
+        mesa.id,
+
+      capacidad:
+        mesa.capacidad,
+
+      ocupada:
+        usuarios.length > 0,
+
+      usuarios,
+
+      pedidos,
+
+      ocupacion:
+        usuarios.length,
+
+      consumo,
+
+    }
+
+  },
+
 
   obtenerResumen(
     mesas
@@ -134,6 +171,7 @@ const adminMesasService = {
   },
 
 }
+
 
 export default
   adminMesasService

@@ -12,18 +12,22 @@ import asyncHandler
 
 import {
   obtenerMesasAdmin,
+  obtenerMesaAdmin,
 } from '../../controllers/adminMesasController.js'
 
 import {
   PERMISSIONS,
 } from '../../config/permissions.js'
 
+
 const router =
   express.Router()
+
 
 router.use(
   authMiddleware
 )
+
 
 router.get(
   '/',
@@ -34,5 +38,17 @@ router.get(
     obtenerMesasAdmin
   )
 )
+
+
+router.get(
+  '/:mesaId',
+  requirePermission(
+    PERMISSIONS.MANAGE_MESAS
+  ),
+  asyncHandler(
+    obtenerMesaAdmin
+  )
+)
+
 
 export default router
