@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "nombre": "Entradas",
+    "activo": true
+  },
+  {
+    "id": "2",
+    "nombre": "Platos fuertes",
+    "activo": true
+  },
+  {
+    "id": "3",
+    "nombre": "Bebidas",
+    "activo": true
+  },
+  {
+    "id": "4",
+    "nombre": "Postres",
+    "activo": true
+  }
+]

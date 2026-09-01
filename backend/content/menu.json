@@ -61,5 +61,14 @@
     "precio": 14000,
     "imagen": "/menu/brownie.jpg",
     "disponible": true
+  },
+  {
+    "id": "8",
+    "categoria": "Bebidas",
+    "nombre": "Jugo de Maracuy� Natural",
+    "descripcion": "Jugo natural de maracuy�.",
+    "precio": 11000,
+    "imagen": "/menu/maracuya.jpg",
+    "disponible": true
   }
 ]
