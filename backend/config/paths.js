@@ -103,3 +103,9 @@ export const POINTS_FILE =
     DATA_PATH,
     'puntos.json'
   )
+
+export const CATEGORIES_FILE =
+  path.join(
+    CONTENT_PATH,
+    'categorias.json'
+  )
